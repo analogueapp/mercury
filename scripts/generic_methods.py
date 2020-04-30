@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup, SoupStrainer
 import time
 
+#getting Open graph tags data
 def open_graph(request_object):
     start= time.time()
     Graph_data = {}
