@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import concurrent.futures
 from flask import Flask, request
 from flask import jsonify
-from open_graph import request_and_filter
+from generic_methods import open_graph
 
 app = Flask(__name__)
 
@@ -14,7 +14,8 @@ def welcome():
 @app.route('/get')
 def Graph_data():
     URL = request.args.get('url')
-    Data = request_and_filter(URL)
+    requested = requests.get(URL).text
+    Data = open_graph(requested)
     return Data
 
 if __name__ == '__main__':
