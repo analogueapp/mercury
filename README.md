@@ -7,6 +7,6 @@ API is live at: http://enrich-data.herokuapp.com/
 
 How to use: http://enrich-data.herokuapp.com/get?= [add your url here] 
 
-Sample Youtube Video: https://www.youtube.com/watch?v=dzqpfu5izjE
+Sample Youtube Video: http://enrich-data.herokuapp.com/get?url=https://www.youtube.com/watch?v=dzqpfu5izjE
 
 Note: First request can take a bit longer as the server sleeps after 30mins of inactivity.
