@@ -13,5 +13,5 @@ def request_and_filter(url):
         except:
             continue
     end  = time.time()
-    Graph_data['response_time'] = '%s seconds'%(end-start)
+    Graph_data['response_time'] = '%s seconds'%(round(end-start, 2))
     return Graph_data
