@@ -2,7 +2,6 @@ import requests
 from bs4 import BeautifulSoup, SoupStrainer
 
 def fetch_goodreads(isbn, current_data):
-    print (isbn)
     url = 'https://www.goodreads.com/search/index.xml?q=%s&key=skZt3eIo68igzAikdSJkQ'%(isbn)
     soup_object = BeautifulSoup(requests.get(url).text, 'lxml', parse_only=SoupStrainer('work'))
     current_data['original_publication_year']  = soup_object.find('original_publication_year').get_text()
@@ -11,5 +10,8 @@ def fetch_goodreads(isbn, current_data):
     current_data['average_rating'] = soup_object.find('average_rating').get_text()
     current_data['author_name'] = soup_object.find('name').get_text()
     return current_data
+
+
+
 
 

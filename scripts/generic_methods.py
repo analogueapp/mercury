@@ -13,7 +13,3 @@ def open_graph(request_object):
         except:
             continue
     return Graph_data
-
-# def simple_tags(request_object):
-#     parse_only = SoupStrainer(['title',])
-#     main_tags = BeautifulSoup(request_object, 'lxml',)

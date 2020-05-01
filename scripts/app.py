@@ -27,7 +27,6 @@ def Graph_data():
     site_name = URL.split('/')[2]
     if site_name in APIs:
         if site_name == 'www.goodreads.com':
-            print(site_name)
             Data =  (fetch_goodreads(Data["ks:isbn"], Data))
     end  = time.time()
     Data['response_time'] = '%s seconds'%(round(end-start, 2))
