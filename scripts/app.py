@@ -25,7 +25,7 @@ def Graph_data():
     Data = Enrich_test(URL, Data)
     end  = time.time()
     Data['response_time'] = '%s seconds'%(round(end-start, 2))
-    return Data
+    return jsonify(Data)
 
 if __name__ == '__main__':
     app.run(debug=True)
