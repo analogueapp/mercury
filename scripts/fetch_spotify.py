@@ -39,8 +39,8 @@ def spotify_get(current_data):
 
     elif spotify_type == "show":
 
-        show = spotify.show(spotify_id)
-        show_episodes = spotify.show_episodes(spotify_id)
+        show = spotify.show(spotify_id, market="US")
+        show_episodes = spotify.show_episodes(spotify_id, market="US")
 
         current_data["show_details"] = show
         current_data["episodes"] = show_episodes
@@ -51,10 +51,10 @@ def spotify_get(current_data):
 
         current_data["track_details"] = track
 
-    elif spotify_type == 'episode':
+    elif spotify_type == "episode":
 
-        episode = spotify.episode(spotify_id)
+        episode = spotify.episode(spotify_id, market="US")
 
-        current_data['episode_details'] = episode
+        current_data["episode_details"] = episode
 
     return current_data
