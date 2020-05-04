@@ -7,8 +7,10 @@ from fetch_goodreads import *
 APIs = ["www.goodreads.com", "www.imdb.com", "open.spotify.com"]
 
 
-def Enrich_test(url):
+def enrich_test(url):
     site_name = url.split("/")[2]
+
+    enrich_data = {}
 
     if site_name in APIs:
 

@@ -5,7 +5,7 @@ from flask import Flask, request
 from flask import jsonify
 import time
 from generic_methods import open_graph
-from API_enrichment import *
+from enrichment import *
 
 app = Flask(__name__)
 
@@ -27,7 +27,7 @@ def Graph_data():
     requested = requests.get(URL).text
 
     data_1 = pool.submit(open_graph, requested)
-    data_2 = pool.submit(Enrich_test, URL)
+    data_2 = pool.submit(enrich_test, URL)
 
     data_1.result().update(data_2.result())
 
