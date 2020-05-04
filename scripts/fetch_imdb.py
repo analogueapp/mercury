@@ -3,15 +3,17 @@ from bs4 import BeautifulSoup, SoupStrainer
 
 MovieDB_Key = "d439c85fec54360684f9d222bddb2153"
 
+#TODO: add profile and other categories
+def fetch_imdb(url):
+    api_data = {}
 
-def fetch_imdb(current_data):
-    external_id = current_data["url"].split("/")[-2]
+    external_id = url.split("/")[-2]
     internal_id = ""
 
-    url = "https://api.themoviedb.org/3/find/"
+    api_url = "https://api.themoviedb.org/3/find/"
 
     IMDB_data = requests.get(
-        url + external_id, params={"api_key": MovieDB_Key, "external_source": "imdb_id"}
+        api_url + external_id, params={"api_key": MovieDB_Key, "external_source": "imdb_id"}
     ).json()
 
     if IMDB_data["tv_results"] == [] and len(IMDB_data["movie_results"]) != 0:
@@ -33,8 +35,8 @@ def fetch_imdb(current_data):
         ][0]
 
     for data in IMDB_data.keys():
-        current_data[data] = IMDB_data[data]
+        api_data[data] = IMDB_data[data]
 
-    current_data["trailer"] = Trailer
+    api_data["trailer"] = Trailer
 
-    return current_data
+    return api_data

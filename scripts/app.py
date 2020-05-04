@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup, SoupStrainer
-import concurrent.futures
+from concurrent.futures import ThreadPoolExecutor
 from flask import Flask, request
 from flask import jsonify
 import time
@@ -19,14 +19,23 @@ def welcome():
 @app.route("/get")
 def Graph_data():
     start = time.time()
+
+    pool = ThreadPoolExecutor(max_workers=2)
+
     URL = request.args.get("url")
     # sending request just once
     requested = requests.get(URL).text
-    Data = open_graph(requested)
-    Data = Enrich_test(URL, Data)
+
+    data_1 = pool.submit(open_graph, requested)
+    data_2 = pool.submit(Enrich_test, URL)
+
+    data_1.result().update(data_2.result())
+
     end = time.time()
-    Data["response_time"] = "%s seconds" % (round(end - start, 2))
-    return jsonify(Data)
+    data_1.result()["response_time"] = "%s seconds" % (round(end - start, 2))
+    return jsonify(
+            data_1.result()
+        )
 
 
 if __name__ == "__main__":

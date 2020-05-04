@@ -7,19 +7,18 @@ from fetch_goodreads import *
 APIs = ["www.goodreads.com", "www.imdb.com", "open.spotify.com"]
 
 
-def Enrich_test(url, current_data):
+def Enrich_test(url):
     site_name = url.split("/")[2]
-    print(current_data)
 
     if site_name in APIs:
 
         if site_name == "www.goodreads.com":
-            current_data = fetch_goodreads(current_data["title"], current_data)
+            enrich_data = fetch_goodreads(url)
 
         elif site_name == "www.imdb.com":
-            current_data = fetch_imdb(current_data)
+            enrich_data = fetch_imdb(url)
 
         elif site_name == "open.spotify.com":
-            current_data = spotify_get(current_data)
+            enrich_data = spotify_get(url)
 
-    return current_data
+    return enrich_data
