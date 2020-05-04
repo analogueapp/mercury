@@ -7,7 +7,7 @@ includes a Flask app that accepts url and returns Open graph tags. For now, this
 
 Up and running at: https://enrich-data.herokuapp.com/
 
-How to use: https://enrich-data.herokuapp.com/get?= [add your url here] 
+How to use: https://enrich-data.herokuapp.com/get?url= [add your url here] 
 
 Sample Youtube Video: https://enrich-data.herokuapp.com/get?url=https://www.youtube.com/watch?v=dzqpfu5izjE
 
