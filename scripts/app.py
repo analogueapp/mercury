@@ -4,8 +4,8 @@ from concurrent.futures import ThreadPoolExecutor
 from flask import Flask, request, Response
 import json
 import time
-from generic_methods import open_graph
-from enrichment import *
+from generic_methods import main_generic
+from enrichment import enrich_test
 
 app = Flask(__name__)
 
@@ -28,7 +28,7 @@ def Graph_data():
         # sending request just once
         requested = requests.get(URL).text
 
-        data_1 = pool.submit(open_graph, requested)
+        data_1 = pool.submit(main_generic, requested)
         data_2 = pool.submit(enrich_test, URL)
 
         yield json.dumps(data_1.result())
