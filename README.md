@@ -47,7 +47,7 @@ TODO (Joel will write this) add ideal JSON response object
 - [ ] Potentially turn APIs in objects
 - [ ] Endpoint for a quick response
 - [ ] Build Analogue specific JSON response object
-- [ ] Using Streaming API/Fanner model to optimize speed and handle jobs in background
+- [x] Using Streaming API/Fanner model to optimize speed and handle jobs in background
 - [ ] Error handling
 - [ ] URL normalization (should correctly handle/remove query params in the url string)
 - [ ] Handle other URLs from same URL domain
