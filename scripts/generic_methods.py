@@ -35,7 +35,7 @@ def twitter_tags(request_object):
 def main_generic(request_object):
 
     generic_data = open_graph(request_object)
-    generic_data = twitter_tags(request_object)
+    generic_data.update(twitter_tags(request_object))
 
     return generic_data
 
