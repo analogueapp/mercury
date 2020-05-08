@@ -2,18 +2,16 @@ import requests
 from bs4 import BeautifulSoup, SoupStrainer
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-
-SPOTIFY_CLIENT_ID = "cc05b898faef4c89b0e9ad87e37b8158"
-SPOTIFY_CLIENT_SECRET = "ec2d58eea4e446a28fa120e49567fbfc"
+from constants import spotify_client_id, spotify_client_secret
+from typing import Dict
 
 spotify = spotipy.Spotify(
     client_credentials_manager=SpotifyClientCredentials(
-        SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+        spotify_client_id, spotify_client_secret
     )
 )
 
-
-def spotify_get(url):
+def spotify_get(url: str) -> Dict:
     
     api_data = {}
 
@@ -49,15 +47,11 @@ def spotify_get(url):
         api_data["episodes"] = show_episodes
 
     elif spotify_type == "track":
-
         track = spotify.track(spotify_id)
-
         api_data["track_details"] = track
 
     elif spotify_type == "episode":
-
         episode = spotify.episode(spotify_id, market="US")
-
         api_data["episode_details"] = episode
 
     return api_data
