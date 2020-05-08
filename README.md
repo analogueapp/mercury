@@ -3,12 +3,12 @@
 Mercury is a data enrichment service for [Analogue](https://analogue.app). It's primarily used to extract rich data and images for use on Analogue (people, topics, information etc)
 
 ### Endpoint
-Live endpoint can be found: https://enrich-data.herokuapp.com/get
+Live endpoint can be found: https://analogue-mercury.herokuapp.com/get
 
 Pass in the parameter `url` with a valid URL to get data.
 
 ```
-GET https://enrich-data.herokuapp.com/get?url=https://www.youtube.com/watch?v=dzqpfu5izjE
+GET https://analogue-mercury.herokuapp.com/get?url=https://www.youtube.com/watch?v=dzqpfu5izjE
 ```
 
 ### Running locally
