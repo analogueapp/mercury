@@ -4,8 +4,8 @@ from concurrent.futures import ThreadPoolExecutor
 from flask import Flask, request, Response
 import json
 import time
-from generic_methods import main_generic
-from enrichment import enrich_test
+from utils.tag_parsers import main_generic
+from utils.enrichment import enrich_test
 
 app = Flask(__name__)
 

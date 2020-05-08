@@ -14,7 +14,7 @@ def title_check(title: str) -> str:
 
 def get_title(url: str) -> str:
     request_object = requests.get(url).text
-    
+
     title_soup = BeautifulSoup(request_object, 'lxml', parse_only=SoupStrainer(
         'meta', attrs={'property': 'og:title'})).find('meta')
     title = title_soup['content']
@@ -47,7 +47,7 @@ def fetch_goodreads(url: str) -> Dict:
     api_data["original_publication_day"] = soup_object.find(
         "original_publication_day"
     ).get_text()
-    
+
     api_data["average_rating"] = soup_object.find("average_rating").get_text()
 
     api_data["author_name"] = soup_object.find("name").get_text()

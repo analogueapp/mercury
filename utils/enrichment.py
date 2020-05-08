@@ -1,15 +1,15 @@
 import requests
 from bs4 import BeautifulSoup, SoupStrainer
-from fetch_spotify import spotify_get
-from fetch_imdb import *
-from fetch_goodreads import *
-from fetch_artsy import *
+from apis.spotify import spotify_get
+from apis.imdb import fetch_imdb
+from apis.goodreads import fetch_goodreads
+from apis.artsy import fetch_artsy
 from typing import Dict
 from constants import APIs
 
 def get_url(url: str) -> str:
     url = url.split('/')
-    
+
     if 'http' in url[0]:
         site_name = url[2]
 

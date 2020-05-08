@@ -12,7 +12,7 @@ spotify = spotipy.Spotify(
 )
 
 def spotify_get(url: str) -> Dict:
-    
+
     api_data = {}
 
     spotify_id = url.split("/")[-1]
