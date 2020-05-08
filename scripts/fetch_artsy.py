@@ -1,49 +1,58 @@
 import requests
-from bs4 import BeautifulSoup, SoupStrainer
-import time
-
-Name = 'Analogue'
-client_id = '77e9422bdf38d3bc0179'
-client_secret = '7eec7ad1ebb0b01272ae4eec0e71170a'
-starting_url = 'https://api.artsy.net/api'
 
 
 def fetch_artsy(url):
-    #authentication
+
+    client_id = '77e9422bdf38d3bc0179'
+    client_secret = '7eec7ad1ebb0b01272ae4eec0e71170a'
+    starting_url = 'https://api.artsy.net/api'    
+    
+    
     artsy_id = url.split('/')[-1]
     artsy_type = url.split('/')[-2]
-    # print(artsy_type, artsy_id)
-
-    api_data = {}
-    auth_url = '/tokens/xapp_token'
-    payload = {"client_id" : '77e9422bdf38d3bc0179',
-    "client_secret" : '7eec7ad1ebb0b01272ae4eec0e71170a'}
-    auth = requests.post(starting_url+auth_url, data=payload).json()
-    # token = auth['token']
     
-    payload = {'X-Xapp-Token' : auth['token'], 'Content-Type': 'application/json', "client_id" : '77e9422bdf38d3bc0179',
-    "client_secret" : '7eec7ad1ebb0b01272ae4eec0e71170a'}
-    # newreq = requests.post(starting_url+auth_url, data=payload).json()
-    # print(newreq)
+    api_data = {}
+    #authentication
+    auth_url = '/tokens/xapp_token'
+    payload = {"client_id" : client_id,
+    "client_secret" : client_secret}
+    auth = requests.post(starting_url+auth_url, data=payload).json() #getting token
+    
+    headers = {
+        'accept': 'application/json',
+        'X-Xapp-Token': auth['token']
+    }
 
-    if artsy_type == 'artists': #
-        pass
-    elif artsy_type == 'artworks': #
-        pass
-    elif artsy_type == 'collections': #
-        pass
-    elif artsy_type == 'images':
-        pass
-    elif artsy_type == 'profiles':
-        pass
-    elif artsy_type == 'sale_artworks':
-        pass
-    elif artsy_type == 'sales':
-        pass
-    elif artsy_type == 'search': #
-        pass
-    elif artsy_type == 'shows': #
-        pass
+    if artsy_type == 'artist':
+        target = starting_url+'/artists/'+artsy_id
+        api_data = requests.get(target, headers=headers).json()
+        try:
+            api_data.update(requests.get(api_data['_links']['artworks']['href'], headers=headers).json())
+        except:
+            pass
+    
+    elif artsy_type == 'artwork':
+        target = starting_url + '/artworks/' + artsy_id
+        api_data = requests.get(target, headers = headers).json()
+        try:
+            api_data.update(requests.get(api_data['_links']['artists']['href'], headers=headers).json())
+        except:
+            pass
+    
+    elif artsy_type == 'show':
+        artsy_id = artsy_id.split('?')[0]
+        target = starting_url+'/shows/'+artsy_id
+        api_data = requests.get(target, headers = headers).json()
+        try:
+            api_data.update(requests.get(api_data['_links']['images']['href'], headers=headers).json())
+        except:
+            pass
+    
+    elif artsy_type == 'www.artsy.net': #profile
+        target = starting_url+'/profiles/'+artsy_id
+        api_data = requests.get(target, headers = headers).json()
+    
     else:
         return api_data
+    
     return api_data
