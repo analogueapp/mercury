@@ -1,28 +1,30 @@
 from bs4 import BeautifulSoup, SoupStrainer
+import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 from concurrent.futures import ThreadPoolExecutor
 from flask import Flask, request, Response
 import json
 import requests
-import sentry_sdk
 
 from utils.tag_parsers import main_generic
 from utils.enrichment import enrich_test
-from constants import sentry_dsn
+from constants import sentry_key, sentry_org, sentry_project
 
 #initializing sentry
-sentry_sdk.init(dsn=sentry_dsn, integrations=[FlaskIntegration()])
+sentry_sdk.init(
+    dsn=f'https://{sentry_key}@{sentry_org}.ingest.sentry.io/{sentry_project}',
+    integrations=[FlaskIntegration()]
+)
 
 app = Flask(__name__)
 
-# landing page
 @app.route("/")
 def welcome():
     return "Data Enrichment API"
 
-# get method
 @app.route("/get")
 def Graph_data():
+    print(sentry_dsn)
 
     URL = request.args.get("url")
 
@@ -39,7 +41,6 @@ def Graph_data():
         yield json.dumps(data_2.result())
 
     return Response(streams())
-
 
 if __name__ == "__main__":
     app.run()

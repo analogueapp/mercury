@@ -13,4 +13,6 @@ spotify_client_secret = "ec2d58eea4e446a28fa120e49567fbfc"
 goodreads_key='skZt3eIo68igzAikdSJkQ'
 goodreads_api_url = "https://www.goodreads.com/search/index.xml?q="
 
-sentry_dsn = "https://01bc190e5ad74997ac044a8f7bb849fd@o389904.ingest.sentry.io/5230178"
+sentry_key='b3eb927540394878a927697fa7053d00'
+sentry_org='o197336'
+sentry_project='5230205'
