@@ -38,9 +38,9 @@ TODO (Joel will write this) add ideal JSON response object
 - [x] Migrate to Analogue github org
 - [x] Set up initial APIs
 - [x] Deploy on Heroku
-- [ ] Integrate [Sentry addon](https://elements.heroku.com/addons/sentry) for production errors
+- [x] Integrate [Sentry addon](https://elements.heroku.com/addons/sentry) for production errors
 - [ ] Add todos and scope to README
-- [ ] Add local setup to README
+- [x] Add local setup to README
 
 ### V2 Optimize
 - [ ] Research if existing API wrappers exist in Python ([for example](https://github.com/mdzhang/goodreads-api-client-python))
