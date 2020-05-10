@@ -1,6 +1,6 @@
 import requests
 from typing import Dict
-from constants import artsy_client_id, artsy_client_secret, artsy_api_url
+from constants import artsy_client_id, artsy_client_skey, artsy_api_url
 import logging
 
 
@@ -13,7 +13,7 @@ def fetch_artsy(url: str) -> Dict:
     #authentication
     auth_url = '/tokens/xapp_token'
     payload = {"client_id" : artsy_client_id,
-    "client_secret" : artsy_client_secret}
+    "client_secret" : artsy_client_skey}
     auth = requests.post(artsy_api_url+auth_url, data=payload).json() #getting token
 
     headers = {
@@ -28,7 +28,7 @@ def fetch_artsy(url: str) -> Dict:
         try:
             api_data.update(requests.get(api_data['_links']['artworks']['href'], headers=headers).json())
         except:
-            logging.error('No artwork found')
+            api_data.update({'images':'failed to get images'})
 
     elif artsy_type == 'artwork':
         target = artsy_api_url + '/artworks/' + artsy_id
@@ -37,7 +37,7 @@ def fetch_artsy(url: str) -> Dict:
         try:
             api_data.update(requests.get(api_data['_links']['artists']['href'], headers=headers).json())
         except:
-            logging.error('No artist found')
+            api_data.update({'images':'failed to get images'})
 
     elif artsy_type == 'show':
         artsy_id = artsy_id.split('?')[0]
@@ -47,7 +47,7 @@ def fetch_artsy(url: str) -> Dict:
         try:
             api_data.update(requests.get(api_data['_links']['images']['href'], headers=headers).json())
         except:
-            logging.error('No image found')
+            api_data.update({'images':'failed to get images'})
 
     elif artsy_type == 'www.artsy.net': #profile
         target = artsy_api_url+'/profiles/'+artsy_id
