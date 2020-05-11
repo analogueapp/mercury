@@ -27,7 +27,7 @@ Supports the following URLs and APIs. Example URLs linked.
 | Book | https://goodreads.com <br> https://amazon.com | [GoodReads API](https://www.goodreads.com/api) for data, authors, topics<br>[OpenLibrary](https://openlibrary.org/developers/api) for image covers<br>Amazon solution TBD |
 | Music<br>Podcast | Spotify ([song](https://open.spotify.com/track/7sd72KZS8D59g5NmhxyHpJ), [album](https://open.spotify.com/album/2xkZV2Hl1Omi8rk2D7t5lN)) <br>Apple ([show](https://podcasts.apple.com/us/podcast/the-tim-ferriss-show/id863897795), [episode](https://podcasts.apple.com/us/podcast/429-nick-kokonas-on-resurrecting-restaurants-skin-in/id863897795)) | [Spotify API](https://developer.spotify.com/documentation/web-api/)<br>Apple TBD |
 | Film<br>TV | IMDB ([film](https://www.imdb.com/title/tt0051808/), [show](https://www.imdb.com/title/tt0475784/), [episode](https://www.imdb.com/title/tt4227538/)) | OMDB API for data<br>[TMDB API](https://www.themoviedb.org/documentation/api) for people, trailers, etc |
-| Art | [Artsy](https://www.artsy.net/artwork/evan-nesbit-lemon-drift) | [Artsy API](https://developers.artsy.net/v2/) |
+| Art<br>WikiArt | [Artsy](https://www.artsy.net/artwork/evan-nesbit-lemon-drift)<br>[WikiArt](https://www.wikiart.org/en/caravaggio/calling-of-saint-matthew) | [Artsy API](https://developers.artsy.net/v2/)<br>[WikiArt API](https://docs.google.com/document/d/1T926unU7mx9Blmx3c8UE0UQTnO3MrDbXTGYVerVQFDU/edit) |
 
 TODO (Joel will write this) add ideal JSON response object
 
@@ -39,12 +39,11 @@ TODO (Joel will write this) add ideal JSON response object
 - [x] Set up initial APIs
 - [x] Deploy on Heroku
 - [x] Integrate [Sentry addon](https://elements.heroku.com/addons/sentry) for production errors
-- [ ] Add todos and scope to README
+- [x] Add todos and scope to README
 - [x] Add local setup to README
 
 ### V2 Optimize
-- [ ] Research if existing API wrappers exist in Python ([for example](https://github.com/mdzhang/goodreads-api-client-python))
-- [ ] Potentially turn APIs in objects
+- [x] Research if existing API wrappers exist in Python ([for example](https://github.com/mdzhang/goodreads-api-client-python))
 - [ ] Endpoint for a quick response
 - [ ] Build Analogue specific JSON response object
 - [ ] Using Streaming API/Fanner model to optimize speed and handle jobs in background
@@ -56,8 +55,9 @@ TODO (Joel will write this) add ideal JSON response object
 ### V3 Support more sources
 - [ ] Amazon
 - [ ] Podcast and Music from Apple Music
-- [ ] Artsy APIs
-- [ ] Soundcloud API
+- [x] Artsy API
+- [ ] Wikiart API
+- [ ] Soundcloud
 
 ### V4 Connnect
 TODO. We can plan through the integration with Rails app soon.
