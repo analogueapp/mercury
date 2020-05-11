@@ -29,7 +29,44 @@ Supports the following URLs and APIs. Example URLs linked.
 | Film<br>TV | IMDB ([film](https://www.imdb.com/title/tt0051808/), [show](https://www.imdb.com/title/tt0475784/), [episode](https://www.imdb.com/title/tt4227538/)) | OMDB API for data<br>[TMDB API](https://www.themoviedb.org/documentation/api) for people, trailers, etc |
 | Art<br>WikiArt | [Artsy](https://www.artsy.net/artwork/evan-nesbit-lemon-drift)<br>[WikiArt](https://www.wikiart.org/en/caravaggio/calling-of-saint-matthew) | [Artsy API](https://developers.artsy.net/v2/)<br>[WikiArt API](https://docs.google.com/document/d/1T926unU7mx9Blmx3c8UE0UQTnO3MrDbXTGYVerVQFDU/edit) |
 
-TODO (Joel will write this) add ideal JSON response object
+### Quick response endpoint `/get`
+This endpoint will be used to get the initial data as quickly as possible. Ideally it doesn't even hit APIs, as to save time for the user. But you might have to hit APIs to get the specific medium and form type (e.g. for IMDB links, films vs TV shows)
+
+JSON response:
+```javascript
+{
+  title: 'url title from og or twitter or <title> tag'
+  url: 'CANONICAL_URL_NORMALIZED', // shouldn't have query params, except for youtube (e.g. ?v=afdsafxxx)
+  medium: 'one of the medium types mapped below',
+  form: 'one of the form types mapped below',
+  image: 'url to image from og or twitter tags or first image in html',
+  description: 'short description from og or twitter or meta tags or first paragraph of html'
+}
+```
+
+#### Medium mapping
+| Form | Medium | URLs |
+| :-- | :-- | :-- |
+| `video` | `video_link` | youtube.com, vimeo.com, ted.com |
+| `video` | `film` | imdb.com film url ([example](https://www.imdb.com/title/tt6751668/))
+| `video` | `tv` | imdb.com show url ([example](https://www.imdb.com/title/tt0475784/))
+| `video` | `tv_episode` | imdb.com episode url ([example](https://www.imdb.com/title/tt4227538/))
+| `audio` | `song` | spotify.com song url ([example](https://open.spotify.com/track/1O6Nh2WvqKtH0uIkUuHTP3)) |
+| `audio` | `album` | spotify.com album url ([example](https://open.spotify.com/album/58GlwqGojobPco2fTlpRB0)) |
+| `audio` | `playlist` | spotify.com playlist url ([example](https://open.spotify.com/playlist/37i9dQZF1E8JIR7JqWUbRk)) |
+| `audio` | `podcast` | spotify.com podcast show url ([example](https://open.spotify.com/show/4M55t5J54fENnEK2A8mzTB)) |
+| `audio` | `podcast_episode` | spotify.com podcast episode url ([example](https://open.spotify.com/episode/2tuoVpTiiSKG0ybEwKdsum)) |
+| `audio` | `audio_link` | soundcloud.com |
+| `text` | `book` | goodreads.com |
+| `text` | `link` | default form and medium (most urls) |
+
+### Rich response endpoint: `/enrich`
+This endpoint will be used to enrich the data (through a background job in Rails). So this will provide full rich responses, including related data (e.g. authors for books from Goodreads, director for films from IMDB).
+
+JSON response:
+```javascript
+TODO
+```
 
 ## Project Milestones
 
