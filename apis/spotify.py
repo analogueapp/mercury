@@ -2,14 +2,15 @@ import requests
 from bs4 import BeautifulSoup, SoupStrainer
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-from constants import spotify_client_id, spotify_client_secret
+from constants import spotify_client_id, spotify_client_skey
 from typing import Dict
 
 spotify = spotipy.Spotify(
     client_credentials_manager=SpotifyClientCredentials(
-        spotify_client_id, spotify_client_secret
+        spotify_client_id, spotify_client_skey
     )
 )
+
 
 def spotify_get(url: str) -> Dict:
 

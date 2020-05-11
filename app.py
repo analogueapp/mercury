@@ -24,8 +24,7 @@ def welcome():
 
 @app.route("/get")
 def Graph_data():
-    print(sentry_dsn)
-
+ 
     URL = request.args.get("url")
 
     def streams():
