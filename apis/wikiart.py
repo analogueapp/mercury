@@ -5,9 +5,7 @@ from constants import art_artwork_url
 
 def find_type(url: str) -> str:
     url = url.split('/')
-    if url[-2] == 'en':
-        return 'artist' #TODO
-    elif url[-3] == 'en':
+    if url[-3] == 'en':
         return 'artwork'
 
 
@@ -30,8 +28,5 @@ def fetch_wikiart(url: str) -> Dict:
 
     if art_type == 'artwork':
         api_data = get_artwork(url)
-    
-    # elif art_type == 'artist':
-    # TODO
 
     return api_data
