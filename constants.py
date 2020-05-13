@@ -18,6 +18,6 @@ sentry_org='o197336'
 sentry_project='5230205'
 
 art_access_key = '10f5aecdb02f490e'
-art_secret_key = 'b305d6fad6431043'
+art_skey = 'b305d6fad6431043' # skey : secret key
 art_api_url = 'https://www.wikiart.org/en/Api/2/login?'
 art_artwork_url = 'https://www.wikiart.org/en/api/2/PaintingSearch?term='
