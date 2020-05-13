@@ -4,9 +4,9 @@ from utils.enrichment import get_url
 from typing import Dict
 import logging
 
-def none_check(object):
-    for item in object.keys():
-        if object[item] is None:
+def none_check(get_data):
+    for item in get_data.keys():
+        if get_data[item] is None:
             return True
     return False
 
