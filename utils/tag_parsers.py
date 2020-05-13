@@ -19,8 +19,7 @@ def medium_check(get_data, form_type) -> str:
             return "tv"
         elif "episode" in form_type:
             return "tv_episode"
-        else:
-            return "video_link"
+        return "video_link"
 
     elif get_data["form"] == "audio":
 
@@ -34,8 +33,7 @@ def medium_check(get_data, form_type) -> str:
             return "show"
         elif "episode" in get_data["url"]:
             return "episode"
-        else:
-            return "audio_link"
+        return "audio_link"
 
 
 # getting Open graph tags data
