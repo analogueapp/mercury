@@ -3,10 +3,11 @@ from bs4 import BeautifulSoup, SoupStrainer
 from utils.enrichment import get_url
 from typing import Dict
 import logging
+from constants import apiflask_key, apiflash_url_to_image
 
-def none_check(get_data):
-    for item in get_data.keys():
-        if get_data[item] is None:
+def none_check(object):
+    for item in object.keys():
+        if object[item] == None:
             return True
     return False
 
@@ -19,7 +20,8 @@ def medium_check(get_data, form_type) -> str:
             return "tv"
         elif "episode" in form_type:
             return "tv_episode"
-        return "video_link"
+        else:
+            return "video_link"
 
     elif get_data["form"] == "audio":
 
@@ -33,7 +35,8 @@ def medium_check(get_data, form_type) -> str:
             return "show"
         elif "episode" in get_data["url"]:
             return "episode"
-        return "audio_link"
+        else:
+            return "audio_link"
 
 
 # getting Open graph tags data
@@ -92,12 +95,12 @@ def twitter_tags(request_object, get_data):
 
         if "twitter:" in str(meta):
 
-            if get_data["title"] is None:
-                if meta["property"][9:] == "title":
+            if get_data["title"] == None:
+                if meta["property"][9:13] == "title" and len(meta["property"]) == 17:
                     get_data["title"] = meta["content"]
                 continue
 
-            if get_data["description"] is None:
+            if get_data["description"] == None:
                 if (
                     meta["property"][9:20] == "description"
                     and len(meta["property"]) == 20
@@ -105,7 +108,7 @@ def twitter_tags(request_object, get_data):
                     get_data["description"] = meta["content"]
                 continue
 
-            if get_data["image"] is None:
+            if get_data["image"] == None:
                 if meta["property"][3:8] == "image" and len(meta["property"]) == 8:
                     get_data["image"] = meta["content"]
                 continue
@@ -115,10 +118,10 @@ def twitter_tags(request_object, get_data):
 
 def fallback(request_object, get_data):
 
-    parse_only = SoupStrainer(["title", "image", "p"])
+    parse_only = SoupStrainer(["title", "p"])
     content = BeautifulSoup(request_object, "lxml", parse_only=parse_only)
 
-    if get_data["title"] is None:
+    if get_data["title"] == None:
         try:
             title = content.find("title").get_text()
             get_data["title"] = title
@@ -126,7 +129,7 @@ def fallback(request_object, get_data):
             logging.error(e)
             get_data["title"] = 'No title available'
             
-    if get_data["description"] is None:
+    if get_data["description"] == None:
         try:
             description = content.find("p").get_text()
             get_data["description"] = description
@@ -134,18 +137,23 @@ def fallback(request_object, get_data):
             logging.error(e)
             get_data["description"] = 'No description available'
 
-    if get_data['image'] is None:
-        try:
-            image = content.find("img")['src']
-            get_data['image'] = image
+    if get_data['image'] == None:
+        image_url = '%s?access_key=%s&url=%s' % (apiflash_url_to_image, apiflask_key, get_data['url'])
+
+        try:  
+            print (image_url)
+            img_data = requests.get(image_url).content
+            with open('%s-snap.jpg' % (get_url(get_data['url'])), 'wb') as handler:
+                handler.write(img_data)
+            get_data['image'] = '%s.jpg' % (get_url(get_data['url']))
         except Exception as e:
             logging.error(e)
-            get_data['image'] = 'No image available'
+            get_data['image'] = 'Failed to take a screenshot'
 
-    if get_data['form'] is None:
+    if get_data['form'] == None:
         get_data['form'] = 'text'
 
-    if get_data['medium'] is None:
+    if get_data['medium'] == None:
         get_data['medium'] = 'link'
         
     return get_data
@@ -167,6 +175,7 @@ def main_generic(request_object, URL) -> dict:
     if none_check(get_data):
         get_data = twitter_tags(request_object, get_data)
     if none_check(get_data):
+        get_data['url'] = URL
         get_data = fallback(request_object, get_data)
 
     get_data["url"] = get_url(URL) #using the link with params as an identifier
