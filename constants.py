@@ -17,5 +17,10 @@ sentry_key='b3eb927540394878a927697fa7053d00'
 sentry_org='o197336'
 sentry_project='5230205'
 
+art_access_key = '10f5aecdb02f490e'
+art_skey = 'b305d6fad6431043' # skey : secret key
+art_api_url = 'https://www.wikiart.org/en/Api/2/login?'
+art_artwork_url = 'https://www.wikiart.org/en/api/2/PaintingSearch?term='
+
 apiflask_key = '103ef741c3b84a04b44e0b3d94e8685a'
 apiflash_url_to_image = 'https://api.apiflash.com/v1/urltoimage'
