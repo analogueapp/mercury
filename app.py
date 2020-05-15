@@ -1,9 +1,7 @@
 from bs4 import BeautifulSoup, SoupStrainer
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-from concurrent.futures import ThreadPoolExecutor
-from flask import Flask, request, Response
-import json
+from flask import Flask, request, jsonify
 import requests
 
 from utils.tag_parsers import main_generic
@@ -27,19 +25,20 @@ def Graph_data():
  
     URL = request.args.get("url")
 
-    def streams():
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    
+    return jsonify(get_data)
 
-        pool = ThreadPoolExecutor(max_workers=2)
+@app.route("/enrich")
+def enrichment():
 
-        requested = requests.get(URL).text
+    URL = request.args.get("url")
 
-        data_1 = pool.submit(main_generic, requested)
-        data_2 = pool.submit(enrich_test, URL)
+    enriched_data = enrich_test(URL)
 
-        yield json.dumps(data_1.result())
-        yield json.dumps(data_2.result())
+    return jsonify(enriched_data)
 
-    return Response(streams())
 
 if __name__ == "__main__":
     app.run()

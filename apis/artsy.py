@@ -27,8 +27,8 @@ def fetch_artsy(url: str) -> Dict:
 
         try:
             api_data.update(requests.get(api_data['_links']['artworks']['href'], headers=headers).json())
-        except:
-            api_data.update({'images':'failed to get images'})
+        except Exception as e:
+            logging.error(e)
 
     elif artsy_type == 'artwork':
         target = artsy_api_url + '/artworks/' + artsy_id
@@ -36,8 +36,8 @@ def fetch_artsy(url: str) -> Dict:
 
         try:
             api_data.update(requests.get(api_data['_links']['artists']['href'], headers=headers).json())
-        except:
-            api_data.update({'images':'failed to get images'})
+        except Exception as e:
+            logging.error(e)
 
     elif artsy_type == 'show':
         artsy_id = artsy_id.split('?')[0]
@@ -46,8 +46,8 @@ def fetch_artsy(url: str) -> Dict:
 
         try:
             api_data.update(requests.get(api_data['_links']['images']['href'], headers=headers).json())
-        except:
-            api_data.update({'images':'failed to get images'})
+        except Exception as e:
+            logging.error(e)
 
     elif artsy_type == 'www.artsy.net': #profile
         target = artsy_api_url+'/profiles/'+artsy_id
