@@ -5,9 +5,9 @@ from typing import Dict
 import logging
 from constants import apiflask_key, apiflash_url_to_image
 
-def none_check(object):
-    for item in object.keys():
-        if object[item] == None:
+def none_check(get_data):
+    for item in get_data.keys():
+        if get_data[item] is None:
             return True
     return False
 
@@ -20,8 +20,7 @@ def medium_check(get_data, form_type) -> str:
             return "tv"
         elif "episode" in form_type:
             return "tv_episode"
-        else:
-            return "video_link"
+        return "video_link"
 
     elif get_data["form"] == "audio":
 
@@ -35,8 +34,7 @@ def medium_check(get_data, form_type) -> str:
             return "show"
         elif "episode" in get_data["url"]:
             return "episode"
-        else:
-            return "audio_link"
+        return "audio_link"
 
 
 # getting Open graph tags data
@@ -95,12 +93,12 @@ def twitter_tags(request_object, get_data):
 
         if "twitter:" in str(meta):
 
-            if get_data["title"] == None:
+            if get_data["title"] is None:
                 if meta["property"][9:13] == "title" and len(meta["property"]) == 17:
                     get_data["title"] = meta["content"]
                 continue
 
-            if get_data["description"] == None:
+            if get_data["description"] is None:
                 if (
                     meta["property"][9:20] == "description"
                     and len(meta["property"]) == 20
@@ -108,7 +106,7 @@ def twitter_tags(request_object, get_data):
                     get_data["description"] = meta["content"]
                 continue
 
-            if get_data["image"] == None:
+            if get_data["image"] is None:
                 if meta["property"][3:8] == "image" and len(meta["property"]) == 8:
                     get_data["image"] = meta["content"]
                 continue
@@ -121,7 +119,7 @@ def fallback(request_object, get_data):
     parse_only = SoupStrainer(["title", "p"])
     content = BeautifulSoup(request_object, "lxml", parse_only=parse_only)
 
-    if get_data["title"] == None:
+    if get_data["title"] is None:
         try:
             title = content.find("title").get_text()
             get_data["title"] = title
@@ -129,7 +127,7 @@ def fallback(request_object, get_data):
             logging.error(e)
             get_data["title"] = 'No title available'
             
-    if get_data["description"] == None:
+    if get_data["description"] is None:
         try:
             description = content.find("p").get_text()
             get_data["description"] = description
@@ -137,7 +135,7 @@ def fallback(request_object, get_data):
             logging.error(e)
             get_data["description"] = 'No description available'
 
-    if get_data['image'] == None:
+    if get_data['image'] is None:
         image_url = '%s?access_key=%s&url=%s' % (apiflash_url_to_image, apiflask_key, get_data['url'])
 
         try:  
@@ -150,10 +148,10 @@ def fallback(request_object, get_data):
             logging.error(e)
             get_data['image'] = 'Failed to take a screenshot'
 
-    if get_data['form'] == None:
+    if get_data['form'] is None:
         get_data['form'] = 'text'
 
-    if get_data['medium'] == None:
+    if get_data['medium'] is None:
         get_data['medium'] = 'link'
         
     return get_data
