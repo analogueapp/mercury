@@ -1,4 +1,4 @@
-APIs = ["www.goodreads.com", "www.imdb.com", "open.spotify.com", "www.artsy.net"]
+APIs = ["www.goodreads.com", "www.imdb.com", "open.spotify.com", "www.artsy.net", "www.wikiart.org", "en.wikipedia.org"]
 
 artsy_client_id = '77e9422bdf38d3bc0179'
 artsy_client_skey = '7eec7ad1ebb0b01272ae4eec0e71170a' # skey : secret key
