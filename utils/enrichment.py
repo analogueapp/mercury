@@ -5,6 +5,7 @@ from apis.imdb import fetch_imdb
 from apis.goodreads import fetch_goodreads
 from apis.artsy import fetch_artsy
 from apis.wikiart import fetch_wikiart
+from apis.wikipedia import fetch_wikipedia
 from typing import Dict
 from constants import APIs
 
@@ -39,5 +40,8 @@ def enrich_test(url: str) -> Dict:
 
         elif site_name == "www.wikiart.org":
             enrich_data = fetch_wikiart(url)
+
+        elif site_name == "en.wikipedia.org":
+            enrich_data = fetch_wikipedia(url)
 
     return enrich_data
