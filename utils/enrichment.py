@@ -14,7 +14,6 @@ def get_url(url: str) -> str:
 
     if 'http' in url[0]:
         site_name = url[2]
-
     else:
         site_name = url[0]
 
@@ -38,7 +37,7 @@ def enrich_test(url: str) -> Dict:
         elif site_name == "www.artsy.net" or site_name == "artsy.net":
             enrich_data = fetch_artsy(url)
 
-        elif site_name == "www.wikiart.org":
+        elif site_name == "www.wikiart.org" or site_name == "wikiart.org":
             enrich_data = fetch_wikiart(url)
 
         elif site_name == "en.wikipedia.org":
