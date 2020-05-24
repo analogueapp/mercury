@@ -81,7 +81,7 @@ def get_box_data(item):
                 
             item = item[stop+1:]
 
-        except:
+        except Exception as e:
             break
 
     return ans
