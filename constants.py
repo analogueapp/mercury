@@ -24,3 +24,5 @@ art_artwork_url = 'https://www.wikiart.org/en/api/2/PaintingSearch?term='
 
 apiflask_key = '103ef741c3b84a04b44e0b3d94e8685a'
 apiflash_url_to_image = 'https://api.apiflash.com/v1/urltoimage'
+
+wikipedia_api_url = "https://en.wikipedia.org/w/api.php"
