@@ -1,40 +1,15 @@
 import requests
-import base64
-import strgen
 from bs4 import BeautifulSoup, SoupStrainer
 from concurrent.futures import ThreadPoolExecutor
 from utils.enrichment import get_url
 from typing import Dict
 import logging
-from constants import apiflash_key, apiflash_url_to_image, api_imgbb_url, imgbb_key, fullUrlsExceptions
+from constants import api_imgbb_url, imgbb_key, fullUrlsExceptions, mercury_snap_url
 
 
-def capture_webpage(url: str) -> str:
-    site_name = get_url(url)
-    image_url = "%s?access_key=%s&url=%s" % (apiflash_url_to_image, apiflash_key, url)
-    upload_url = api_imgbb_url + "key=" + imgbb_key
-    image_name = strgen.StringGenerator("[\d\c]{10}").render()
-
-    # saving temporarily on heroku
-    try:
-        img_data = requests.get(image_url).content
-
-        with open("%s.jpg" % (image_name), "wb") as handler:
-            handler.write(img_data)
-
-        with open("%s.jpg" % (image_name), "rb") as img_file:
-            base64_image = base64.b64encode(img_file.read())
-
-        base64_image = base64_image.decode("utf-8")
-        params = {"image": base64_image}
-        imgb_api = requests.post(upload_url, data=params).json()
-
-        return imgb_api["data"]["url"]
-        
-    except Exception as e:
-        logging.error("Unable to take a screenshot due to %s" % (e))
-        return "No image"
-
+def mercury_snap(url: str) -> str:
+    hosted_url_json = requests.get(mercury_snap_url + url).json()
+    return hosted_url_json['url']
 
 def medium_check(get_data, form_type) -> str:
     if get_data["form"] == "video":
@@ -229,7 +204,7 @@ def main_generic(request_object, URL) -> dict:
             if get_data_twitter[main_keys] is None:
 
                 if main_keys == "image":
-                    get_data["image"] = capture_webpage(get_data["url"])
+                    get_data["image"] = mercury_snap(get_data['url'])
 
                 else:
                     get_data[main_keys] = get_data_fallback[main_keys]
