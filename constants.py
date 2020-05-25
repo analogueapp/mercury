@@ -28,3 +28,5 @@ apiflash_url_to_image = 'https://api.apiflash.com/v1/urltoimage'
 
 api_imgbb_url = 'https://api.imgbb.com/1/upload?'
 imgbb_key = 'd5fcad3e3c03a6560fbfd009b81d5615'
+
+wikipedia_api_url = "https://en.wikipedia.org/w/api.php"
