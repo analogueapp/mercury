@@ -20,10 +20,10 @@ def get_wiki_url(title: str, content: str, creator: str='') -> str:
     if content == 'artist':
         return wikipedia_url + title + '_(musician)'
 
-    elif content == 'show':
+    if content == 'show':
         return wikipedia_url + title + '_(podcast)'
     
-    elif content == 'track':
+    if content == 'track':
         creator = creator.replace(' ', '_')
         return wikipedia_url + title + '_(' + creator + '_song)'
 
