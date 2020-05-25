@@ -53,7 +53,6 @@ def clean(val: str) -> str:
     return val
 
 
-
 def get_box_data(item):
 
     item = str(item)
@@ -81,7 +80,7 @@ def get_box_data(item):
                 
             item = item[stop+1:]
 
-        except Exception as e:
+        except:
             break
 
     return ans

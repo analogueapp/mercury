@@ -1,8 +1,18 @@
 import requests
 from bs4 import BeautifulSoup, SoupStrainer
-import time
-from constants import goodreads_key, goodreads_api_url
+from constants import goodreads_key, goodreads_api_url, wikipedia_url
 from typing import Dict
+from apis.wikipedia import get_short_details
+
+
+def get_data_from_wiki(url: str) -> Dict:
+    return get_short_details(url)
+
+
+def get_wiki_url(title: str) -> str:
+
+    title = title.replace(" ", "_")
+    return wikipedia_url+title
 
 
 def title_check(title: str) -> str:
@@ -10,7 +20,6 @@ def title_check(title: str) -> str:
         title = title[::-1]
         return title[title.index("(") + 1:][::-1].strip()
     return title
-
 
 def get_title(url: str) -> str:
     request_object = requests.get(url).text
@@ -51,5 +60,8 @@ def fetch_goodreads(url: str) -> Dict:
     api_data["average_rating"] = soup_object.find("average_rating").get_text()
 
     api_data["author_name"] = soup_object.find("name").get_text()
+
+    wiki_url = get_wiki_url(title)
+    api_data['wiki data'] = get_data_from_wiki(wiki_url)
 
     return api_data
