@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from constants import spotify_client_id, spotify_client_skey, wikipedia_url
-from typing import Dict
+from typing import Dict, Optional
 from apis.wikipedia import get_short_details
 
 
@@ -14,7 +14,7 @@ spotify = spotipy.Spotify(
 )
 
 
-def get_wiki_url(title: str, content: str, creator: str='') -> str:
+def parse_wiki_url(title: str, content: str, creator: Optional[str] = None) -> str:
     
     title = title.replace(' ', '_')
     if content == 'artist':
@@ -30,7 +30,7 @@ def get_wiki_url(title: str, content: str, creator: str='') -> str:
 
 
 
-def get_data_from_wiki(url: str) -> Dict:
+def parse_data_from_wiki(url: str) -> Dict:
     return get_short_details(url)
 
 
@@ -53,8 +53,8 @@ def spotify_get(url: str) -> Dict:
         api_data["artist_albums"] = artist_album
         api_data["top_tracks"] = artist_top_tracks
 
-        wiki_url = get_wiki_url(api_data['artist_details']['name'] , spotify_type)
-        api_data['wiki_data'] = get_data_from_wiki(wiki_url)
+        wiki_url = parse_wiki_url(api_data['artist_details']['name'] , spotify_type)
+        api_data['wiki_data'] = parse_data_from_wiki(wiki_url)
 
     elif spotify_type == "playlist":
 
@@ -72,15 +72,15 @@ def spotify_get(url: str) -> Dict:
         api_data["show_details"] = show
         api_data["episodes"] = show_episodes
 
-        wiki_url = get_wiki_url(api_data["show_details"]['name'] , spotify_type)
-        api_data['wiki_data'] = get_data_from_wiki(wiki_url)
+        wiki_url = parse_wiki_url(api_data["show_details"]['name'] , spotify_type)
+        api_data['wiki_data'] = parse_data_from_wiki(wiki_url)
 
     elif spotify_type == "track": #wiki data added
         track = spotify.track(spotify_id)
         api_data["track_details"] = track
 
-        wiki_url = get_wiki_url(api_data['track_details']['name'], spotify_type, api_data['track_details']['artists'][0]['name'])
-        api_data['wiki_data'] = get_data_from_wiki(wiki_url)
+        wiki_url = parse_wiki_url(api_data['track_details']['name'], spotify_type, api_data['track_details']['artists'][0]['name'])
+        api_data['wiki_data'] = parse_data_from_wiki(wiki_url)
 
     elif spotify_type == "episode":
         episode = spotify.episode(spotify_id, market="US")

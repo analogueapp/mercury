@@ -5,11 +5,11 @@ from typing import Dict
 from apis.wikipedia import get_short_details
 
 
-def get_data_from_wiki(url: str) -> Dict:
+def parse_data_from_wiki(url: str) -> Dict:
     return get_short_details(url)
 
 
-def get_wiki_url(title: str) -> str:
+def parse_wiki_url(title: str) -> str:
 
     title = title.replace(" ", "_")
     return wikipedia_url+title
@@ -61,7 +61,7 @@ def fetch_goodreads(url: str) -> Dict:
 
     api_data["author_name"] = soup_object.find("name").get_text()
 
-    wiki_url = get_wiki_url(title)
-    api_data['wiki data'] = get_data_from_wiki(wiki_url)
+    wiki_url = parse_wiki_url(title)
+    api_data['wiki data'] = parse_data_from_wiki(wiki_url)
 
     return api_data

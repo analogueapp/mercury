@@ -11,7 +11,7 @@ def retrieve_short_description(data: str) -> str:
     if 'wikibase-shortdesc' in data.keys():
         return data['wikibase-shortdesc']
 
-    for _, value in list(data.items()):
+    for value in list(data.values()):
         if isinstance(value, dict):
             return retrieve_short_description(value)
 

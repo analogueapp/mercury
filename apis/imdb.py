@@ -5,11 +5,11 @@ from typing import Dict
 from apis.wikipedia import get_short_details
 
 
-def get_data_from_wiki(url: str) -> Dict:
+def parse_data_from_wiki(url: str) -> Dict:
     return get_short_details(url)
 
 
-def get_wiki_url(title: str) -> str:
+def parse_wiki_url(title: str) -> str:
     
     title = title.replace(" ", "_")
     return wikipedia_url+title
@@ -25,7 +25,7 @@ def fetch_imdb(url: str) -> Dict:
         imdb_api_url + 'find/' + external_id, params={"api_key": movieDB_key, "external_source": "imdb_id"}
     ).json()
 
-    if len(IMDB_data["movie_results"]) > 0:
+    if IMDB_data["movie_results"]:
         api_data['movie results'] = IMDB_data["movie_results"][0]
         internal_id = IMDB_data["movie_results"][0]['id']
         title = api_data['movie results']['title']
@@ -36,9 +36,11 @@ def fetch_imdb(url: str) -> Dict:
         ][0]
         
         api_data["trailer"] = Trailer
-        api_data.update(get_short_details(get_wiki_url(title)))
 
-    elif len(IMDB_data["tv_results"]) > 0:
+        wiki_url = parse_wiki_url(title)
+        api_data['wiki data'] = parse_data_from_wiki(wiki_url)
+
+    elif IMDB_data["tv_results"]:
         api_data["tv_results"] = IMDB_data["tv_results"][0]
         internal_id = IMDB_data["tv_results"][0]["id"]
         title = api_data["tv_results"]['name']
@@ -49,16 +51,21 @@ def fetch_imdb(url: str) -> Dict:
             "results"
         ][0]
         api_data["trailer"] = Trailer
-        api_data.update(get_data_from_wiki(get_wiki_url(title)))
 
-    elif len(IMDB_data["person_results"]) > 0:
+        wiki_url = parse_wiki_url(title)
+        api_data['wiki data'] = parse_data_from_wiki(wiki_url)
+
+    elif IMDB_data["person_results"]:
         IMDB_data = IMDB_data["person_results"][0]
         internal_id = IMDB_data["id"]
 
         url_person = "%sperson/%s" % (imdb_api_url,internal_id)
         person_data = requests.get(url_person, params={"api_key": movieDB_key,}).json()
         api_data["person data"] = person_data
-        api_data.update(get_short_details(get_wiki_url(person_data['name'])))
+        title = person_data['name']
+
+        wiki_url = parse_wiki_url(title)
+        api_data['wiki data'] = parse_data_from_wiki(wiki_url)
 
     else:
         return api_data
