@@ -25,19 +25,19 @@ def enrich_test(url: str) -> Dict:
 
     if site_name in APIs:
 
-        if site_name == "www.goodreads.com" or site_name == "goodreads.com":
+        if site_name in ("www.goodreads.com","goodreads.com"):
             enrich_data = fetch_goodreads(url)
 
-        elif site_name == "www.imdb.com" or site_name == "imdb.com":
+        elif site_name in ("www.imdb.com","imdb.com"):
             enrich_data = fetch_imdb(url)
 
         elif site_name == "open.spotify.com":
             enrich_data = spotify_get(url)
 
-        elif site_name == "www.artsy.net" or site_name == "artsy.net":
+        elif site_name in ("www.artsy.net","artsy.net"):
             enrich_data = fetch_artsy(url)
 
-        elif site_name == "www.wikiart.org" or site_name == "wikiart.org":
+        elif site_name in ("www.wikiart.org","wikiart.org"):
             enrich_data = fetch_wikiart(url)
 
         elif site_name == "en.wikipedia.org":

@@ -6,10 +6,15 @@ from typing import Dict
 import logging
 from constants import api_imgbb_url, imgbb_key, fullUrlsExceptions, mercury_snap_url
 
-
+# calling screenshot API and returning url
 def mercury_snap(url: str) -> str:
-    hosted_url_json = requests.get(mercury_snap_url + url).json()
-    return hosted_url_json['url']
+    try:
+        hosted_url_json = requests.get(mercury_snap_url + url).json()
+        return hosted_url_json["url"]
+    except Exception as e:
+        logging.error(e)
+        return "No Image available"
+
 
 def medium_check(get_data, form_type) -> str:
     if get_data["form"] == "video":
@@ -38,8 +43,7 @@ def medium_check(get_data, form_type) -> str:
 
 
 # getting Open graph tags data
-def open_graph(tupl) -> dict:
-    request_object = tupl[0]
+def open_graph(request_object) -> dict:
 
     get_data = {
         "title": None,
@@ -57,10 +61,10 @@ def open_graph(tupl) -> dict:
 
     for meta in head_content:
 
-        if "og:" in str(meta) and 'property' in meta.attrs.keys():
+        if "og:" in str(meta) and "property" in meta.attrs.keys():
 
             if meta["property"][3:] == "title":
-                
+
                 get_data["title"] = meta["content"]
 
             elif meta["property"][3:] == "description":
@@ -93,8 +97,8 @@ def open_graph(tupl) -> dict:
     return get_data
 
 
-def twitter_tags(tupl):
-    request_object = tupl[0]
+# getting twitter tags data
+def twitter_tags(request_object):
 
     get_data = {
         "title": None,
@@ -112,22 +116,22 @@ def twitter_tags(tupl):
 
     for meta in head_content:
 
-        if "twitter:" in str(meta) and 'property' in meta.attrs.keys():
+        if "twitter:" in str(meta) and "property" in meta.attrs.keys():
 
             if meta["property"][9:] == "title":
                 get_data["title"] = meta["content"]
-        
+
             elif meta["property"][9:] == "description":
                 get_data["description"] = meta["content"]
 
             elif meta["property"][3:] == "image":
                 get_data["image"] = meta["content"]
 
-        elif "twitter:" in str(meta) and 'name' in meta.attrs.keys():
+        elif "twitter:" in str(meta) and "name" in meta.attrs.keys():
 
             if meta["name"][8:] == "title":
                 get_data["title"] = meta["content"]
-        
+
             elif meta["name"][8:] == "description":
                 get_data["description"] = meta["content"]
 
@@ -166,7 +170,7 @@ def fallback(tupl):
         logging.error(e)
         get_data["description"] = "No description available"
 
-    get_data['url'] = url
+    get_data["url"] = url
     get_data["form"] = "text"
     get_data["medium"] = "link"
 
@@ -186,38 +190,36 @@ def main_generic(request_object, URL) -> dict:
 
     pool = ThreadPoolExecutor(max_workers=2)
 
-    get_data_og = pool.submit(open_graph,(request_object,))
-    get_data_twitter = pool.submit(twitter_tags,(request_object,))
-    get_data_fallback = pool.submit(fallback,(request_object, URL))
- 
+    get_data_og = pool.submit(open_graph, request_object)
+    get_data_twitter = pool.submit(twitter_tags, request_object)
+    get_data_fallback = pool.submit(fallback, (request_object, URL))
+
     get_data_og = get_data_og.result()
     get_data_twitter = get_data_twitter.result()
     get_data_fallback = get_data_fallback.result()
 
+    # sorting dict keys to get URL first for calling mercury-snap later (if no image)
     get_keys = list(get_data.keys())
     get_keys.sort()
     get_keys = get_keys[::-1]
 
+    # adding data in main dict from all three sources according to their precedence
     for main_keys in get_keys:
         if get_data_og[main_keys] is None:
-
             if get_data_twitter[main_keys] is None:
-
                 if main_keys == "image":
-                    get_data["image"] = mercury_snap(get_data['url'])
-
+                    get_data["image"] = mercury_snap(get_data["url"])
                 else:
                     get_data[main_keys] = get_data_fallback[main_keys]
-
             else:
                 get_data[main_keys] = get_data_twitter[main_keys]
         else:
             get_data[main_keys] = get_data_og[main_keys]
 
-
+    # checking for full URLs exception e.g youtube.com
     if get_url(URL) in fullUrlsExceptions:
         get_data["url"] = URL
     else:
         get_data["url"] = get_url(URL)
-                
+
     return get_data
