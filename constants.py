@@ -1,4 +1,5 @@
 APIs = ["www.goodreads.com", "www.imdb.com", "open.spotify.com", "www.artsy.net", "www.wikiart.org", "en.wikipedia.org"]
+fullUrlsExceptions = ['www.youtube.com']
 
 artsy_client_id = '77e9422bdf38d3bc0179'
 artsy_client_skey = '7eec7ad1ebb0b01272ae4eec0e71170a' # skey : secret key
@@ -22,5 +23,10 @@ art_skey = 'b305d6fad6431043' # skey : secret key
 art_api_url = 'https://www.wikiart.org/en/Api/2/login?'
 art_artwork_url = 'https://www.wikiart.org/en/api/2/PaintingSearch?term='
 
-apiflask_key = '103ef741c3b84a04b44e0b3d94e8685a'
-apiflash_url_to_image = 'https://api.apiflash.com/v1/urltoimage'
+api_imgbb_url = 'https://api.imgbb.com/1/upload?'
+imgbb_key = 'd5fcad3e3c03a6560fbfd009b81d5615'
+
+wikipedia_api_url = "https://en.wikipedia.org/w/api.php"
+wikipedia_url = "https://en.wikipedia.org/wiki/"
+
+mercury_snap_url = 'http://mercury-snap.herokuapp.com/snap?url='
