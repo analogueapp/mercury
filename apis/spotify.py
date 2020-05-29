@@ -2,17 +2,19 @@ import requests
 from bs4 import BeautifulSoup, SoupStrainer
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-from constants import spotify_client_id, spotify_client_skey, wikipedia_url
 from typing import Dict, Optional
 from apis.wikipedia import get_short_details
+import os
 
+spotify_client_id = os.getenv('SPOTIFY_CLIENT_ID')
+spotify_client_skey = os.getenv('SPOTIFY_CLIENT_SKEY')
+wikipedia_url = os.getenv('WIKIPEDIA_URL')
 
 spotify = spotipy.Spotify(
     client_credentials_manager=SpotifyClientCredentials(
         spotify_client_id, spotify_client_skey
     )
 )
-
 
 def parse_wiki_url(title: str, content: str, creator: Optional[str] = None) -> str:
     
