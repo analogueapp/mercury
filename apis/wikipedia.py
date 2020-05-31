@@ -3,9 +3,8 @@ from bs4 import BeautifulSoup, SoupStrainer
 from typing import Dict
 import requests
 from concurrent.futures import ThreadPoolExecutor
+from constants import wikipedia_api_url
 import os
-
-wikipedia_api_url = os.getenv('WIKIPEDIA_API_URL')
 
 
 def retrieve_short_description(data: str) -> str:

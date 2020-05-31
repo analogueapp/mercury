@@ -7,9 +7,9 @@ from apis.artsy import fetch_artsy
 from apis.wikiart import fetch_wikiart
 from apis.wikipedia import fetch_wikipedia
 from typing import Dict
+from constants import APIs
 import os
 
-APIs = os.getenv('APIS').split(',')
 
 def get_url(url: str) -> str:
     url = url.split('/')

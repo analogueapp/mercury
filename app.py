@@ -15,10 +15,6 @@ sentry_key = os.getenv('SENTRY_KEY')
 sentry_org = os.getenv('SENTRY_ORG')
 sentry_project = os.getenv('SENTRY_PROJECT')
 
-spotify_client_id = os.getenv('SPOTIFY_CLIENT_ID')
-spotify_client_skey = os.getenv('SPOTIFY_CLIENT_SKEY')
-wikipedia_url = os.getenv('WIKIPEDIA_URL')
-
 #initializing sentry
 sentry_sdk.init(
     dsn=f'https://{sentry_key}@{sentry_org}.ingest.sentry.io/{sentry_project}',

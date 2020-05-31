@@ -4,11 +4,11 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from typing import Dict, Optional
 from apis.wikipedia import get_short_details
+from constants import wikipedia_url
 import os
 
 spotify_client_id = os.getenv('SPOTIFY_CLIENT_ID')
 spotify_client_skey = os.getenv('SPOTIFY_CLIENT_SKEY')
-wikipedia_url = os.getenv('WIKIPEDIA_URL')
 
 spotify = spotipy.Spotify(
     client_credentials_manager=SpotifyClientCredentials(

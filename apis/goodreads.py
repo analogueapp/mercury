@@ -2,11 +2,10 @@ import requests
 from bs4 import BeautifulSoup, SoupStrainer
 from typing import Dict
 from apis.wikipedia import get_short_details
+from constants import goodreads_api_url , wikipedia_url
 import os
 
 goodreads_key = os.getenv('GOODREADS_KEY')
-goodreads_api_url = os.getenv('GOODREADS_API_URL')
-wikipedia_url = os.getenv('WIKIPEDIA_URL')
 
 def parse_data_from_wiki(url: str) -> Dict:
     return get_short_details(url)

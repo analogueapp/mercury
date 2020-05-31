@@ -1,8 +1,6 @@
 import requests
 from typing import Dict
-import os
-
-art_artwork_url = os.getenv('ART_ARTWORK_URL')
+from constants import art_artwork_url
 
 
 def find_type(url: str) -> str:
