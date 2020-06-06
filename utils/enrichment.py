@@ -8,7 +8,6 @@ from apis.wikiart import fetch_wikiart
 from apis.wikipedia import fetch_wikipedia
 from typing import Dict
 from constants import APIs
-import os
 
 
 def get_url(url: str) -> str:
