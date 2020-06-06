@@ -4,9 +4,16 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from flask import Flask, request, jsonify
 import requests
 
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 from utils.tag_parsers import main_generic
 from utils.enrichment import enrich_test
-from constants import sentry_key, sentry_org, sentry_project
+
+sentry_key = os.getenv('SENTRY_KEY')
+sentry_org = os.getenv('SENTRY_ORG')
+sentry_project = os.getenv('SENTRY_PROJECT')
 
 #initializing sentry
 sentry_sdk.init(
@@ -27,7 +34,7 @@ def Graph_data():
 
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
-    
+
     return jsonify(get_data)
 
 @app.route("/enrich")

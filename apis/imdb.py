@@ -1,9 +1,11 @@
 import requests
 from bs4 import BeautifulSoup, SoupStrainer
-from constants import movieDB_key, imdb_api_url, wikipedia_url
 from typing import Dict
 from apis.wikipedia import get_short_details
+from constants import imdb_api_url , wikipedia_url
+import os
 
+movieDB_key = os.getenv("MOVIEDB_KEY")
 
 def parse_data_from_wiki(url: str) -> Dict:
     return get_short_details(url)

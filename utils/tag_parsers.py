@@ -4,7 +4,10 @@ from concurrent.futures import ThreadPoolExecutor
 from utils.enrichment import get_url
 from typing import Dict
 import logging
-from constants import api_imgbb_url, imgbb_key, fullUrlsExceptions, mercury_snap_url
+from constants import api_imgbb_url , fullUrlsExceptions , mercury_snap_url
+import os
+
+imgbb_key = os.getenv('IMGBB_KEY')
 
 # calling screenshot API and returning url
 def mercury_snap(url: str) -> str:

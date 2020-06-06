@@ -1,9 +1,10 @@
 from mediawiki import MediaWiki
 from bs4 import BeautifulSoup, SoupStrainer
 from typing import Dict
-from constants import wikipedia_api_url
 import requests
 from concurrent.futures import ThreadPoolExecutor
+from constants import wikipedia_api_url
+import os
 
 
 def retrieve_short_description(data: str) -> str:

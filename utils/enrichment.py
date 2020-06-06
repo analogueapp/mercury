@@ -9,6 +9,7 @@ from apis.wikipedia import fetch_wikipedia
 from typing import Dict
 from constants import APIs
 
+
 def get_url(url: str) -> str:
     url = url.split('/')
 

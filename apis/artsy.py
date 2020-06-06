@@ -1,7 +1,11 @@
 import requests
 from typing import Dict
-from constants import artsy_client_id, artsy_client_skey, artsy_api_url
 import logging
+from constants import artsy_api_url
+import os
+
+artsy_client_id = os.getenv("ARTSY_CLIENT_ID")
+artsy_client_skey = os.getenv("ARTSY_CLIENT_SKEY")
 
 
 def fetch_artsy(url: str) -> Dict:
