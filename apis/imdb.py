@@ -16,11 +16,15 @@ def parse_wiki_url(title: str) -> str:
     title = title.replace(" ", "_")
     return wikipedia_url+title
 
+def parse_external_id(url: str) -> str:
+    url = url.split('/')
+    external_id = url.index('www.imdb.com') + 2
+    return url[external_id]
 
 def fetch_imdb(url: str) -> Dict:
     api_data = {}
 
-    external_id = url.split("/")[-2]
+    external_id = parse_external_id(url)
     internal_id = ""
 
     IMDB_data = requests.get(
