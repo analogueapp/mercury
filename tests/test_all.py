@@ -3,7 +3,7 @@ import requests
 import app
 from utils.tag_parsers import main_generic
 from utils.enrichment import enrich_test
-from tests.test_case_output import *
+from tests.test_case_output import test_tag_parser_output, test_get_without_og_twitter_output, test_enrich_wikiart_artwork_output, test_enrich_imdb_tv_output, test_enrich_imdb_person_output, test_enrich_imdb_movie_output, test_enrich_goodreads_output
 
 
 def test_tag_parsers():
