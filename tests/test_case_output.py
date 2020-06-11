@@ -416,4 +416,3 @@ test_enrich_wikiart_artwork_output = {
     "paginationToken": "mYYKCPvUlMCe%2bm%2bFr5oqhRUwpA2NgYOK%2fqurC%2bhv3IPFO0G5x7nxRaZ3JcZqONEG2ICeCVS8n78enlsBEi8VqA%3d%3d",
     "hasMore": False,
 }
-
