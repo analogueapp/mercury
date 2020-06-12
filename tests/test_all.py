@@ -22,22 +22,22 @@ def test_get_without_og_twitter():
 def test_enrich_imdb_movie():
     URL = 'https://www.imdb.com/title/tt0111161/?ref_=hm_fanfav_tt_9_pd_fp1'
     enriched_data = enrich_test(URL)
-    assert enriched_data== test_enrich_imdb_movie_output
+    assert enriched_data['movie results']['title'] == test_enrich_imdb_movie_output
 
 def test_enrich_imdb_tv():
     URL = 'https://www.imdb.com/title/tt0944947/'
     enriched_data = enrich_test(URL)
-    assert enriched_data == test_enrich_imdb_tv_output
+    assert enriched_data['tv_results']['name'] == test_enrich_imdb_tv_output
 
 def test_enrich_imdb_person():
     URL = 'https://www.imdb.com/name/nm0634240/?ref_=nv_sr_srsg_0'
     enriched_data = enrich_test(URL)
-    assert enriched_data == test_enrich_imdb_person_output
+    assert enriched_data['person data']['name'] == test_enrich_imdb_person_output
 
 def test_enrich_goodreads():
     URL = 'https://www.goodreads.com/book/show/78411.The_Bad_Beginning'
     enriched_data = enrich_test(URL)
-    assert enriched_data == test_enrich_goodreads_output
+    assert enriched_data['author_name'] == test_enrich_goodreads_output
 
 def test_enrich_wikiart_artwork():
     URL = 'https://www.wikiart.org/en/thomas-eakins/the-chess-player-1876'
