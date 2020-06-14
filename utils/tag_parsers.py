@@ -9,6 +9,11 @@ import os
 
 imgbb_key = os.getenv('IMGBB_KEY')
 
+def url_remove_params(url):
+    if '?' in url:
+        return url.split('?')[0]
+    return url
+ 
 # calling screenshot API and returning url
 def mercury_snap(url: str) -> str:
     try:
@@ -63,11 +68,9 @@ def open_graph(request_object) -> dict:
     ).find_all("meta")
 
     for meta in head_content:
-
         if "og:" in str(meta) and "property" in meta.attrs.keys():
 
             if meta["property"][3:] == "title":
-
                 get_data["title"] = meta["content"]
 
             elif meta["property"][3:] == "description":
@@ -118,7 +121,7 @@ def twitter_tags(request_object):
     ).find_all("meta")
 
     for meta in head_content:
-
+        
         if "twitter:" in str(meta) and "property" in meta.attrs.keys():
 
             if meta["property"][9:] == "title":
@@ -156,24 +159,38 @@ def fallback(tupl):
         "description": None,
     }
 
-    parse_only = SoupStrainer(["title", "p"])
+    parse_only = SoupStrainer(["title", "p","link"])
     content = BeautifulSoup(request_object, "lxml", parse_only=parse_only)
 
     try:
         title = content.find("title").get_text()
-        get_data["title"] = title
+        if title not in ("", " "):
+            get_data["title"] = title
+        else:
+            get_data["title"] = "No title available"
     except Exception as e:
         logging.error(e)
         get_data["title"] = "No title available"
 
     try:
         description = content.find("p").get_text()
-        get_data["description"] = description
+        if description not in ("", " "):
+            get_data["description"] = description
+        else:
+            get_data["description"] = "No description available"
     except Exception as e:
         logging.error(e)
         get_data["description"] = "No description available"
 
-    get_data["url"] = url
+    try:
+        links_tags = content.find_all('link')
+        for link in links_tags:
+            if link['rel'] == 'canonical':
+                get_data['url'] = link['href']
+    except Exception as e:
+        logging.error(e)
+        get_data['url'] = url
+
     get_data["form"] = "text"
     get_data["medium"] = "link"
 
@@ -191,11 +208,13 @@ def main_generic(request_object, URL) -> dict:
         "description": None,
     }
 
-    pool = ThreadPoolExecutor(max_workers=2)
+    pool = ThreadPoolExecutor(max_workers=3)
 
+    get_screenshot = pool.submit(mercury_snap, URL)
     get_data_og = pool.submit(open_graph, request_object)
     get_data_twitter = pool.submit(twitter_tags, request_object)
     get_data_fallback = pool.submit(fallback, (request_object, URL))
+    
 
     get_data_og = get_data_og.result()
     get_data_twitter = get_data_twitter.result()
@@ -208,10 +227,10 @@ def main_generic(request_object, URL) -> dict:
 
     # adding data in main dict from all three sources according to their precedence
     for main_keys in get_keys:
-        if get_data_og[main_keys] is None:
-            if get_data_twitter[main_keys] is None:
+        if get_data_og[main_keys] in (None, "", " "):
+            if get_data_twitter[main_keys] in (None, "", " "):
                 if main_keys == "image":
-                    get_data["image"] = mercury_snap(get_data["url"])
+                    get_data["image"] = get_screenshot.result()
                 else:
                     get_data[main_keys] = get_data_fallback[main_keys]
             else:
@@ -219,10 +238,13 @@ def main_generic(request_object, URL) -> dict:
         else:
             get_data[main_keys] = get_data_og[main_keys]
 
-    # checking for full URLs exception e.g youtube.com
-    if get_url(URL) in fullUrlsExceptions:
-        get_data["url"] = URL
-    else:
-        get_data["url"] = get_url(URL)
+    # if no url is found from meta add the one user added
+    if get_data['url'] is None:
+        get_data['url'] = URL
+
+  #  checking for full URLs exception e.g youtube.com and removing the parameters if not
+    if get_url(URL) not in fullUrlsExceptions:
+        print(get_data['url'])
+        get_data['url'] = url_remove_params(get_data['url'])
 
     return get_data
