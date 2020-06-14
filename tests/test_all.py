@@ -18,6 +18,12 @@ def test_get_without_og_twitter():
     get_data = main_generic(requested, URL)
     get_data['image'] = get_data['image'][:17] #hosting service generates a new url for every request
     assert get_data == test_get_without_og_twitter_output
+    
+def test_get_params_url():
+    URL = 'https://www.creativelive.com/flash-sale?utm_source=creativeLIVE&utm_medium=email&utm_campaign=20171110_All_12For19FlashSale'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    assert get_data == test_get_params_url_output
 
 def test_getrich_imdb_movie():
     URL = 'https://www.imdb.com/title/tt0111161/?ref_=hm_fanfav_tt_9_pd_fp1'
