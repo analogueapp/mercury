@@ -16,6 +16,15 @@ test_get_without_og_twitter_output = {
     "url": "https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols",
 }
 
+test_get_params_url_output = {
+    "title": "Flash Sale",
+    "url": "https://www.creativelive.com/flash-sale",
+    "medium": "link",
+    "form": "text",
+    "image": "https://downloads.creativelive.com/social/Facebook_1600x1227.jpg",
+    "description": "photo & video ",
+}
+
 
 test_get_imdb_movie_output = {
     "title": "The Shawshank Redemption (1994) - IMDb",
