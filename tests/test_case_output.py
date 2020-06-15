@@ -13,17 +13,71 @@ test_get_without_og_twitter_output = {
     "image": "https://i.ibb.co/",
     "medium": "link",
     "title": "List of LaTeX mathematical symbols - OeisWiki",
-    "url": "oeis.org",
+    "url": "https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols",
 }
 
-test_enrich_imdb_movie_output = 'The Shawshank Redemption'
+test_get_params_url_output = {
+    "title": "Flash Sale",
+    "url": "https://www.creativelive.com/flash-sale",
+    "medium": "link",
+    "form": "text",
+    "image": "https://downloads.creativelive.com/social/Facebook_1600x1227.jpg",
+    "description": "photo & video ",
+}
 
+
+test_get_imdb_movie_output = {
+    "title": "The Shawshank Redemption (1994) - IMDb",
+    "url": "http://www.imdb.com/title/tt0111161/",
+    "medium": "film",
+    "form": "video",
+    "image": "https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UY1200_CR89,0,630,1200_AL_.jpg",
+    "description": "Directed by Frank Darabont.  With Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler. Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
+}
+test_enrich_imdb_movie_output = "The Shawshank Redemption"
+
+
+test_get_imdb_tv_output = {
+    "title": "Game of Thrones (TV Series 2011–2019) - IMDb",
+    "url": "http://www.imdb.com/title/tt0944947/",
+    "medium": "tv",
+    "form": "video",
+    "image": "https://m.media-amazon.com/images/M/MV5BYTRiNDQwYzAtMzVlZS00NTI5LWJjYjUtMzkwNTUzMWMxZTllXkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_UY1200_CR126,0,630,1200_AL_.jpg",
+    "description": "Created by David Benioff, D.B. Weiss.  With Emilia Clarke, Peter Dinklage, Kit Harington, Lena Headey. Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.",
+}
 test_enrich_imdb_tv_output = "Game of Thrones"
 
-test_enrich_imdb_person_output = 'Christopher Nolan'
 
-test_enrich_goodreads_output = 'Lemony Snicket'
+test_get_imdb_person_output = {
+    "title": "Christopher Nolan - IMDb",
+    "url": "http://www.imdb.com/name/nm0634240/",
+    "medium": "link",
+    "form": "text",
+    "image": "https://m.media-amazon.com/images/M/MV5BNjE3NDQyOTYyMV5BMl5BanBnXkFtZTcwODcyODU2Mw@@._V1_UY1200_CR118,0,630,1200_AL_.jpg",
+    "description": "Christopher Nolan, Writer: Interstellar. Best known for his cerebral, often nonlinear, storytelling, acclaimed writer-director Christopher Nolan was born on July 30, 1970, in London, England. Over the course of 15 years of filmmaking, Nolan has gone from low-budget independent films to working on some of the biggest blockbusters ever made. At 7 years old, Nolan began making short movies ...",
+}
+test_enrich_imdb_person_output = "Christopher Nolan"
 
+
+test_get_goodreads_output = {
+    "title": "The Bad Beginning (A Series of Unfortunate Events, #1)",
+    "url": "https://www.goodreads.com/work/best_book/1069597-the-bad-beginning",
+    "medium": "book",
+    "form": "text",
+    "image": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1436737029i/78411._SR1200,630_.jpg",
+    "description": "Dear Reader,  I'm sorry to say that the book you are holding in your hands is extremely unpleasant. It tells an unhappy tale about three ...",
+}
+test_enrich_goodreads_output = "Lemony Snicket"
+
+
+test_get_wikiart_artwork_output = {
+    "title": "The Chess Player, 1876 - Thomas Eakins - WikiArt.org",
+    "url": "https://www.wikiart.org/en/thomas-eakins/the-chess-player-1876",
+    "medium": "link",
+    "form": "text",
+    "image": "https://uploads6.wikiart.org/images/thomas-eakins/the-chess-player-1876.jpg!Large.jpg",
+    "description": "‘The Chess Player’ was created in 1876 by Thomas Eakins in Realism style. Find more prominent pieces of genre painting at Wikiart.org – best visual art database.",
+}
 test_enrich_wikiart_artwork_output = {
     "data": [
         {
