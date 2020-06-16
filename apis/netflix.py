@@ -19,10 +19,10 @@ def parse_netflix_id(url: str) -> str:
     return netflix_id
 
 
-def get_title_details(id: str) -> Dict:
+def get_title_details(netflix_id: str) -> Dict:
 
     netflix_query['t'] = 'loadvideo'
-    netflix_query['q'] = id
+    netflix_query['q'] = netflix_id
 
     headers = {
         'x-rapidapi-host': rapidapi_host,
@@ -40,10 +40,10 @@ def get_title_details(id: str) -> Dict:
     return response
 
 
-def get_images(id: str) -> Dict:
-    
+def get_images(netflix_id: str) -> Dict:
+
     netflix_query['t'] = 'images'
-    netflix_query['q'] = id
+    netflix_query['q'] = netflix_id
 
     headers = {
         'x-rapidapi-host': rapidapi_host,
