@@ -6,6 +6,7 @@ from apis.goodreads import fetch_goodreads
 from apis.artsy import fetch_artsy
 from apis.wikiart import fetch_wikiart
 from apis.wikipedia import fetch_wikipedia
+from apis.netflix import fetch_netflix
 from typing import Dict
 from constants import APIs
 
@@ -43,5 +44,8 @@ def enrich_test(url: str) -> Dict:
 
         elif site_name == "en.wikipedia.org":
             enrich_data = fetch_wikipedia(url)
+        
+        elif site_name in ("www.netflix.com","netflix.com"):
+            enrich_data = fetch_netflix(url)
 
     return enrich_data
