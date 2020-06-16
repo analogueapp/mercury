@@ -87,5 +87,9 @@ def spotify_get(url: str) -> Dict:
     elif spotify_type == "episode":
         episode = spotify.episode(spotify_id, market="US")
         api_data["episode_details"] = episode
+    
+    elif spotify_type == "album":
+        album = spotify.album(spotify_id)
+        api_data['album_details'] = album
 
     return api_data
