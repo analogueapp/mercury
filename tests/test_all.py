@@ -65,22 +65,6 @@ def test_getrich_wikiart_artwork():
     assert get_data == test_get_wikiart_artwork_output
     assert enriched_data == test_enrich_wikiart_artwork_output
 
-def test_getrich_netflix_series():
-    URL = 'https://www.netflix.com/title/80239931'
-    requested = requests.get(URL).text
-    get_data = main_generic(requested, URL)
-    enriched_data = enrich_test(URL)
-    assert get_data == test_get_netflix_series_output
-    assert enriched_data == test_enrich_netflix_series_output
-
-def test_getrich_netflix_movie():
-    URL = 'https://www.netflix.com/title/70295172'
-    requested = requests.get(URL).text
-    get_data = main_generic(requested, URL)
-    enriched_data = enrich_test(URL)
-    assert get_data == test_get_netflix_movie_output
-    assert enriched_data == test_enrich_netflix_movie_output
-
 def test_getrich_spotify_album():
     URL = 'https://open.spotify.com/album/6yIEe1y08bqC5LFEctRdTf'
     requested = requests.get(URL).text
@@ -88,4 +72,23 @@ def test_getrich_spotify_album():
     enriched_data = enrich_test(URL)
     assert enriched_data == test_enrich_spotify_album_output
     assert get_data == test_get_spotify_album_output
-    
+
+def test_getrich_netflix_series():
+    URL = 'https://www.netflix.com/title/70283264'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    image1 = get_data.pop('image', None)
+    enriched_data = enrich_test(URL)
+    assert image1 != None
+    assert get_data == test_get_netflix_series_output
+    assert enriched_data == test_enrich_netflix_series_output
+
+def test_getrich_netflix_movie():
+    URL = 'https://www.netflix.com/title/70295172'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    image1 = get_data.pop('image', None)
+    enriched_data = enrich_test(URL)
+    assert image1 != None
+    assert get_data == test_get_netflix_movie_output
+    assert enriched_data == test_enrich_netflix_movie_output
