@@ -1,6 +1,11 @@
 language: python
 python:
-  - "3.8"
+- '3.8'
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 script: pytest
+deploy:
+  provider: heroku
+  api_key:
+    secure: WSWyeMZG7klQw6n3zs8PvZBeaq1qZ1pfNXct3o14WilDAjvXU5WLyRthyjteAvoUXY7uMbqKKmrFxeb/1LcQnZRAyMPoYTQKeIrCPZu72L73GJkLcibNM1cVJdiDz+JvkXLiyfFtK20tyjY/fTjHT6nXD+2I1atDOBgKE5FMjrk7IXjW86cFeTALLhvqySn4fs0qrvQCfGP+20D7McXZl9Fbiru4soeDZmuJuH61X6WaGk6yzeAv97sPJiddI9BCP8bwRsXs0bm4zoOzBADCgfnKc06INQX4JogGns0Hx8SeQzpFoHqUEbQtkoX2BSTNM139RD/+QuNs/3XiW88RHnqQQUx/wYXqwnV9dGwcJ67m+RwQJPszhJM/EYSdvolBoHnEAJBtzZaTUaKGhZ5LOWwWIrAr7xwehHa0+etf6ZnMmYNxHwiIAIWCeDZDF7PdlUNHsZRBhUkfu8mxE3nqjNgdw9vZnDKACNqkKQc4LLw8oY/HOJLiCDIt2QYMPvKJAAt6T48fBvY3qZbOxkRSa0ThWsBZXOUmDH4L0lMyypab01j/le+HpBqcBhnfNqpjbwauXh/DsiTfNTWgY9mxedaJXosy72yqUwM3ZyywMksnANmlmVFw/J+e5aNIvZYR3yBcLNgpZNKw/Mx63JNolruzeFCEc99C4QSaD4qEQv0=
+  app: analogue-mercury
