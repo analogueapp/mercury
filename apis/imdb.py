@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup, SoupStrainer
 from typing import Dict
-from apis.wikipedia import get_short_details
+from apis.wikipedia import get_short_details, search_google
 from constants import imdb_api_url , wikipedia_url
 import os
 
@@ -10,11 +10,17 @@ movieDB_key = os.getenv("MOVIEDB_KEY")
 def parse_data_from_wiki(url: str) -> Dict:
     return get_short_details(url)
 
-
-def parse_wiki_url(title: str) -> str:
+def parse_wiki_url(title: str, category: str) -> str:
     
-    title = title.replace(" ", "_")
-    return wikipedia_url+title
+    if category == 'movie':
+        title = title + ' movie wikipedia'
+    
+    elif category == 'tv':
+        title = title + ' series wikipedia'
+    
+    url = search_google(title)
+    
+    return url
 
 def parse_external_id(url: str) -> str:
     url = url.split('/')
@@ -43,7 +49,7 @@ def fetch_imdb(url: str) -> Dict:
         
         api_data["trailer"] = Trailer
 
-        wiki_url = parse_wiki_url(title)
+        wiki_url = parse_wiki_url(title, 'movie')
         api_data['wiki data'] = parse_data_from_wiki(wiki_url)
 
     elif IMDB_data["tv_results"]:
@@ -58,7 +64,7 @@ def fetch_imdb(url: str) -> Dict:
         ][0]
         api_data["trailer"] = Trailer
 
-        wiki_url = parse_wiki_url(title)
+        wiki_url = parse_wiki_url(title, 'tv')
         api_data['wiki data'] = parse_data_from_wiki(wiki_url)
 
     elif IMDB_data["person_results"]:
@@ -70,7 +76,7 @@ def fetch_imdb(url: str) -> Dict:
         api_data["person data"] = person_data
         title = person_data['name']
 
-        wiki_url = parse_wiki_url(title)
+        wiki_url = parse_wiki_url(title, 'person')
         api_data['wiki data'] = parse_data_from_wiki(wiki_url)
 
     else:

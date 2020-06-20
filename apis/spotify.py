@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 from typing import Dict, Optional
-from apis.wikipedia import get_short_details
+from apis.wikipedia import get_short_details, search_google
 from constants import wikipedia_url
 import os
 
@@ -18,16 +18,18 @@ spotify = spotipy.Spotify(
 
 def parse_wiki_url(title: str, content: str, creator: Optional[str] = None) -> str:
     
-    title = title.replace(' ', '_')
     if content == 'artist':
-        return wikipedia_url + title + '_(musician)'
+        title = title + ' musician wikipedia'
 
-    if content == 'show':
-        return wikipedia_url + title + '_(podcast)'
+    elif content == 'show':
+        title = title + ' podcast wikipedia'
     
-    if content == 'track':
-        creator = creator.replace(' ', '_')
-        return wikipedia_url + title + '_(' + creator + '_song)'
+    elif content == 'track':
+        title = title + ' ' + creator + ' song wikipedia'
+
+    url = search_google(title)
+
+    return url
 
 
 
@@ -91,5 +93,5 @@ def spotify_get(url: str) -> Dict:
     elif spotify_type == "album":
         album = spotify.album(spotify_id)
         api_data['album_details'] = album
-
+    
     return api_data
