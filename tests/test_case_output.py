@@ -254,4 +254,3 @@ test_get_handleparams_sample = {
 }
 
 test_get_handleparams_output = "https://www.google.com/search?sxsrf=ALeKk008Cq1wh8s7ndSr8aRtsSUp9zw1hg:1592632411112&ei=W6TtXvurBpKuUpOxiOgP&q=flask travis continuous deployment heroku&oq=flask travis continuous deployment heroku&gs_lcp=CgZwc3ktYWIQAzoECCMQJzoGCAAQFhAeOgIIADoFCCEQoAE6BAghEBU6BwghEAoQoAE6CAghEBYQHRAeUPrSB1iVmQhggJsIaABwAHgAgAHjAYgBmSOSAQQyLTIxmAEAoAEBqgEHZ3dzLXdpeg&sclient=psy-ab&ved=0ahUKEwi7xfyI2o_qAhUSlxQKHZMYAv0Q4dUDCAw&uact=5"
-
