@@ -37,7 +37,10 @@ def Graph_data():
     URL = request.args.get("url")
 
     try:
-        requested = requests.get(URL,timeout=10)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
+        }
+        requested = requests.get(URL, headers=headers, timeout=10)
         if requested.status_code != 200:
             return jsonify(error="URL failed to load")
 
