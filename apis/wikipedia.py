@@ -5,6 +5,15 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 from constants import wikipedia_api_url
 import os
+from googlesearch import search
+
+
+def search_google(search_param: str) -> str:
+    response = search(search_param, stop=6)
+    
+    for url in response:
+        if 'wikipedia' in url:
+            return url
 
 
 def retrieve_short_description(data: str) -> str:
@@ -18,92 +27,73 @@ def retrieve_short_description(data: str) -> str:
 
 
 def get_short_description(title: str) -> Dict:
+    try:
+        api_data = {}
 
-    api_data = {}
+        PARAMS = {
+        "action": "query",
+        "titles": title,
+        "prop": "pageprops",
+        "format": "json"
+        }
 
-    PARAMS = {
-    "action": "query",
-    "titles": title,
-    "prop": "pageprops",
-    "format": "json"
-    }
+        DATA = requests.get(url=wikipedia_api_url, params=PARAMS).json()
+        api_data['short description'] = retrieve_short_description(DATA)
 
-    DATA = requests.get(url=wikipedia_api_url, params=PARAMS).json()
-    api_data['short description'] = retrieve_short_description(DATA)
-
-    return api_data
-
-
-def check_braces(val: str) -> str:
-
-    if val.count('(') != val.count(')'):
-        val = val.replace('(', '')
-        val = val.replace(')', '')
+        return api_data
     
-    return val
+    except Exception as e:
+        return {'message': 'error'}
 
 
-def clean(val: str) -> str:
+def find_value(row):
+    value = row.find('td')
+    if value:
+        return value.text
+    return ''
+
+def clean_value(value):
+    value = value.replace('\xa0', ' ')
+    value = value.split('\n')
     
-    val = val.strip()
-    val = val.strip('.')
-    val = val.lstrip(')')
-    val = val.rstrip('(')
-    val = val.strip()
-    val = val.strip('.')
-    return val
+    while '' in value:
+        value.remove('')
+    
+    if len(value) == 1:
+        return value[0]
 
-
-def get_box_data(item):
-
-    item = str(item)
-    ans = []
-    item = item.replace('</a>', '')
-
-    while item != '':
-        try:
-            start = item.index('>')
-            stop = item.index('<')
-
-            if stop-start > 1:
-                val = item[start+1:stop]
-                val = check_braces(val)
-                val = clean(val)
-                
-                if '\xa0' in val:
-                    val = val.replace('\xa0', ' ')
-                
-                if ('[' in val and ']' in val):
-                    val = ''
-                
-                if val != '':
-                    ans.append(val)
-                
-            item = item[stop+1:]
-
-        except Exception as e:
-            break
-
-    return ans
+    return value
+    
+def find_key(row):
+    key = row.find('th')
+    if key:
+        return key.text
+    return ''
 
 
 def get_short_details(url: str) -> Dict:
-
     request_object = requests.get(url).text
-
+    
     API_data = {}
     parse_only = SoupStrainer("tbody")
-
-    head_content = BeautifulSoup(
+    
+    boxes = BeautifulSoup(
         request_object, "lxml", parse_only=parse_only
-        ).find("tbody")
+        ).findAll("tbody")[:3]
 
-    for i in head_content:
-        processed = get_box_data(i)
+    data = []
 
-        if len(processed) > 1:
-            API_data[processed[0]] = processed[1:]
+    for row in boxes:
+        data = data + row.find_all("tr")
 
+    for row in data:
+        key = find_key(row)
+        value = find_value(row)
+        
+        if key and value:
+            value = clean_value(value)
+            API_data[key] = value
+    
     return API_data
 
 
@@ -118,10 +108,12 @@ def get_title(url: str) -> str:
 def fetch_wikidata(title: str) -> Dict:
 
     api_data = {}
-
     wikipedia = MediaWiki()
-    
-    page_data = wikipedia.page(title)
+
+    try:
+        page_data = wikipedia.page(title)
+    except Exception as e:
+        return {'message': 'error'}
 
     pool = ThreadPoolExecutor(max_workers=6)
 
@@ -153,8 +145,8 @@ def fetch_wikipedia(url: str) -> Dict:
     api_data_short_data =  pool.submit(get_short_description,title)
     api_data_short_details = pool.submit(get_short_details,url)
 
-    api_data.update(api_data_wiki.result())
-    api_data.update(api_data_short_data.result())
-    api_data.update(api_data_short_details.result())
+    api_data['wikidata API'] = api_data_wiki.result()
+    api_data['short description'] = api_data_short_data.result()
+    api_data['box details'] = api_data_short_details.result()
 
     return api_data
