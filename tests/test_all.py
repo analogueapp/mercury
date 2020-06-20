@@ -85,7 +85,7 @@ def test_getrich_netflix_series():
     enriched_data = enrich_test(URL)
     assert image1 is not None
     assert get_data == test_get_netflix_series_output
-    assert enriched_data == test_enrich_netflix_series_output
+    assert enriched_data['title_details']['RESULT']['nfinfo']['title'] == test_enrich_netflix_series_output
 
 def test_getrich_netflix_movie():
     URL = 'https://www.netflix.com/title/80178943'
