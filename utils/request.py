@@ -35,4 +35,3 @@ def send_request(param_dict: dict):
     except Exception as e:
         logging.error(f"Error loading page: {e}")
         return {"error": "URL failed to load"}
-
