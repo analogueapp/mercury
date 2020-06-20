@@ -3,7 +3,8 @@ import requests
 import app
 from utils.tag_parsers import main_generic
 from utils.enrichment import enrich_test
-from tests.test_case_output import test_tag_parser_output, test_get_without_og_twitter_output, test_enrich_wikiart_artwork_output, test_enrich_imdb_tv_output, test_enrich_imdb_person_output, test_enrich_imdb_movie_output, test_enrich_goodreads_output, test_get_imdb_person_output, test_get_goodreads_output, test_get_wikiart_artwork_output, test_get_imdb_tv_output, test_get_imdb_movie_output, test_get_params_url_output
+from utils.request import handle_params
+from tests.test_case_output import test_get_handleparams_output, test_get_handleparams_sample, test_tag_parser_output, test_get_without_og_twitter_output, test_enrich_wikiart_artwork_output, test_enrich_imdb_tv_output, test_enrich_imdb_person_output, test_enrich_imdb_movie_output, test_enrich_goodreads_output, test_get_imdb_person_output, test_get_goodreads_output, test_get_wikiart_artwork_output, test_get_imdb_tv_output, test_get_imdb_movie_output, test_get_params_url_output
 
 
 def test_tag_parsers():
@@ -64,3 +65,6 @@ def test_getrich_wikiart_artwork():
     enriched_data = enrich_test(URL)
     assert get_data == test_get_wikiart_artwork_output
     assert enriched_data == test_enrich_wikiart_artwork_output
+
+def test_get_handle_params():
+    assert handle_params(test_get_handleparams_sample) == test_get_handleparams_output

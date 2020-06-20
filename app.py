@@ -12,6 +12,7 @@ load_dotenv()
 
 from utils.tag_parsers import main_generic
 from utils.enrichment import enrich_test
+from utils.request import send_request, handle_params
 
 sentry_key = os.getenv("SENTRY_KEY")
 sentry_org = os.getenv("SENTRY_ORG")
@@ -25,7 +26,6 @@ sentry_sdk.init(
 
 app = Flask(__name__)
 
-
 @app.route("/")
 def welcome():
     return "Data Enrichment API"
@@ -34,21 +34,14 @@ def welcome():
 @app.route("/get")
 def Graph_data():
 
-    URL = request.args.get("url")
+    all_params = dict(request.args)
 
-    try:
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
-        }
-        requested = requests.get(URL, headers=headers, timeout=10)
-        if requested.status_code != 200:
-            return jsonify(error="URL failed to load")
+    request_object = send_request(all_params)
 
-    except Exception as e:
-        logging.error(f"Error loading page: {e}")
-        return jsonify(error="URL failed to load")
+    if isinstance(request_object, dict):
+        return jsonify(request_object)
 
-    get_data = main_generic(requested.text, URL)
+    get_data = main_generic(request_object, handle_params(all_params))
 
     return jsonify(get_data)
 
