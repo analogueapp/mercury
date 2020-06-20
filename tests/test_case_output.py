@@ -240,3 +240,17 @@ test_enrich_wikiart_artwork_output = {
     "paginationToken": "mYYKCPvUlMCe%2bm%2bFr5oqhRUwpA2NgYOK%2fqurC%2bhv3IPFO0G5x7nxRaZ3JcZqONEG2ICeCVS8n78enlsBEi8VqA%3d%3d",
     "hasMore": False,
 }
+
+
+test_get_handleparams_sample = {
+    "url": "https://www.google.com/search?sxsrf=ALeKk008Cq1wh8s7ndSr8aRtsSUp9zw1hg:1592632411112",
+    "ei": "W6TtXvurBpKuUpOxiOgP",
+    "q": "flask travis continuous deployment heroku",
+    "oq": "flask travis continuous deployment heroku",
+    "gs_lcp": "CgZwc3ktYWIQAzoECCMQJzoGCAAQFhAeOgIIADoFCCEQoAE6BAghEBU6BwghEAoQoAE6CAghEBYQHRAeUPrSB1iVmQhggJsIaABwAHgAgAHjAYgBmSOSAQQyLTIxmAEAoAEBqgEHZ3dzLXdpeg",
+    "sclient": "psy-ab",
+    "ved": "0ahUKEwi7xfyI2o_qAhUSlxQKHZMYAv0Q4dUDCAw",
+    "uact": "5",
+}
+
+test_get_handleparams_output = "https://www.google.com/search?sxsrf=ALeKk008Cq1wh8s7ndSr8aRtsSUp9zw1hg:1592632411112&ei=W6TtXvurBpKuUpOxiOgP&q=flask travis continuous deployment heroku&oq=flask travis continuous deployment heroku&gs_lcp=CgZwc3ktYWIQAzoECCMQJzoGCAAQFhAeOgIIADoFCCEQoAE6BAghEBU6BwghEAoQoAE6CAghEBYQHRAeUPrSB1iVmQhggJsIaABwAHgAgAHjAYgBmSOSAQQyLTIxmAEAoAEBqgEHZ3dzLXdpeg&sclient=psy-ab&ved=0ahUKEwi7xfyI2o_qAhUSlxQKHZMYAv0Q4dUDCAw&uact=5"
