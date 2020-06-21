@@ -4,7 +4,7 @@ import app
 from utils.tag_parsers import main_generic
 from utils.enrichment import enrich_test
 from utils.request import handle_params
-from tests.test_case_output import test_get_handleparams_output, test_get_handleparams_sample, test_tag_parser_output, test_get_without_og_twitter_output, test_enrich_wikiart_artwork_output, test_enrich_imdb_tv_output, test_enrich_imdb_person_output, test_enrich_imdb_movie_output, test_enrich_goodreads_output, test_get_imdb_person_output, test_get_goodreads_output, test_get_wikiart_artwork_output, test_get_imdb_tv_output, test_get_imdb_movie_output, test_get_params_url_output
+from tests.test_case_output import test_get_handleparams_output, test_get_handleparams_sample, test_tag_parser_output, test_get_without_og_twitter_output, test_enrich_wikiart_artwork_output, test_enrich_imdb_tv_output, test_enrich_imdb_person_output, test_enrich_imdb_movie_output, test_enrich_goodreads_output, test_get_imdb_person_output, test_get_goodreads_output, test_get_wikiart_artwork_output, test_get_imdb_tv_output, test_get_imdb_movie_output, test_get_params_url_output, test_enrich_spotify_album_output, test_get_spotify_album_output, test_get_netflix_series_output, test_enrich_netflix_series_output, test_get_netflix_movie_output, test_enrich_netflix_movie_output
 
 
 def test_tag_parsers():
@@ -68,3 +68,31 @@ def test_getrich_wikiart_artwork():
 
 def test_get_handle_params():
     assert handle_params(test_get_handleparams_sample) == test_get_handleparams_output
+
+def test_getrich_spotify_album():
+    URL = 'https://open.spotify.com/album/6yIEe1y08bqC5LFEctRdTf'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    enriched_data = enrich_test(URL)
+    assert enriched_data == test_enrich_spotify_album_output
+    assert get_data == test_get_spotify_album_output
+
+def test_getrich_netflix_series():
+    URL = 'https://www.netflix.com/title/70283264'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    image1 = get_data.pop('image', None)
+    enriched_data = enrich_test(URL)
+    assert image1 is not None
+    assert get_data == test_get_netflix_series_output
+    assert enriched_data['title_details']['RESULT']['nfinfo']['title'] == test_enrich_netflix_series_output
+
+def test_getrich_netflix_movie():
+    URL = 'https://www.netflix.com/title/80178943'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    image1 = get_data.pop('image', None)
+    enriched_data = enrich_test(URL)
+    assert image1 is not None
+    assert get_data == test_get_netflix_movie_output
+    assert enriched_data['title_details']['RESULT']['nfinfo']['title'] == test_enrich_netflix_movie_output

@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup, SoupStrainer
 from typing import Dict
-from apis.wikipedia import get_short_details
+from apis.wikipedia import get_short_details, search_google
 from constants import goodreads_api_url , wikipedia_url
 import os
 
@@ -12,9 +12,10 @@ def parse_data_from_wiki(url: str) -> Dict:
 
 
 def parse_wiki_url(title: str) -> str:
-
-    title = title.replace(" ", "_")
-    return wikipedia_url+title
+    
+    title = title + ' book wikipedia'
+    url = search_google(title)
+    return url
 
 
 def title_check(title: str) -> str:

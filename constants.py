@@ -18,4 +18,3 @@ wikipedia_url = "https://en.wikipedia.org/wiki/"
 mercury_snap_url = 'http://mercury-snap.herokuapp.com/snap?url='
 
 netflix_url = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi"
-netflix_query = {'t': None , 'q': None}
