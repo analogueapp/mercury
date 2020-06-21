@@ -10,13 +10,11 @@ rapidapi_key = os.getenv("RAPID_API_KEY")
 def parse_netflix_id(url: str) -> str:
     
     netflix_id = ''
-    
     for i in range(len(url)-7):
-    
         if url[i:i+8].isnumeric():
             netflix_id = url[i:i+8]
             break
-    
+
     return netflix_id
 
 
@@ -35,7 +33,6 @@ def get_title_details(netflix_id: str) -> Dict:
         response = requests.request(
             "GET", netflix_url, headers=headers, params=netflix_query
             ).json()
-    
     except Exception as e:
         return {}
 
@@ -47,7 +44,6 @@ def get_images(netflix_id: str) -> Dict:
     netflix_query = {
         't': 'images',
         'q': netflix_id}
-    
     headers = {
         'x-rapidapi-host': rapidapi_host,
         'x-rapidapi-key': rapidapi_key
@@ -57,7 +53,6 @@ def get_images(netflix_id: str) -> Dict:
         response = requests.request(
             "GET", netflix_url, headers=headers, params=netflix_query
             ).json()
-
     except Exception as e:
         return {}
 
@@ -75,5 +70,5 @@ def fetch_netflix(url: str) -> Dict:
     
     api_data['title_details'] = title_details.result()
     api_data['images'] = images.result()
-
+    
     return api_data
