@@ -6,6 +6,16 @@ from concurrent.futures import ThreadPoolExecutor
 from constants import wikipedia_api_url
 import os
 from googlesearch import search
+from enum import Enum
+
+
+class WikiUrlTitle(Enum):
+    movie = 1
+    tv = 2
+    person = 3
+    artist = 4
+    show = 5
+    track = 6
 
 
 def search_google(search_param: str) -> str:
@@ -43,14 +53,14 @@ def get_short_description(title: str) -> Dict:
         return api_data
     
     except Exception as e:
-        return {'message': 'error'}
+        return {'message': '[wikipedia] error getting short description'}
 
 
 def find_value(row):
     value = row.find('td')
     if value:
         return value.text
-    return ''
+    return None
 
 def clean_value(value):
     value = value.replace('\xa0', ' ')
@@ -68,7 +78,7 @@ def find_key(row):
     key = row.find('th')
     if key:
         return key.text
-    return ''
+    return None
 
 
 def get_short_details(url: str) -> Dict:
@@ -113,7 +123,7 @@ def fetch_wikidata(title: str) -> Dict:
     try:
         page_data = wikipedia.page(title)
     except Exception as e:
-        return {'message': 'error'}
+        return {'message': '[wikipedia] error getting wikidata'}
 
     pool = ThreadPoolExecutor(max_workers=6)
 
