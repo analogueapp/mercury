@@ -4,25 +4,26 @@ from concurrent.futures import ThreadPoolExecutor
 from utils.enrichment import get_url
 from typing import Dict
 import logging
-from constants import api_imgbb_url , fullUrlsExceptions , mercury_snap_url
+from constants import api_imgbb_url, fullUrlsExceptions, mercury_snap_url
 import os
 
-imgbb_key = os.getenv('IMGBB_KEY')
+imgbb_key = os.getenv("IMGBB_KEY")
+
 
 def url_remove_params(url):
-    if '?' in url:
-        return url.split('?')[0]
+    if "?" in url:
+        return url.split("?")[0]
     return url
 
+
 def image_url_check(image_url, URL):
-    if image_url == 'No Image available':
+    if image_url == "No Image available":
         return image_url
-    elif len(image_url) > 8:
-        if 'https://' in image_url or 'http://' in image_url:
-            return image_url
-        return f"https://{URL}/{image_url}"
+    if "https://" in image_url or "http://" in image_url:
+        return image_url
     return f"https://{URL}/{image_url}"
- 
+
+
 # calling screenshot API and returning url
 def mercury_snap(url: str) -> str:
     try:
@@ -89,7 +90,7 @@ def open_graph(request_object) -> dict:
                 get_data["url"] = meta["content"]
 
             elif meta["property"][3:] == "image":
-                get_data["image"] = meta["content"].strip('/')
+                get_data["image"] = meta["content"].strip("/")
 
             elif meta["property"][3:] == "type":
 
@@ -130,7 +131,7 @@ def twitter_tags(request_object):
     ).find_all("meta")
 
     for meta in head_content:
-        
+
         if "twitter:" in str(meta) and "property" in meta.attrs.keys():
 
             if meta["property"][9:] == "title":
@@ -140,7 +141,7 @@ def twitter_tags(request_object):
                 get_data["description"] = meta["content"]
 
             elif meta["property"][3:] == "image":
-                get_data["image"] = meta["content"].strip('/')
+                get_data["image"] = meta["content"].strip("/")
 
         elif "twitter:" in str(meta) and "name" in meta.attrs.keys():
 
@@ -151,7 +152,7 @@ def twitter_tags(request_object):
                 get_data["description"] = meta["content"]
 
             elif meta["name"][8:] == "image":
-                get_data["image"] = meta["content"].strip('/')
+                get_data["image"] = meta["content"].strip("/")
 
     return get_data
 
@@ -168,7 +169,7 @@ def fallback(tupl):
         "description": None,
     }
 
-    parse_only = SoupStrainer(["title", "p","link"])
+    parse_only = SoupStrainer(["title", "p", "link"])
     content = BeautifulSoup(request_object, "lxml", parse_only=parse_only)
 
     try:
@@ -192,13 +193,13 @@ def fallback(tupl):
         get_data["description"] = "No description available"
 
     try:
-        links_tags = content.find_all('link')
+        links_tags = content.find_all("link")
         for link in links_tags:
-            if link['rel'] == 'canonical':
-                get_data['url'] = link['href']
+            if link["rel"] == "canonical":
+                get_data["url"] = link["href"]
     except Exception as e:
         logging.error(e)
-        get_data['url'] = url
+        get_data["url"] = url
 
     get_data["form"] = "text"
     get_data["medium"] = "link"
@@ -223,7 +224,6 @@ def main_generic(request_object, URL) -> dict:
     get_data_og = pool.submit(open_graph, request_object)
     get_data_twitter = pool.submit(twitter_tags, request_object)
     get_data_fallback = pool.submit(fallback, (request_object, URL))
-    
 
     get_data_og = get_data_og.result()
     get_data_twitter = get_data_twitter.result()
@@ -248,14 +248,15 @@ def main_generic(request_object, URL) -> dict:
             get_data[main_keys] = get_data_og[main_keys]
 
     # checking image url
-    get_data['image'] = image_url_check(get_data['image'], get_url(URL))
+    get_data["image"] = image_url_check(get_data["image"], get_url(URL))
 
     # if no url is found from meta add the one user added
-    if get_data['url'] is None:
-        get_data['url'] = URL
+    if get_data["url"] is None:
+        get_data["url"] = URL
 
-  #  checking for full URLs exception e.g youtube.com and removing the parameters if not
+    #  checking for full URLs exception e.g youtube.com and removing the parameters if not
     if get_url(URL) not in fullUrlsExceptions:
-        get_data['url'] = url_remove_params(get_data['url'])
+        get_data["url"] = url_remove_params(get_data["url"])
 
     return get_data
+
