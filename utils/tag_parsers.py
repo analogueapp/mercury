@@ -259,4 +259,3 @@ def main_generic(request_object, URL) -> dict:
         get_data["url"] = url_remove_params(get_data["url"])
 
     return get_data
-
