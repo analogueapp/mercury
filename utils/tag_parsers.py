@@ -13,6 +13,17 @@ def url_remove_params(url):
     if '?' in url:
         return url.split('?')[0]
     return url
+
+def image_url_check(image_url, URL):
+    if image_url == 'No Image available':
+        return image_url
+    elif len(image_url) > 8:
+        if 'https://' in image_url or 'http://' in image_url:
+            return image_url
+        else:
+            return f"https://{URL}/{image_url}"
+    else:
+        return f"https://{URL}/{image_url}"
  
 # calling screenshot API and returning url
 def mercury_snap(url: str) -> str:
@@ -80,7 +91,7 @@ def open_graph(request_object) -> dict:
                 get_data["url"] = meta["content"]
 
             elif meta["property"][3:] == "image":
-                get_data["image"] = meta["content"]
+                get_data["image"] = meta["content"].strip('/')
 
             elif meta["property"][3:] == "type":
 
@@ -131,7 +142,7 @@ def twitter_tags(request_object):
                 get_data["description"] = meta["content"]
 
             elif meta["property"][3:] == "image":
-                get_data["image"] = meta["content"]
+                get_data["image"] = meta["content"].strip('/')
 
         elif "twitter:" in str(meta) and "name" in meta.attrs.keys():
 
@@ -142,7 +153,7 @@ def twitter_tags(request_object):
                 get_data["description"] = meta["content"]
 
             elif meta["name"][8:] == "image":
-                get_data["image"] = meta["content"]
+                get_data["image"] = meta["content"].strip('/')
 
     return get_data
 
@@ -208,7 +219,7 @@ def main_generic(request_object, URL) -> dict:
         "description": None,
     }
 
-    pool = ThreadPoolExecutor(max_workers=3)
+    pool = ThreadPoolExecutor(max_workers=4)
 
     get_screenshot = pool.submit(mercury_snap, URL)
     get_data_og = pool.submit(open_graph, request_object)
@@ -238,13 +249,15 @@ def main_generic(request_object, URL) -> dict:
         else:
             get_data[main_keys] = get_data_og[main_keys]
 
+    # checking image url
+    get_data['image'] = image_url_check(get_data['image'], get_url(URL))
+
     # if no url is found from meta add the one user added
     if get_data['url'] is None:
         get_data['url'] = URL
 
   #  checking for full URLs exception e.g youtube.com and removing the parameters if not
     if get_url(URL) not in fullUrlsExceptions:
-        print(get_data['url'])
         get_data['url'] = url_remove_params(get_data['url'])
 
     return get_data
