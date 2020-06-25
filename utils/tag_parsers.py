@@ -14,15 +14,17 @@ def url_remove_params(url):
         return url.split('?')[0]
     return url
 
+
 def image_url_check(image_url, URL):
-    if image_url == 'No Image available':
+    if image_url == "No Image available":
         return image_url
     elif len(image_url) > 8:
-        if 'https://' in image_url or 'http://' in image_url:
+        if "https://" in image_url or "http://" in image_url:
             return image_url
         return f"https://{URL}/{image_url}"
     return f"https://{URL}/{image_url}"
  
+    
 # calling screenshot API and returning url
 def mercury_snap(url: str) -> str:
     try:
