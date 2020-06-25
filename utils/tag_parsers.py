@@ -20,10 +20,8 @@ def image_url_check(image_url, URL):
     elif len(image_url) > 8:
         if 'https://' in image_url or 'http://' in image_url:
             return image_url
-        else:
-            return f"https://{URL}/{image_url}"
-    else:
         return f"https://{URL}/{image_url}"
+    return f"https://{URL}/{image_url}"
  
 # calling screenshot API and returning url
 def mercury_snap(url: str) -> str:
