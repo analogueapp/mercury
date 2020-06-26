@@ -4,7 +4,7 @@ import app
 from utils.tag_parsers import main_generic
 from utils.enrichment import enrich_test
 from utils.request import handle_params
-from tests.test_case_output import test_get_handleparams_output, test_get_handleparams_sample, test_tag_parser_output, test_get_without_og_twitter_output, test_enrich_wikiart_artwork_output, test_enrich_imdb_tv_output, test_enrich_imdb_person_output, test_enrich_imdb_movie_output, test_enrich_goodreads_output, test_get_imdb_person_output, test_get_goodreads_output, test_get_wikiart_artwork_output, test_get_imdb_tv_output, test_get_imdb_movie_output, test_get_params_url_output, test_enrich_spotify_album_output, test_get_spotify_album_output, test_get_netflix_series_output, test_enrich_netflix_series_output, test_get_netflix_movie_output, test_enrich_netflix_movie_output
+from tests.test_case_output import test_get_handleparams_output, test_get_handleparams_sample, test_tag_parser_output, test_get_without_og_twitter_output, test_enrich_wikiart_artwork_output, test_enrich_imdb_tv_output, test_enrich_imdb_person_output, test_enrich_imdb_movie_output, test_enrich_goodreads_output, test_get_imdb_person_output, test_get_goodreads_output, test_get_wikiart_artwork_output, test_get_imdb_tv_output, test_get_imdb_movie_output, test_get_params_url_output, test_enrich_spotify_album_output, test_get_spotify_album_output, test_get_netflix_series_output, test_enrich_netflix_series_output, test_get_netflix_movie_output, test_enrich_netflix_movie_output, test_get_spotify_show_output, test_enrich_spotify_show_output, test_get_spotify_artist_output, test_enrich_spotify_artist_output, test_enrich_spotify_track_output, test_get_spotify_track_output, test_enrich_spotify_playlist_output, test_get_spotify_playlist_output, test_enrich_spotify_episode_output, test_get_spotify_episode_output
 
 
 def test_tag_parsers():
@@ -96,3 +96,84 @@ def test_getrich_netflix_movie():
     assert image1 is not None
     assert get_data == test_get_netflix_movie_output
     assert enriched_data['title_details']['RESULT']['nfinfo']['title'] == test_enrich_netflix_movie_output
+
+def test_getrich_spotify_show():
+    URL = 'https://open.spotify.com/show/25PdDOYwfXDFvZ4pI1JWDh?si=NAVuU67kQWujO9Z33zxaZA'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    enriched_data = enrich_test(URL)
+    name = enriched_data['show_details']['name']
+    media = enriched_data['show_details']['media_type']
+    publisher = enriched_data['show_details']['publisher']
+    content_type = enriched_data['show_details']['type']
+    enriched_data.clear()
+    enriched_data['name'] = name
+    enriched_data['media_type'] = media
+    enriched_data['publisher'] = publisher
+    enriched_data['type'] = content_type
+    assert enriched_data == test_enrich_spotify_show_output
+    assert get_data == test_get_spotify_show_output
+    
+def test_getrich_spotify_artist():
+    URL = 'https://open.spotify.com/artist/5WUlDfRSoLAfcVSX1WnrxN?si=43KKR8J6TpWWxf-LiZ463Q'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    enriched_data = enrich_test(URL)
+    artist_id = enriched_data['artist_details']['id']
+    name = enriched_data['artist_details']['name']
+    content_type = enriched_data['artist_details']['type']
+    enriched_data.clear()
+    enriched_data['name'] = name
+    enriched_data['id'] = artist_id
+    enriched_data['type'] = content_type
+    assert enriched_data == test_enrich_spotify_artist_output
+    assert get_data == test_get_spotify_artist_output
+
+def test_getrich_spotify_track():
+    URL = 'https://open.spotify.com/track/1yvMUkIOTeUNtNWlWRgANS?si=BCqLpTyvSZK6lBYZQZcqPQ'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    enriched_data = enrich_test(URL)
+    track_id = enriched_data['track_details']['id']
+    name = enriched_data['track_details']['name']
+    content_type = enriched_data['track_details']['type']
+    enriched_data.clear()
+    enriched_data["id"] = track_id
+    enriched_data["type"] = content_type
+    enriched_data["name"] = name
+    assert enriched_data == test_enrich_spotify_track_output
+    assert get_data == test_get_spotify_track_output
+
+def test_getrich_spotify_playlist():
+    URL = 'https://open.spotify.com/playlist/37i9dQZF1DXcF6B6QPhFDv'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    enriched_data = enrich_test(URL)
+    name = enriched_data['playlist_details']['name']
+    content_type = enriched_data['playlist_details']['type']
+    description = enriched_data['playlist_details']['description']
+    playlist_id = enriched_data['playlist_details']['id']
+    enriched_data.clear()
+    enriched_data["id"] = playlist_id
+    enriched_data["type"] = content_type
+    enriched_data["name"] = name
+    enriched_data["description"] = description
+    assert enriched_data == test_enrich_spotify_playlist_output
+    assert get_data == test_get_spotify_playlist_output
+
+def test_getrich_spotify_episode():
+    URL = 'https://open.spotify.com/episode/467Uq5ZG2VJtaE6EZwnWNO'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    enriched_data = enrich_test(URL)
+    name = enriched_data['episode_details']['name']
+    content_type = enriched_data['episode_details']['type']
+    description = enriched_data['episode_details']['description']
+    playlist_id = enriched_data['episode_details']['id']
+    enriched_data.clear()
+    enriched_data["id"] = playlist_id
+    enriched_data["type"] = content_type
+    enriched_data["name"] = name
+    enriched_data["description"] = description
+    assert enriched_data == test_enrich_spotify_episode_output
+    assert get_data == test_get_spotify_episode_output
