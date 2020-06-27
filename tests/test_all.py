@@ -69,14 +69,6 @@ def test_getrich_wikiart_artwork():
 def test_get_handle_params():
     assert handle_params(test_get_handleparams_sample) == test_get_handleparams_output
 
-def test_getrich_spotify_album():
-    URL = 'https://open.spotify.com/album/6yIEe1y08bqC5LFEctRdTf'
-    requested = requests.get(URL).text
-    get_data = main_generic(requested, URL)
-    enriched_data = enrich_test(URL)
-    assert enriched_data == test_enrich_spotify_album_output
-    assert get_data == test_get_spotify_album_output
-
 def test_getrich_netflix_series():
     URL = 'https://www.netflix.com/title/70283264'
     requested = requests.get(URL).text
@@ -97,8 +89,16 @@ def test_getrich_netflix_movie():
     assert get_data == test_get_netflix_movie_output
     assert enriched_data['title_details']['RESULT']['nfinfo']['title'] == test_enrich_netflix_movie_output
 
+def test_getrich_spotify_album():
+    URL = 'https://open.spotify.com/album/6yIEe1y08bqC5LFEctRdTf'
+    requested = requests.get(URL).text
+    get_data = main_generic(requested, URL)
+    enriched_data = enrich_test(URL)
+    assert enriched_data == test_enrich_spotify_album_output
+    assert get_data == test_get_spotify_album_output
+
 def test_getrich_spotify_show():
-    URL = 'https://open.spotify.com/show/25PdDOYwfXDFvZ4pI1JWDh?si=NAVuU67kQWujO9Z33zxaZA'
+    URL = 'https://open.spotify.com/show/25PdDOYwfXDFvZ4pI1JWDh'
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
     enriched_data = enrich_test(URL)
@@ -115,7 +115,7 @@ def test_getrich_spotify_show():
     assert get_data == test_get_spotify_show_output
     
 def test_getrich_spotify_artist():
-    URL = 'https://open.spotify.com/artist/5WUlDfRSoLAfcVSX1WnrxN?si=43KKR8J6TpWWxf-LiZ463Q'
+    URL = 'https://open.spotify.com/artist/5WUlDfRSoLAfcVSX1WnrxN'
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
     enriched_data = enrich_test(URL)
@@ -130,7 +130,7 @@ def test_getrich_spotify_artist():
     assert get_data == test_get_spotify_artist_output
 
 def test_getrich_spotify_track():
-    URL = 'https://open.spotify.com/track/1yvMUkIOTeUNtNWlWRgANS?si=BCqLpTyvSZK6lBYZQZcqPQ'
+    URL = 'https://open.spotify.com/track/1yvMUkIOTeUNtNWlWRgANS'
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
     enriched_data = enrich_test(URL)
