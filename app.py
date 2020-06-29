@@ -19,11 +19,11 @@ sentry_key = os.getenv("SENTRY_KEY")
 sentry_org = os.getenv("SENTRY_ORG")
 sentry_project = os.getenv("SENTRY_PROJECT")
 
-# initializing sentry
-# sentry_sdk.init(
-#     dsn=f"https://{sentry_key}@{sentry_org}.ingest.sentry.io/{sentry_project}",
-#     integrations=[FlaskIntegration()],
-# )
+initializing sentry
+sentry_sdk.init(
+    dsn=f"https://{sentry_key}@{sentry_org}.ingest.sentry.io/{sentry_project}",
+    integrations=[FlaskIntegration()],
+)
 
 app = Flask(__name__)
 
