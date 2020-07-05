@@ -177,20 +177,18 @@ def fallback(tupl):
         if title not in ("", " "):
             get_data["title"] = title
         else:
-            get_data["title"] = "No title available"
+            get_data["title"] = url
     except Exception as e:
-        logging.error(e)
-        get_data["title"] = "No title available"
+        get_data["title"] = url
 
     try:
         description = content.find("p").get_text()
         if description not in ("", " "):
             get_data["description"] = description
         else:
-            get_data["description"] = "No description available"
+            get_data["description"] = ""
     except Exception as e:
-        logging.error(e)
-        get_data["description"] = "No description available"
+        get_data["description"] = ""
 
     try:
         links_tags = content.find_all("link")
@@ -198,7 +196,6 @@ def fallback(tupl):
             if link["rel"] == "canonical":
                 get_data["url"] = link["href"]
     except Exception as e:
-        logging.error(e)
         get_data["url"] = url
 
     get_data["form"] = "text"
