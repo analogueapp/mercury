@@ -13,7 +13,27 @@ GET https://analogue-mercury.herokuapp.com/get?url=https://www.youtube.com/watch
 
 ### Running locally
 
-Install Python 3 and follow the [Flask installation guide](https://flask.palletsprojects.com/en/1.1.x/installation/).
+Install Python3 ([setup guide](https://docs.python-guide.org/starting/install3/osx/)) and follow the [Flask installation guide](https://flask.palletsprojects.com/en/1.1.x/installation/).
+
+1) Create `virtualenv`
+```bash
+python3 -m venv mercury
+```
+
+2) Activate `virtualenv`
+```bash
+source mercury/bin/activate
+```
+
+3) Install requirements
+```bash
+pip install -r requirements.txt
+```
+
+4) Run flask
+```bash
+flask run
+```
 
 ## Project Scope
 From a UX perspective, the idea solution is to get back data as fast as possible when someone adds a URL. So it would spit back the simple data first (url, image, description, medium type), and if it's new and needs to be enriched, we enrich it in the background by hitting the appropriated APIs.
