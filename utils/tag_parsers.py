@@ -31,7 +31,7 @@ def mercury_snap(url: str) -> str:
         return hosted_url_json["url"]
     except Exception as e:
         logging.error(e)
-        return "No Image available"
+        return ""
 
 
 def medium_check(get_data, form_type) -> str:
