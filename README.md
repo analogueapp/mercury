@@ -30,9 +30,14 @@ source mercury/bin/activate
 pip install -r requirements.txt
 ```
 
-4) Run flask
+4) Add to `.env` locally to run in debugger mode
 ```bash
-flask run
+FLASK_ENV=development
+```
+
+5) Run `app.py` from the root to start Flask
+```
+python3 app.py
 ```
 
 ## Project Scope
