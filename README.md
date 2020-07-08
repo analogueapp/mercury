@@ -13,7 +13,32 @@ GET https://analogue-mercury.herokuapp.com/get?url=https://www.youtube.com/watch
 
 ### Running locally
 
-Install Python 3 and follow the [Flask installation guide](https://flask.palletsprojects.com/en/1.1.x/installation/).
+Install Python3 ([setup guide](https://docs.python-guide.org/starting/install3/osx/)) and follow the [Flask installation guide](https://flask.palletsprojects.com/en/1.1.x/installation/).
+
+1) Create `virtualenv`
+```bash
+python3 -m venv mercury
+```
+
+2) Activate `virtualenv`
+```bash
+source mercury/bin/activate
+```
+
+3) Install requirements
+```bash
+pip install -r requirements.txt
+```
+
+4) Add to `.env` locally to run in debugger mode
+```bash
+FLASK_ENV=development
+```
+
+5) Run `app.py` from the root to start Flask
+```
+python3 app.py
+```
 
 ## Project Scope
 From a UX perspective, the idea solution is to get back data as fast as possible when someone adds a URL. So it would spit back the simple data first (url, image, description, medium type), and if it's new and needs to be enriched, we enrich it in the background by hitting the appropriated APIs.
@@ -67,37 +92,6 @@ JSON response:
 ```javascript
 TODO
 ```
-
-## Project Milestones
-
-### V1 Setup
-- [x] Setup initial code base
-- [x] Migrate to Analogue github org
-- [x] Set up initial APIs
-- [x] Deploy on Heroku
-- [x] Integrate [Sentry addon](https://elements.heroku.com/addons/sentry) for production errors
-- [x] Add todos and scope to README
-- [x] Add local setup to README
-
-### V2 Optimize
-- [x] Research if existing API wrappers exist in Python ([for example](https://github.com/mdzhang/goodreads-api-client-python))
-- [ ] Endpoint for a quick response
-- [ ] Build Analogue specific JSON response object
-- [ ] Using Streaming API/Fanner model to optimize speed and handle jobs in background
-- [ ] Error handling
-- [ ] URL normalization (should correctly handle/remove query params in the url string)
-- [ ] Handle other URLs from same URL domain
-- [ ] Secure solution for handling API keys using [dotenv](https://github.com/theskumar/python-dotenv)
-
-### V3 Support more sources
-- [ ] Amazon
-- [ ] Podcast and Music from Apple Music
-- [x] Artsy API
-- [ ] Wikiart API
-- [ ] Soundcloud
-
-### V4 Connnect
-TODO. We can plan through the integration with Rails app soon.
 
 ## Commit Guide
 Emojis are fun and easier to quickly scan, so we've adopted a system for commits inspired by [Emoji-Log](https://github.com/ahmadawais/Emoji-Log).
