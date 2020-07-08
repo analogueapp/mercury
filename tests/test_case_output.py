@@ -17,11 +17,10 @@ test_get_without_og_twitter_output = {
 }
 
 test_get_params_url_output = {
-    "title": "Flash Sale",
     "url": "https://www.creativelive.com/flash-sale",
     "medium": "link",
     "form": "text",
-    "image": "https://downloads.creativelive.com/social/Facebook_1600x1227.jpg",
+    "image": "https://mm.creativelive.com/fit/https%3A%2F%2Fagc.creativelive.com%2Fagc%2Fpages%2F20200708_All_Flash19for19.jpg/650",
     "description": "photo & video ",
 }
 
@@ -315,23 +314,20 @@ False, 'external_urls': {'spotify': 'https://open.spotify.com/track/0uGWI6gl1vKg
 }
 
 test_get_spotify_show_output = {
-    "description": "Listen to Lore on Spotify. Lore is a bi-weekly podcast (as well as a TV show and book series) about dark historical tales. Each episode explores the mysterious creatures, tragic events, and unusual places that fill the pages of history. Because sometimes the truth is more frightening than fiction.",
-    "form": "audio",
-    "image": "https://i.scdn.co/image/aab64c6b3d7503752fbece95f9a1b09c6dc0e32a",
-    "medium": "playlist",
-    "title": "Lore",
-    "url": "https://open.spotify.com/show/25PdDOYwfXDFvZ4pI1JWDh"
+    "form": "text",
+    "image": "https://i.scdn.co/image/44e5b855038aea05acc317b99fbe713171997ee7",
+    "medium": "link",
+    "url": "https://open.spotify.com/show/1JdkD0ZoZ52KjwdR0b1WoT"
 }
 
 test_enrich_spotify_show_output = {
-    "name": "Lore",
+    "name": "Linear Digressions",
     "media_type": "audio",
-    "publisher": "Aaron Mahnke and Grim & Mild",
+    "publisher": "Ben Jaffe and Katie Malone",
     "type": "show"
 }
 
 test_get_spotify_artist_output = {
-    "description": "No description available",
     "form": "audio",
     "image": "https://i.scdn.co/image/c21e1b447c8947493672e258f618bb34d031c139",
     "medium": "audio_link",
@@ -361,11 +357,10 @@ test_get_spotify_track_output = {
 }
 
 test_get_spotify_playlist_output = {
-    "description": "The newest single from grandson along with the top Rock songs you need to know!",
+    "description": "The newest single from Bring Me The Horizon along with the top Rock songs you need to know!",
     "form": "audio",
-    "image": "https://i.scdn.co/image/ab67706f000000029f27d0d0cc68b1d1d81c55a9",
+    "image": "https://i.scdn.co/image/ab67706f000000025271f4ee8ab4121365a8c08c",
     "medium": "playlist",
-    "title": "Rock This",
     "url": "https://open.spotify.com/playlist/37i9dQZF1DXcF6B6QPhFDv"
 }
 
@@ -373,14 +368,14 @@ test_enrich_spotify_playlist_output = {
     "name": "Rock This",
     "type": "playlist",
     "id": "37i9dQZF1DXcF6B6QPhFDv",
-    "description": "The newest single from grandson along with the top Rock songs you need to know!"
+    "description": "The newest single from Bring Me The Horizon along with the top Rock songs you need to know!"
 }
 
 test_get_spotify_episode_output = {
     "description": "Listen to this episode from Andrew Schulz's Flagrant 2 with Akaash Singh on Spotify. This week Andrew Schulz, Akaash SIngh, and AlexxMedia discuss episodes 9 & 10 of the ESPN docuseries, The Last Dance (Michael Jordan Doc). INDULGE!  Want an extra episode a week? Join the Flagrant Army www.Patreon.com/FLAGRANT2",
-    "form": "audio",
+    "form": "text",
     "image": "https://i.scdn.co/image/980355c2010a40f7c12d63d696d17ab501fe0a7b",
-    "medium": "song",
+    "medium": "link",
     "title": "The Last Dance: Episodes 9 & 10",
     "url": "https://open.spotify.com/episode/467Uq5ZG2VJtaE6EZwnWNO"
 }

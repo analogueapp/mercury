@@ -21,13 +21,14 @@ cssselect==1.1.0
 DateTime==4.3
 distlib==0.3.0
 filelock==3.0.12
-Flask==1.0.2
+Flask==1.1.2
 Flask-SocketIO==3.1.2
+Flask-Cors==3.0.8
 futures==3.1.1
 futures3==1.0.0
 get==2019.4.13
 gunicorn==20.0.4
-html5lib==1.0.1
+html5lib==1.1
 hyperlink==19.0.0
 idna==2.9
 incremental==17.5.0
@@ -66,7 +67,7 @@ selenium==3.141.0
 sentry-sdk==0.14.3
 six==1.14.0
 soupsieve==2.0
-spotipy==2.12.0
+spotipy==2.13.0
 tmdb3==0.7.2
 toml==0.10.0
 tqdm==4.46.0
