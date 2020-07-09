@@ -40,6 +40,9 @@ FLASK_ENV=development
 python3 app.py
 ```
 
+6) Copy paste [these keys](https://www.notion.so/Mercury-API-keys-2bcae4d6433d477d8c5cb89f732afcfe) into your `.env` file
+
+
 ## Project Scope
 From a UX perspective, the idea solution is to get back data as fast as possible when someone adds a URL. So it would spit back the simple data first (url, image, description, medium type), and if it's new and needs to be enriched, we enrich it in the background by hitting the appropriated APIs.
 
