@@ -17,11 +17,10 @@ test_get_without_og_twitter_output = {
 }
 
 test_get_params_url_output = {
-    "title": "Flash Sale",
     "url": "https://www.creativelive.com/flash-sale",
     "medium": "link",
     "form": "text",
-    "image": "https://downloads.creativelive.com/social/Facebook_1600x1227.jpg",
+    "image": "https://mm.creativelive.com/fit/https%3A%2F%2Fagc.creativelive.com%2Fagc%2Fpages%2F20200708_All_Flash19for19.jpg/650",
     "description": "photo & video ",
 }
 
@@ -313,3 +312,78 @@ test_enrich_spotify_album_output = {
 False, 'external_urls': {'spotify': 'https://open.spotify.com/track/0uGWI6gl1vKgb44oR9PtTM'}, 'href': 'https://api.spotify.com/v1/tracks/0uGWI6gl1vKgb44oR9PtTM', 'id': '0uGWI6gl1vKgb44oR9PtTM', 'is_local': False, 'name': "Let's Go (feat. Kenny B & Brace)", 'preview_url': 'https://p.scdn.co/mp3-preview/2f54a5cd76a0faaf1d3b6fba93187053765a03c4?cid=cc05b898faef4c89b0e9ad87e37b8158', 'track_number': 14, 'type': 'track', 'uri': 'spotify:track:0uGWI6gl1vKgb44oR9PtTM'}, 
 {'artists': [{'external_urls': {'spotify': 'https://open.spotify.com/artist/5quv5QEyL2XAloebaau69m'}, 'href': 'https://api.spotify.com/v1/artists/5quv5QEyL2XAloebaau69m', 'id': '5quv5QEyL2XAloebaau69m', 'name': 'Ali B', 'type': 'artist', 'uri': 'spotify:artist:5quv5QEyL2XAloebaau69m'}, {'external_urls': {'spotify': 'https://open.spotify.com/artist/0qZWRrQj38rwkxeRQ3HowZ'}, 'href': 'https://api.spotify.com/v1/artists/0qZWRrQj38rwkxeRQ3HowZ', 'id': '0qZWRrQj38rwkxeRQ3HowZ', 'name': 'Ruben Annink', 'type': 'artist', 'uri': 'spotify:artist:0qZWRrQj38rwkxeRQ3HowZ'}], 'available_markets': ['AD', 'AE', 'AR', 'AT', 'AU', 'BE', 'BG', 'BH', 'BO', 'BR', 'CA', 'CH', 'CL', 'CO', 'CR', 'CY', 'CZ', 'DE', 'DK', 'DO', 'DZ', 'EC', 'EE', 'EG', 'ES', 'FI', 'FR', 'GB', 'GR', 'GT', 'HK', 'HN', 'HU', 'ID', 'IE', 'IL', 'IN', 'IS', 'IT', 'JO', 'JP', 'KW', 'LB', 'LI', 'LT', 'LU', 'LV', 'MA', 'MC', 'MT', 'MX', 'MY', 'NI', 'NL', 'NO', 'NZ', 'OM', 'PA', 'PE', 'PH', 'PL', 'PS', 'PT', 'PY', 'QA', 'RO', 'SA', 'SE', 'SG', 'SK', 'SV', 'TH', 'TN', 'TR', 'TW', 'US', 'UY', 'VN', 'ZA'], 'disc_number': 1, 'duration_ms': 179163, 'explicit': False, 'external_urls': {'spotify': 'https://open.spotify.com/track/6TARDLpAVAL3pvvbYkFhq9'}, 'href': 'https://api.spotify.com/v1/tracks/6TARDLpAVAL3pvvbYkFhq9', 'id': '6TARDLpAVAL3pvvbYkFhq9', 'is_local': False, 'name': 'Terwijl Jullie Nog Bij Me Zijn (feat. Ruben Annink)', 'preview_url': 'https://p.scdn.co/mp3-preview/567f8de912708c7e0b87ba8392bef6c39333faa3?cid=cc05b898faef4c89b0e9ad87e37b8158', 'track_number': 15, 'type': 'track', 'uri': 'spotify:track:6TARDLpAVAL3pvvbYkFhq9'}], 'limit': 50, 'next': None, 'offset': 0, 'previous': None, 'total': 15}, 'type': 'album', 'uri': 'spotify:album:6yIEe1y08bqC5LFEctRdTf'}
 }
+
+test_get_spotify_show_output = {
+    "form": "text",
+    "image": "https://i.scdn.co/image/44e5b855038aea05acc317b99fbe713171997ee7",
+    "medium": "link",
+    "url": "https://open.spotify.com/show/1JdkD0ZoZ52KjwdR0b1WoT"
+}
+
+test_enrich_spotify_show_output = {
+    "name": "Linear Digressions",
+    "media_type": "audio",
+    "publisher": "Ben Jaffe and Katie Malone",
+    "type": "show"
+}
+
+test_get_spotify_artist_output = {
+    "form": "audio",
+    "image": "https://i.scdn.co/image/c21e1b447c8947493672e258f618bb34d031c139",
+    "medium": "audio_link",
+    "title": "Sia",
+    "url": "https://open.spotify.com/artist/5WUlDfRSoLAfcVSX1WnrxN"
+}
+
+test_enrich_spotify_artist_output = {
+    "id": "5WUlDfRSoLAfcVSX1WnrxN",
+    "name": "Sia",
+    "type": "artist"
+}
+
+test_enrich_spotify_track_output = {
+    "id": "1yvMUkIOTeUNtNWlWRgANS",
+    "name": "Unstoppable",
+    "type": "track"
+}
+
+test_get_spotify_track_output = {
+    "description": "Unstoppable, a song by Sia on Spotify",
+    "form": "audio",
+    "image": "https://i.scdn.co/image/ab67616d0000b273754b2fddebe7039fdb912837",
+    "medium": "song",
+    "title": "Unstoppable",
+    "url": "https://open.spotify.com/track/1yvMUkIOTeUNtNWlWRgANS"
+}
+
+test_get_spotify_playlist_output = {
+    "description": "The newest single from Bring Me The Horizon along with the top Rock songs you need to know!",
+    "form": "audio",
+    "image": "https://i.scdn.co/image/ab67706f000000025271f4ee8ab4121365a8c08c",
+    "medium": "playlist",
+    "url": "https://open.spotify.com/playlist/37i9dQZF1DXcF6B6QPhFDv"
+}
+
+test_enrich_spotify_playlist_output = {
+    "name": "Rock This",
+    "type": "playlist",
+    "id": "37i9dQZF1DXcF6B6QPhFDv",
+    "description": "The newest single from Bring Me The Horizon along with the top Rock songs you need to know!"
+}
+
+test_get_spotify_episode_output = {
+    "description": "Listen to this episode from Andrew Schulz's Flagrant 2 with Akaash Singh on Spotify. This week Andrew Schulz, Akaash SIngh, and AlexxMedia discuss episodes 9 & 10 of the ESPN docuseries, The Last Dance (Michael Jordan Doc). INDULGE!  Want an extra episode a week? Join the Flagrant Army www.Patreon.com/FLAGRANT2",
+    "form": "text",
+    "image": "https://i.scdn.co/image/980355c2010a40f7c12d63d696d17ab501fe0a7b",
+    "medium": "link",
+    "title": "The Last Dance: Episodes 9 & 10",
+    "url": "https://open.spotify.com/episode/467Uq5ZG2VJtaE6EZwnWNO"
+}
+
+test_enrich_spotify_episode_output = {
+    "type": "episode",
+    "description": "This week Andrew Schulz, Akaash SIngh, and AlexxMedia discuss episodes 9 & 10 of the ESPN docuseries, The Last Dance (Michael Jordan Doc). INDULGE!  Want an extra episode a week? Join the Flagrant Army www.Patreon.com/FLAGRANT2",
+    "name": "The Last Dance: Episodes 9 & 10",
+    "id": "467Uq5ZG2VJtaE6EZwnWNO"
+}
+
