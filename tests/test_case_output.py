@@ -357,9 +357,7 @@ test_get_spotify_track_output = {
 }
 
 test_get_spotify_playlist_output = {
-    "description": "The newest single from Bring Me The Horizon along with the top Rock songs you need to know!",
     "form": "audio",
-    "image": "https://i.scdn.co/image/ab67706f000000025271f4ee8ab4121365a8c08c",
     "medium": "playlist",
     "url": "https://open.spotify.com/playlist/37i9dQZF1DXcF6B6QPhFDv"
 }
@@ -367,8 +365,7 @@ test_get_spotify_playlist_output = {
 test_enrich_spotify_playlist_output = {
     "name": "Rock This",
     "type": "playlist",
-    "id": "37i9dQZF1DXcF6B6QPhFDv",
-    "description": "The newest single from Bring Me The Horizon along with the top Rock songs you need to know!"
+    "id": "37i9dQZF1DXcF6B6QPhFDv"
 }
 
 test_get_spotify_episode_output = {
