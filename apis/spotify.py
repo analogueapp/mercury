@@ -42,6 +42,7 @@ def spotify_get(url: str) -> Dict:
     api_data = {}
 
     spotify_id = url.split("/")[-1]
+    spotify_id = spotify_id.split('?')[0]
     spotify_type = url.split("/")[-2]
 
     uri = "spotify:%s:%s" % (spotify_type, spotify_id)
@@ -49,12 +50,11 @@ def spotify_get(url: str) -> Dict:
     if spotify_type == "artist": #wiki data added
 
         artist = spotify.artist(spotify_id)
-        artist_album = spotify.artist_albums(spotify_id, limit=5)
-        artist_top_tracks = spotify.artist_top_tracks(spotify_id)
-
+        artist_album = spotify.artist_albums(uri, album_type='album', limit= 5)
+        artist_top_tracks = spotify.artist_top_tracks(uri)
         api_data["artist_details"] = artist
         api_data["artist_albums"] = artist_album
-        api_data["top_tracks"] = artist_top_tracks
+        api_data["top_tracks"] = artist_top_tracks['tracks']
 
         wiki_url = parse_wiki_url(api_data['artist_details']['name'] , WikiUrlTitle.artist)
         api_data['wiki_data'] = parse_data_from_wiki(wiki_url)
