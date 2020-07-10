@@ -1,10 +1,11 @@
 from search.books import search_books, search_enrich_book
 from search.movies import movie_search, enrich_movie
 from search.music_podcasts import search_music, search_podcast
+from search.web_results import search_web
 
 
 def search(query, medium, medium_id):
-    
+    results = []
     if medium == 'book':
         if medium_id is None:
             results = search_books(query)
@@ -22,5 +23,8 @@ def search(query, medium, medium_id):
 
     elif medium == 'podcast':
         results = search_podcast(query)
+    
+    elif medium == 'web':
+        results = search_web(query)
 
     return results
