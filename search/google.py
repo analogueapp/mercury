@@ -34,9 +34,9 @@ def get_google_links_and_titles(query: str) -> Dict:
         links = links[:10]
         titles = titles[:10]
     
-    for i in range(len(links)):
+    for i, item in enumerate(links):
         data[i] = {'url': None, 'title': None}
-        data[i]['url'] = links[i]
+        data[i]['url'] = item
         data[i]['title'] = titles[i]
-    
+
     return data
