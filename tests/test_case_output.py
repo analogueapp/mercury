@@ -367,8 +367,7 @@ test_get_spotify_playlist_output = {
 test_enrich_spotify_playlist_output = {
     "name": "Rock This",
     "type": "playlist",
-    "id": "37i9dQZF1DXcF6B6QPhFDv",
-    "description": "The newest single from Bring Me The Horizon along with the top Rock songs you need to know!"
+    "id": "37i9dQZF1DXcF6B6QPhFDv"
 }
 
 test_get_spotify_episode_output = {
