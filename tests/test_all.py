@@ -156,6 +156,8 @@ def test_getrich_spotify_playlist():
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
     title = get_data.pop('title', None)
+    image = get_data.pop('image', None)
+    desc1 = get_data.pop('description', None)
     enriched_data = enrich_test(URL)
     name = enriched_data['playlist_details']['name']
     content_type = enriched_data['playlist_details']['type']
@@ -165,10 +167,14 @@ def test_getrich_spotify_playlist():
     enriched_data["id"] = playlist_id
     enriched_data["type"] = content_type
     enriched_data["name"] = name
-    enriched_data["description"] = description
+    desc2 = description
     assert enriched_data == test_enrich_spotify_playlist_output
+    assert 'Rock' in desc2
+    assert image is not None
     assert get_data == test_get_spotify_playlist_output
     assert 'Rock This' in title
+    assert 'Rock' in desc1
+    
 
 def test_getrich_spotify_episode():
     URL = 'https://open.spotify.com/episode/467Uq5ZG2VJtaE6EZwnWNO'
