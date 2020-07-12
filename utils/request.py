@@ -22,11 +22,19 @@ def send_request(param_dict: dict):
 
     URL = handle_params(param_dict)
     
+    if 'http' not in URL:
+        URL = "https://"+URL
+    
+    print(f"sending request to this URL: {URL}")
+
     try:
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
         }
         requested = requests.get(URL, headers=headers, timeout=10)
+
+        print(f"Status code: {requested.status_code}")
+        print(f"Request Type: {type(requested)}")
 
         if requested.status_code != 200:
             return {"error": "URL failed to load"}
