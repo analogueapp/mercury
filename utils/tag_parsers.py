@@ -215,9 +215,8 @@ def main_generic(request_object, URL) -> dict:
         "description": None,
     }
 
-    pool = ThreadPoolExecutor(max_workers=4)
+    pool = ThreadPoolExecutor(max_workers=3)
 
-    get_screenshot = pool.submit(mercury_snap, URL)
     get_data_og = pool.submit(open_graph, request_object)
     get_data_twitter = pool.submit(twitter_tags, request_object)
     get_data_fallback = pool.submit(fallback, (request_object, URL))
@@ -236,7 +235,7 @@ def main_generic(request_object, URL) -> dict:
         if get_data_og[main_keys] in (None, "", " "):
             if get_data_twitter[main_keys] in (None, "", " "):
                 if main_keys == "image":
-                    get_data["image"] = get_screenshot.result()
+                    get_data["image"] = mercury_snap(URL)
                 else:
                     get_data[main_keys] = get_data_fallback[main_keys]
             else:
@@ -252,7 +251,7 @@ def main_generic(request_object, URL) -> dict:
         get_data["url"] = URL
 
     #  checking for full URLs exception e.g youtube.com and removing the parameters if not
-    if get_url(URL) not in fullUrlsExceptions:
+    if get_url(get_data['url']) not in fullUrlsExceptions:
         get_data["url"] = url_remove_params(get_data["url"])
 
     return get_data
