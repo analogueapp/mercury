@@ -13,18 +13,17 @@ def get_response(url: str):
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
         }
     response = requests.get(url, headers = headers)
-    print(f"Status code: {response.status_code}")
-    print(f"Request Type: {type(response)}")
     return response.text
 
 def parse_links_and_titles(page, query):
     links = []
     titles = []
-    bsoup = BeautifulSoup(page, 'lxml', parse_only=SoupStrainer(class_="r")).find_all(class_="r")
+    bsoup = BeautifulSoup(page, 'lxml', parse_only=SoupStrainer(class_="r")).find_all('div', class_="r")
     for i in bsoup:
         x = i.find('a')
         links.append(x['href'])
-        titles.append(x.find('h3').text)
+        title = x.find('h3')
+        titles.append(title.text if title else x.text)
     return links, titles
 
 def get_google_links_and_titles(query: str) -> Dict:
