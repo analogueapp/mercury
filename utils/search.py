@@ -2,11 +2,13 @@ from search.book import search_books, search_enrich_book
 from search.film_tv import search_film
 from search.song_album import search_music
 from search.podcast import search_podcast
+from search.youtube import search_video
 from search.web_results import search_web
 
 
 def search(query, medium):
     results = []
+    
     if medium == 'book':
         results = search_books(query)
 
@@ -22,7 +24,10 @@ def search(query, medium):
     elif medium == 'link':
         results = search_web(query)
 
-    else:
+    elif medium == 'video':
+        results = search_video(query)
+    
+    else: 
         results = {"error": "Search failed to load"}
 
     return results
