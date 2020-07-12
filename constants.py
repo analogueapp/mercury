@@ -27,3 +27,5 @@ mercury_snap_url = 'http://mercury-snap.herokuapp.com/snap?url='
 netflix_url = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi"
 
 google_url = "https://www.google.com/search?q="
+
+youtube_watch_url = 'https://www.youtube.com/watch?v='
