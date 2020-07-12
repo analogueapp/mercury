@@ -3,7 +3,7 @@ import os
 from typing import Dict
 from constants import youtube_watch_url
 
-youtube_api_key = os.getenv("YOUTUBE_KEY")
+youtube_api_key = os.getenv("YOUTUBE_API_KEY")
 
 def parse_response(api_response):
     desired = {
@@ -24,8 +24,8 @@ def parse_response(api_response):
         desired['image'] = api_response['snippet']['thumbnails']['medium']['url']
     elif 'default' in api_response['snippet']['thumbnails']:
         desired['image'] = api_response['snippet']['thumbnails']['default']['url']
-    
-    desired['creators'] = api_response['snippet']['channelTitle']
+
+    desired['creators'] = [api_response['snippet']['channelTitle']]
     desired['url'] = youtube_watch_url + api_response['id']['videoId']
     
     return desired
