@@ -43,14 +43,13 @@ def search_books(query):
 
     for result in soup_object.find_all("work"):
         single_result = {}
-
-        single_result['id'] = result.find('best_book').find('id').get_text()
+        
+        idd = result.find('best_book').find('id').get_text()
         single_result['title'] = result.find('best_book').find('title').get_text()
         single_result['image'] = result.find('best_book').find('image_url').get_text()
-        single_result['author'] = result.find('best_book').find('author').find('name').get_text()
-        single_result['url'] = f"https://www.goodreads.com/book/show/{single_result['id']}"
+        single_result['creators'] = [result.find('best_book').find('author').find('name').get_text()]
+        single_result['url'] = f"https://www.goodreads.com/book/show/{idd}"
         single_result['medium'] = 'book'
-        single_result['form'] = 'text'
         
     
         results.append(single_result)

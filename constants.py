@@ -4,9 +4,12 @@ fullUrlsExceptions = ['www.youtube.com']
 artsy_api_url = 'https://api.artsy.net/api'
 
 imdb_api_url = "https://api.themoviedb.org/3/"
-imdb_seach_url = "https://api.themoviedb.org/3/search/movie?language=en-US&page=1&include_adult=false&"
+imdb_search_movie_url = "https://api.themoviedb.org/3/search/movie?language=en-US&page=1&include_adult=false&"
+imdb_search_tv_url = "https://api.themoviedb.org/3/search/tv?language=en-US&page=1&include_adult=false&"
 imdb_poster_url = "https://image.tmdb.org/t/p/w500/"
 imdb_enrich_movie_url = "https://api.themoviedb.org/3/movie"
+imdb_enrich_tv_url = "https://api.themoviedb.org/3/tv"
+imdb_external_id_url = "https://api.themoviedb.org/3/tv/"
 
 goodreads_api_url = "https://www.goodreads.com/search/index.xml?q="
 goodreads_search_url = "https://www.goodreads.com/book/show"

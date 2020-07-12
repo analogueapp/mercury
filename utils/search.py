@@ -1,22 +1,16 @@
-from search.books import search_books, search_enrich_book
-from search.movies import movie_search, enrich_movie
-from search.music_podcasts import search_music, search_podcast
-from search.web_results import search_web
+from search.book import search_books, search_enrich_book
+from search.film_tv import search_film
+from search.song_album import search_music
+from search.podcast import search_podcast
 
 
-def search(query, medium, medium_id):
-    results = []
+def search(query, medium):
+    
     if medium == 'book':
-        if medium_id is None:
-            results = search_books(query)
-        else:
-            results = search_enrich_book(medium_id)
+        results = search_books(query)
 
-    elif medium == 'movie':
-        if medium_id is None:
-            results = movie_search(query)
-        else:
-            results = enrich_movie(medium_id)
+    elif medium == 'film':
+        results = search_film(query)
 
     elif medium == 'music':
         results = search_music(query)
@@ -24,7 +18,7 @@ def search(query, medium, medium_id):
     elif medium == 'podcast':
         results = search_podcast(query)
     
-    elif medium == 'web':
-        results = search_web(query)
+    else: 
+        results = {"error": "Search failed to load"}
 
     return results

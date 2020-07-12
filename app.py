@@ -65,10 +65,9 @@ def search_endpoint():
 
     query = request.args.get("query")
     medium = request.args.get("medium")
-    medium_id = request.args.get("id")
 
-    results = search(query, medium, medium_id)
-
+    results = search(query, medium)
+    
     return jsonify(results)
 
 
