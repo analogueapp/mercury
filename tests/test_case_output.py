@@ -20,7 +20,6 @@ test_get_params_url_output = {
     "url": "https://www.creativelive.com/flash-sale",
     "medium": "link",
     "form": "text",
-    "image": "https://mm.creativelive.com/fit/https%3A%2F%2Fagc.creativelive.com%2Fagc%2Fpages%2F20200708_All_Flash19for19.jpg/650",
     "description": "photo & video ",
 }
 
