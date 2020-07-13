@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import requests
 import logging
 from typing import Dict
+import http.cookiejar as cj
 
 
 def handle_params(param_dict: dict) -> str:
@@ -31,7 +32,9 @@ def send_request(param_dict: dict):
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
         }
-        requested = requests.get(URL, headers=headers, timeout=10)
+        cookie = cj.CookieJar()
+
+        requested = requests.get(URL, headers=headers, cookies=cookie ,timeout=10)
 
         print(f"Status code: {requested.status_code}")
         print(f"Request Type: {type(requested)}")
