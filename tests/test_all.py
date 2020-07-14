@@ -25,10 +25,8 @@ def test_get_params_url():
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
     title = get_data.pop('title', None)
-    image = get_data.pop('image', None)
     assert get_data == test_get_params_url_output
     assert 'Flash Sale' in title
-    assert image is not None
 
 def test_getrich_imdb_movie():
     URL = 'https://www.imdb.com/title/tt0111161/?ref_=hm_fanfav_tt_9_pd_fp1'
