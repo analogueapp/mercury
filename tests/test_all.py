@@ -12,13 +12,6 @@ def test_tag_parsers():
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
     assert get_data == test_tag_parser_output
-
-def test_get_without_og_twitter():
-    URL = 'https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols'
-    requested = requests.get(URL).text
-    get_data = main_generic(requested, URL)
-    get_data['image'] = get_data['image'][:17] #hosting service generates a new url for every request
-    assert get_data == test_get_without_og_twitter_output
     
 def test_get_params_url():
     URL = 'https://www.creativelive.com/flash-sale?utm_source=creativeLIVE&utm_medium=email&utm_campaign=20171110_All_12For19FlashSale'
