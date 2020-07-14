@@ -2,9 +2,10 @@ import requests
 from bs4 import BeautifulSoup, SoupStrainer
 from concurrent.futures import ThreadPoolExecutor
 from utils.enrichment import get_url
+from utils.screenshot import snap
 from typing import Dict
 import logging
-from constants import api_imgbb_url, fullUrlsExceptions, mercury_snap_url
+from constants import api_imgbb_url, fullUrlsExceptions
 import os
 
 imgbb_key = os.getenv("IMGBB_KEY")
@@ -27,11 +28,10 @@ def image_url_check(image_url, URL):
 # calling screenshot API and returning url
 def mercury_snap(url: str) -> str:
     try:
-        hosted_url_json = requests.get(mercury_snap_url + url).json()
-        return hosted_url_json["url"]
+        return snap(url)
     except Exception as e:
         logging.error(e)
-        return ""
+        return "No image available"
 
 
 def medium_check(get_data, form_type) -> str:
@@ -244,7 +244,8 @@ def main_generic(request_object, URL) -> dict:
             get_data[main_keys] = get_data_og[main_keys]
 
     # checking image url
-    get_data["image"] = image_url_check(get_data["image"], get_url(URL))
+    if get_data["image"] != "No image available":
+        get_data["image"] = image_url_check(get_data["image"], get_url(URL))
 
     # if no url is found from meta add the one user added
     if get_data["url"] is None:
