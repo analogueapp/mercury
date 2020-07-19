@@ -33,7 +33,7 @@ def get_user_image(status: Dict) -> str:
     
     try:
         image = image.replace('_normal', '')
-    except:
+    except Exception as e:
         image = image[:63] + image[70:]
     
     return image
@@ -46,7 +46,7 @@ def get_image(status: Dict) -> str:
             if 'media_url_https' in status['entities']['media'][0]:
                 return status['entities']['media'][0]['media_url_https']
             
-            elif 'media_url' in status['entities']['media'][0]:
+            if 'media_url' in status['entities']['media'][0]:
                 return status['entities']['media'][0]['media_url']
 
     return get_user_image(status)
@@ -57,7 +57,7 @@ def get_title(status: Dict) -> str:
         if 'screen_name' in status['user']:
             return status['user']['screen_name'] + ' on Twitter'
         
-        elif 'name' in status['user']:
+        if 'name' in status['user']:
             return status['user']['name'] + ' on Twitter'
     
     return 'Someone on Twitter'
