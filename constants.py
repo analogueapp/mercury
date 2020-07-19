@@ -27,5 +27,3 @@ netflix_url = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi"
 google_url = "https://www.google.com/search?q="
 
 youtube_watch_url = 'https://www.youtube.com/watch?v='
-
-twitter_api_url = 'https://publish.twitter.com/oembed?url=https://twitter.com/Interior/status/'

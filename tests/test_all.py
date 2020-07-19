@@ -71,20 +71,20 @@ def test_getrich_netflix_series():
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
     image1 = get_data.pop('image', None)
-    enriched_data = enrich_test(URL)
+    # enriched_data = enrich_test(URL)
     assert image1 is not None
     assert get_data == test_get_netflix_series_output
-    assert enriched_data['title_details']['RESULT']['nfinfo']['title'] == test_enrich_netflix_series_output
+    # assert enriched_data['title_details']['RESULT']['nfinfo']['title'] == test_enrich_netflix_series_output
 
 def test_getrich_netflix_movie():
     URL = 'https://www.netflix.com/title/80178943'
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
     image1 = get_data.pop('image', None)
-    enriched_data = enrich_test(URL)
+    # enriched_data = enrich_test(URL)
     assert image1 is not None
     assert get_data == test_get_netflix_movie_output
-    assert enriched_data['title_details']['RESULT']['nfinfo']['title'] == test_enrich_netflix_movie_output
+    # assert enriched_data['title_details']['RESULT']['nfinfo']['title'] == test_enrich_netflix_movie_output
 
 def test_getrich_spotify_track():
     URL = 'https://open.spotify.com/track/1yvMUkIOTeUNtNWlWRgANS'
