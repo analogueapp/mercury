@@ -27,3 +27,7 @@ netflix_url = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi"
 google_url = "https://www.google.com/search?q="
 
 youtube_watch_url = 'https://www.youtube.com/watch?v='
+
+artsy_search_url = 'https://api.artsy.net/api/search?q='
+wikiart_search_url = 'https://www.wikiart.org/en/api/2/PaintingSearch?term='
+wikiart_painting_url = 'https://www.wikiart.org/en/api/2/Painting?id='
