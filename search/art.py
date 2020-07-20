@@ -10,14 +10,15 @@ def refine_wikiart_results(api_data: Dict) -> list:
     if 'data' in api_data:
         for i in api_data['data']:
             response = {
-                    "form": 'text',
+                    "form": 'image',
                     "image": None,
-                    "medium": "link",
+                    "medium": "art",
                     "title": None,
                     "url": None,
                     'year': None,
                     'artist_url': None,
-                    'id': None
+                    'id': None,
+                    'creators': []
                 }
 
             response['image'] = i['image']
@@ -25,6 +26,7 @@ def refine_wikiart_results(api_data: Dict) -> list:
             response['year'] = i['completitionYear']
             response['artist_url'] = i['artistUrl']
             response['id'] = i['id']
+            response['creators'].append(i['artistName'])
 
             results.append(response)
     
@@ -57,7 +59,7 @@ def search_art(query: str) -> Dict:
     
     api_data = refine_wikiart_results(api_data)
     api_data_1 = refine_wikiart_more(api_data[:8])
-    
+    api_data_2 = []
     try:
         if len(api_data) >= 14:
             api_data_2 = refine_wikiart_more(api_data[8:14])
