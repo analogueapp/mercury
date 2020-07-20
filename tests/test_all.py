@@ -135,6 +135,7 @@ def test_getrich_spotify_artist():
     requested = requests.get(URL).text
     get_data = main_generic(requested, URL)
     get_data.pop('description', None)
+    image = get_data.pop('image', None)
     enriched_data = enrich_test(URL)
     artist_id = enriched_data['artist_details']['id']
     name = enriched_data['artist_details']['name']
@@ -145,6 +146,7 @@ def test_getrich_spotify_artist():
     enriched_data['type'] = content_type
     assert enriched_data == test_enrich_spotify_artist_output
     assert get_data == test_get_spotify_artist_output
+    assert image is not None
 
 def test_getrich_spotify_playlist():
     URL = 'https://open.spotify.com/playlist/37i9dQZF1DXcF6B6QPhFDv'
