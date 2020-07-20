@@ -15,6 +15,7 @@ from utils.tag_parsers import main_generic
 from utils.enrichment import enrich_test
 from utils.request import send_request, handle_params
 from utils.search import search
+from utils.get_twitter import get_twitter
 
 sentry_key = os.getenv("SENTRY_KEY")
 sentry_org = os.getenv("SENTRY_ORG")
@@ -39,6 +40,9 @@ def welcome():
 def Graph_data():
 
     all_params = dict(request.args)
+
+    if 'twitter.com' in handle_params(all_params):
+        return get_twitter(handle_params(all_params))
 
     request_object = send_request(all_params)
 

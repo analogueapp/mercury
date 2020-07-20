@@ -1,34 +1,89 @@
 from typing import Dict
-import requests
 from urllib.parse import urlparse
-from bs4 import BeautifulSoup, SoupStrainer
-from constants import twitter_api_url
+import os
+import tweepy
+
+consumer_key = os.getenv("TWITTER_API_KEY")
+consumer_secret = os.getenv("TWITTER_API_SECRET_KEY")
+access_token = os.getenv("TWITTER_ACCESS_TOKEN")
+access_token_secret = os.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 
 def parse_id(url: str) -> str:
     parse_url = urlparse(url)
     twitter_id = parse_url.path.split('/')[-1]
     return twitter_id
 
+def get_description(status: Dict) -> str:
+    return status['full_text']
+
+def get_user_image(status: Dict) -> str:
+    
+    if 'user' in status:
+        if 'profile_image_url_https' in status['user']:
+            image = status['user']['profile_image_url_https']
+    
+        elif 'profile_image_url' in status['user']:
+            image = status['user']['profile_image_url']
+    
+        elif 'profile_banner_url' in status['user']:
+            image = status['user']['profile_banner_url']
+    
+        else:
+            return None
+    
+    try:
+        image = image.replace('_normal', '')
+    except Exception as e:
+        image = image[:63] + image[70:]
+    
+    return image
+
+
+def get_image(status: Dict) -> str:
+    if 'entities' in status.keys():
+        if 'media' in status['entities']:
+            
+            if 'media_url_https' in status['entities']['media'][0]:
+                return status['entities']['media'][0]['media_url_https']
+            
+            if 'media_url' in status['entities']['media'][0]:
+                return status['entities']['media'][0]['media_url']
+
+    return get_user_image(status)
+
+def get_title(status: Dict) -> str:
+    if 'user' in status:
+        
+        if 'screen_name' in status['user']:
+            return status['user']['screen_name'] + ' on Twitter'
+        
+        if 'name' in status['user']:
+            return status['user']['name'] + ' on Twitter'
+    
+    return 'Someone on Twitter'
+
 def get_twitter(url: str) -> Dict:
     desired_response = {
-        "description": None,#
-        "form": 'text',#
+        "description": None,
+        "form": 'text',
         "image": None,
-        "medium": 'link',#
-        "title": None,#
-        "url": None#
+        "medium": 'link',
+        "title": None,
+        "url": None
     }
+    
     twitter_id = parse_id(url)
 
-    api_url = twitter_api_url + twitter_id
-    api_response = requests.get(api_url).json()
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_token_secret)
 
-    desired_response['title'] = api_response['author_name'] + ' on Twitter'
-    desired_response['url'] = api_response['url']
-    html = str(api_response['html'].encode('ascii', 'ignore'))[2:-1]
-    html = html.replace('\\n', '')
-    html = html.replace('\\', '')
-    bsoup = BeautifulSoup(html, 'lxml', parse_only=SoupStrainer("p")).find('p')
-    desired_response['description'] = bsoup.text
+    api = tweepy.API(auth)
 
+    status = api.get_status(twitter_id, tweet_mode = 'extended')._json
+    
+    desired_response['description'] = get_description(status)
+    desired_response['image'] = get_image(status)
+    desired_response['title'] = get_title(status)
+    desired_response['url'] = url
+    
     return desired_response

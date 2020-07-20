@@ -328,7 +328,6 @@ test_enrich_spotify_show_output = {
 
 test_get_spotify_artist_output = {
     "form": "audio",
-    "image": "https://i.scdn.co/image/c21e1b447c8947493672e258f618bb34d031c139",
     "medium": "audio_link",
     "title": "Sia",
     "url": "https://open.spotify.com/artist/5WUlDfRSoLAfcVSX1WnrxN"
