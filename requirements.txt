@@ -41,7 +41,6 @@ more-itertools==8.2.0
 packaging==20.3
 pathspec==0.8.0
 pluggy==0.13.1
-post==2019.4.13
 pprintpp==0.4.0
 Protego==0.1.16
 public==2019.4.13
