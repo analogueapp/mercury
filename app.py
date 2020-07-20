@@ -41,7 +41,7 @@ def Graph_data():
 
     all_params = dict(request.args)
 
-    if 'twitter' in handle_params(all_params):
+    if 'twitter.com' in handle_params(all_params):
         return get_twitter(handle_params(all_params))
 
     request_object = send_request(all_params)
