@@ -4,6 +4,7 @@ from search.song_album import search_music
 from search.podcast import search_podcast
 from search.youtube import search_video
 from search.web_results import search_web
+from search.art import search_art
 
 
 def search(query, medium):
@@ -26,6 +27,9 @@ def search(query, medium):
 
     elif medium == 'video':
         results = search_video(query)
+    
+    elif medium == 'art':
+        results = search_art(query)
     
     else: 
         results = {"error": "Search failed to load"}
