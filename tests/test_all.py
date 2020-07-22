@@ -92,9 +92,7 @@ def test_getrich_wikiart_artwork():
     assert get_data['title'] == test_get_wikiart_artwork_output['title']
     assert get_data['url'] == test_get_wikiart_artwork_output['url']
     assert len(enriched_data['data']) > 5
-    assert enriched_data['paginationToken'] == test_enrich_wikiart_artwork_output['paginationToken']
-    assert enriched_data['hasMore'] == test_enrich_wikiart_artwork_output['hasMore']
-
+    
 def test_get_handle_params():
     assert handle_params(test_get_handleparams_sample) == test_get_handleparams_output
 
