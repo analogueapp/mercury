@@ -31,3 +31,6 @@ youtube_watch_url = 'https://www.youtube.com/watch?v='
 artsy_search_url = 'https://api.artsy.net/api/search?q='
 wikiart_search_url = 'https://www.wikiart.org/en/api/2/PaintingSearch?term='
 wikiart_painting_url = 'https://www.wikiart.org/en/api/2/Painting?id='
+
+giantbomb_search_url = "https://www.giantbomb.com/api/search/?api_key="
+giantbomb_game_url = "https://www.giantbomb.com/api/game/"

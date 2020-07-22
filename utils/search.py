@@ -5,6 +5,7 @@ from search.podcast import search_podcast
 from search.youtube import search_video
 from search.web_results import search_web
 from search.art import search_art
+from search.video_games import search_video_games
 
 
 def search(query, medium):
@@ -30,6 +31,9 @@ def search(query, medium):
     
     elif medium == 'art':
         results = search_art(query)
+
+    elif medium == 'video_game':
+        results = search_video_games(query)
     
     else: 
         results = {"error": "Search failed to load"}
