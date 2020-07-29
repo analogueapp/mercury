@@ -93,7 +93,7 @@ def get_channel(yt_id: str) -> Dict:
                 id=yt_id
             )
         response = req.execute()
-    except:
+    except Exception as e:
         return {}
 
     result = clean_response(response)
