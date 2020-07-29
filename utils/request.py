@@ -5,7 +5,7 @@ import logging
 from typing import Dict
 import http.cookiejar as cj
 from utils.get_twitter import get_twitter
-
+from utils.get_youtube import get_youtube
 
 def handle_params(param_dict: dict) -> str:
     values = list(param_dict.values())
@@ -40,8 +40,10 @@ def send_request(param_dict: dict):
 
         print(f"Status code: {requested.status_code}")
         print(f"Request Type: {type(requested)}")
-
+        
         if requested.status_code != 200:
+            if 'youtube' in URL or 'youtu.be' in URL:
+                return get_youtube(URL)
             return {"error": "URL failed to load"}
         return requested.text
 
