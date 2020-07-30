@@ -30,7 +30,7 @@ def film_single_result(idd):
         movie_data["creators"] = [
             production["name"] for production in movie_result["production_companies"]
         ]
-
+        movie_data['published_at'] = movie_result['release_date']
         return movie_data
 
     except Exception as e:
@@ -107,7 +107,7 @@ def tv_single_result(idd):
         tv_data["medium"] = "tv"
         tv_data["url"] = "https://www.imdb.com/title/" + imdb_id
         tv_data["creators"] = [creator["name"] for creator in tv_result["created_by"]]
-
+        tv_data['published_at'] = tv_result['first_air_date']
         return tv_data
 
     except Exception as e:

@@ -13,7 +13,7 @@ def test_film():
     assert isinstance(search_result, list)
     if search_result:
         assert isinstance(search_result[0], dict)
-        assert len(list(search_result[0].keys())) == 5
+        assert len(list(search_result[0].keys())) == 6
 
 def test_tv():
     query = "love"
@@ -21,7 +21,7 @@ def test_tv():
     assert isinstance(search_result, list)
     if search_result:
         assert isinstance(search_result[0], dict)
-        assert len(list(search_result[0].keys())) == 5
+        assert len(list(search_result[0].keys())) == 6
 
 def test_book():
     query = "animal"
