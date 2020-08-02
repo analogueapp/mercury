@@ -15,5 +15,4 @@ def get_main(requests_object ,url) -> dict:
         
         return response
 
-    else:
-        return response
+    return response
