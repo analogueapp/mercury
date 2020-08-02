@@ -5,16 +5,16 @@ from utils.enrichment import get_url
 from utils.screenshot import snap
 from typing import Dict
 import logging
-from constants import api_imgbb_url, fullUrlsExceptions
+from constants import api_imgbb_url, fullUrlsExceptions, facebook_srape_API_URL
 import os
 
 imgbb_key = os.getenv("IMGBB_KEY")
-
+FACEBOOK_API_KEY = os.getenv("FACEBOOK_API_KEY")
 
 def url_remove_params(url):
     if "?" in url:
         return url.split("?")[0]
-    return url
+    return url    
 
 
 def image_url_check(image_url, URL):
@@ -54,9 +54,11 @@ def medium_check(get_data, form_type) -> str:
         elif "playlist" in form_type:
             return "playlist"
         elif "show" in get_data["url"]:
-            return "show"
+            return "podcast"
         elif "episode" in get_data["url"]:
             return "episode"
+        elif "radio" in form_type:
+            return "podcast"
         return "audio_link"
 
 
@@ -205,7 +207,7 @@ def fallback(tupl):
 
 
 def main_generic(request_object, URL) -> dict:
-
+    
     get_data = {
         "title": None,
         "url": None,

@@ -16,6 +16,7 @@ from utils.enrichment import enrich_test
 from utils.request import send_request, handle_params
 from utils.search import search
 from utils.get_twitter import get_twitter
+from utils.get_main import get_main
 
 sentry_key = os.getenv("SENTRY_KEY")
 sentry_org = os.getenv("SENTRY_ORG")
@@ -49,7 +50,7 @@ def Graph_data():
     if isinstance(request_object, dict):
         return jsonify(request_object)
 
-    get_data = main_generic(request_object, handle_params(all_params))
+    get_data = get_main(request_object, handle_params(all_params))
 
     return jsonify(get_data)
 

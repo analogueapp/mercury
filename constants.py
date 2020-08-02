@@ -34,3 +34,5 @@ wikiart_painting_url = 'https://www.wikiart.org/en/api/2/Painting?id='
 
 giantbomb_search_url = "https://www.giantbomb.com/api/search/?api_key="
 giantbomb_game_url = "https://www.giantbomb.com/api/game/"
+
+facebook_srape_API_URL = "https://graph.facebook.com/v7.0/?scrape=true&"
