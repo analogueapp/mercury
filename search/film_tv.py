@@ -1,6 +1,7 @@
 import requests
 from concurrent.futures import ThreadPoolExecutor
 import difflib
+from bs4 import BeautifulSoup, SoupStrainer
 from typing import Dict
 import logging
 from constants import (
@@ -16,6 +17,25 @@ import os
 
 movieDB_key = os.getenv("MOVIEDB_KEY")
 
+def find_image_from_source(url):
+    headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
+        }
+    request_object = requests.get(url, headers=headers, timeout=10).text
+    
+    parse_only = SoupStrainer("meta")
+    head_content = BeautifulSoup(
+        request_object, "lxml", parse_only=parse_only
+    ).find_all("meta")
+
+    for meta in head_content:
+        if "og:image" in str(meta) and "property" in meta.attrs.keys():
+            return meta['content']
+        
+        if "twitter:image" in str(meta) and "property" in meta.attrs.keys():
+            return meta['content']
+    
+    return None
 
 def film_single_result(idd):
     url = f"{imdb_enrich_movie_url}/{idd}?api_key={movieDB_key}&language=en-US"
@@ -24,13 +44,20 @@ def film_single_result(idd):
     try:
         movie_data = {}
         movie_data["title"] = movie_result["title"]
-        movie_data["image"] = imdb_poster_url + movie_result["poster_path"]
+        
         movie_data["medium"] = "film"
         movie_data["url"] = "https://www.imdb.com/title/" + movie_result["imdb_id"]
         movie_data["creators"] = [
             production["name"] for production in movie_result["production_companies"]
         ]
         movie_data['published_at'] = movie_result['release_date']
+
+        if movie_result["poster_path"]:
+            movie_data["image"] = imdb_poster_url + movie_result["poster_path"]
+        
+        else:
+            movie_data["image"] = find_image_from_source(movie_data['url'])
+        
         return movie_data
 
     except Exception as e:
@@ -103,11 +130,17 @@ def tv_single_result(idd):
     try:
         tv_data = {}
         tv_data["title"] = tv_result["name"]
-        tv_data["image"] = imdb_poster_url + tv_result["poster_path"]
         tv_data["medium"] = "tv"
         tv_data["url"] = "https://www.imdb.com/title/" + imdb_id
         tv_data["creators"] = [creator["name"] for creator in tv_result["created_by"]]
         tv_data['published_at'] = tv_result['first_air_date']
+        
+        if tv_result["poster_path"]:
+            tv_data["image"] = imdb_poster_url + tv_result["poster_path"]
+        
+        else:
+            tv_data["image"] = find_image_from_source(tv_data['url'])
+
         return tv_data
 
     except Exception as e:
