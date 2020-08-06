@@ -39,25 +39,25 @@ def medium_check(get_data, form_type) -> str:
 
         if "movie" in form_type or "film" in form_type:
             return "film"
-        elif "tv_show" in form_type or "tv" in form_type:
+        if "tv_show" in form_type or "tv" in form_type:
             return "tv"
-        elif "episode" in form_type:
+        if "episode" in form_type:
             return "tv_episode"
         return "video_link"
 
-    elif get_data["form"] == "audio":
+    if get_data["form"] == "audio":
 
         if "song" in form_type:
             return "song"
-        elif "album" in form_type:
+        if "album" in form_type:
             return "album"
-        elif "playlist" in form_type:
+        if "playlist" in form_type:
             return "playlist"
-        elif "show" in get_data["url"]:
+        if "show" in get_data["url"]:
             return "podcast"
-        elif "episode" in get_data["url"]:
+        if "episode" in get_data["url"]:
             return "episode"
-        elif "radio" in form_type:
+        if "radio" in form_type:
             return "podcast"
         return "audio_link"
 
