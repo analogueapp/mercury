@@ -47,7 +47,7 @@ public==2019.4.13
 py==1.8.1
 pycparser==2.20
 PyDispatcher==2.0.5
-Pygments==2.6.1
+Pygments==2.7.4
 PyHamcrest==2.0.2
 pymediawiki==0.6.4
 pyparsing==2.4.7
