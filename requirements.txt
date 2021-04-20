@@ -44,7 +44,7 @@ pluggy==0.13.1
 pprintpp==0.4.0
 Protego==0.1.16
 public==2019.4.13
-py==1.8.1
+py==1.10.0
 pycparser==2.20
 PyDispatcher==2.0.5
 Pygments==2.6.1
