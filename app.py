@@ -12,7 +12,7 @@ import os
 load_dotenv()
 
 from utils.tag_parsers import main_generic
-from utils.enrichment import enrich_test
+from utils.enrichment import enrich
 from utils.request import send_request, handle_params
 from utils.search import search
 from utils.get_twitter import get_twitter
@@ -43,6 +43,8 @@ def Graph_data():
 
     all_params = dict(request.args)
 
+    params_string = handle_params(all_params)
+
     if 'twitter.com' in handle_params(all_params):
         return get_twitter(handle_params(all_params))
 
@@ -61,7 +63,7 @@ def enrichment():
 
     URL = request.args.get("url")
 
-    enriched_data = enrich_test(URL)
+    enriched_data = enrich(URL)
 
     return jsonify(enriched_data)
 

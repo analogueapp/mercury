@@ -21,7 +21,7 @@ def get_url(url: str) -> str:
 
     return site_name
 
-def enrich_test(url: str) -> Dict:
+def enrich(url: str) -> Dict:
     site_name = get_url(url)
     enrich_data = {}
 
