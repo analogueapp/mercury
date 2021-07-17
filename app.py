@@ -17,6 +17,7 @@ from utils.request import send_request, handle_params
 from utils.search import search
 from utils.get_twitter import get_twitter
 from utils.get_main import get_main
+from apis.goodreads import get_isbn
 
 sentry_key = os.getenv("SENTRY_KEY")
 sentry_org = os.getenv("SENTRY_ORG")
@@ -63,6 +64,15 @@ def enrichment():
     enriched_data = enrich_test(URL)
 
     return jsonify(enriched_data)
+
+@app.route("/isbn")
+def isbn_endpoint():
+
+    id = request.args.get("id")
+
+    isbn_data = get_isbn(id)
+
+    return jsonify(isbn_data)
 
 
 @app.route("/api/search")

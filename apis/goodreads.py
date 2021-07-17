@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 from typing import Dict
 from apis.wikipedia import get_short_details, search_google
 from constants import goodreads_api_url , wikipedia_url
+from constants import goodreads_author_url, goodreads_search_url
 import os
 
 goodreads_key = os.getenv('GOODREADS_KEY')
@@ -42,19 +43,20 @@ def fetch_goodreads(url: str) -> Dict:
 
     api_url = (
         goodreads_api_url + title +"&key=" + goodreads_key
+def get_isbn(id: str) -> str:
+    isbn_data = {}
+    book_url = (
+        f"{goodreads_search_url}?id={id}&key={goodreads_key}"
     )
-
+    parse_only = ['isbn', 'isbn13']
     soup_object = BeautifulSoup(
-        requests.get(api_url).text, "lxml", parse_only=SoupStrainer("work")
+        requests.get(book_url).text, "html.parser"
     )
 
-    api_data["original_publication_year"] = soup_object.find(
-        "original_publication_year"
-    ).get_text()
+    isbn_data["isbn"] = soup_object.find('isbn').get_text()
+    isbn_data["isbn13"] = soup_object.find('isbn13').get_text()
 
-    api_data["original_publication_month"] = soup_object.find(
-        "original_publication_month"
-    ).get_text()
+    return isbn_data
 
     api_data["original_publication_day"] = soup_object.find(
         "original_publication_day"
