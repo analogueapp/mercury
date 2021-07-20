@@ -100,7 +100,7 @@ def fetch_goodreads(url: str) -> Dict:
 
     api_data['asin'] = soup_object.find('asin').get_text()
     api_data['authors'] = [enrich_author(id.text) for id in authors_data.find_all('id')]
-    api_data['body'] = soup_object.find('description').get_text()
+    api_data['description'] = soup_object.find('description').get_text()
     api_data['edition_information'] = soup_object.find('edition_information').get_text()
     api_data['form'] = "text"
     api_data['goodreads_id'] = idd
