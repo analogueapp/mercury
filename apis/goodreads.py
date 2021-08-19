@@ -6,7 +6,6 @@ from apis.wikipedia import get_short_details, search_google
 from constants import goodreads_author_url, goodreads_search_url
 from PIL import Image
 import os
-import re
 
 goodreads_key = os.getenv('GOODREADS_KEY')
 

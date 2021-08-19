@@ -40,20 +40,18 @@ def welcome():
 
 @app.route("/get")
 def Graph_data():
-
     all_params = dict(request.args)
-
     params_string = handle_params(all_params)
 
-    if 'twitter.com' in handle_params(all_params):
-        return get_twitter(handle_params(all_params))
+    if 'twitter.com' in params_string:
+        return get_twitter(params_string)
 
     request_object = send_request(all_params)
 
     if isinstance(request_object, dict):
         return jsonify(request_object)
 
-    get_data = get_main(request_object, handle_params(all_params))
+    get_data = get_main(request_object, params_string)
 
     return jsonify(get_data)
 
