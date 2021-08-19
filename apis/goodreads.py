@@ -35,10 +35,10 @@ def get_title(url: str) -> str:
 
     return title
 
-def get_isbn(id: str) -> str:
+def get_isbn(goodreads_id: str) -> str:
     isbn_data = {}
     book_url = (
-        f"{goodreads_search_url}?id={id}&key={goodreads_key}"
+        f"{goodreads_search_url}?id={goodreads_id}&key={goodreads_key}"
     )
     parse_only = ['isbn', 'isbn13']
     soup_object = BeautifulSoup(
@@ -50,10 +50,10 @@ def get_isbn(id: str) -> str:
 
     return isbn_data
 
-def enrich_author(id):    
+def enrich_author(goodreads_id):    
     author_data = {}
     author_url = (
-        f"{goodreads_author_url}?id={id}&key={goodreads_key}"
+        f"{goodreads_author_url}?id={goodreads_id}&key={goodreads_key}"
     )
     author_soup = BeautifulSoup(
         requests.get(author_url).text, "html.parser"

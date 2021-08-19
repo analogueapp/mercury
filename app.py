@@ -67,10 +67,8 @@ def enrichment():
 
 @app.route("/isbn")
 def isbn_endpoint():
-
-    id = request.args.get("id")
-
-    isbn_data = get_isbn(id)
+    goodreads_id = request.args.get("id")
+    isbn_data = get_isbn(goodreads_id)
 
     return jsonify(isbn_data)
 
