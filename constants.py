@@ -13,6 +13,7 @@ imdb_external_id_url = "https://api.themoviedb.org/3/tv/"
 
 goodreads_api_url = "https://www.goodreads.com/search/index.xml?q="
 goodreads_search_url = "https://www.goodreads.com/book/show"
+goodreads_author_url = "https://www.goodreads.com/author/show"
 
 art_api_url = 'https://www.wikiart.org/en/Api/2/login?'
 art_artwork_url = 'https://www.wikiart.org/en/api/2/PaintingSearch?term='

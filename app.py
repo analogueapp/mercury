@@ -12,11 +12,12 @@ import os
 load_dotenv()
 
 from utils.tag_parsers import main_generic
-from utils.enrichment import enrich_test
+from utils.enrichment import enrich
 from utils.request import send_request, handle_params
 from utils.search import search
 from utils.get_twitter import get_twitter
 from utils.get_main import get_main
+from apis.goodreads import get_isbn
 
 sentry_key = os.getenv("SENTRY_KEY")
 sentry_org = os.getenv("SENTRY_ORG")
@@ -39,18 +40,18 @@ def welcome():
 
 @app.route("/get")
 def Graph_data():
-
     all_params = dict(request.args)
+    params_string = handle_params(all_params)
 
-    if 'twitter.com' in handle_params(all_params):
-        return get_twitter(handle_params(all_params))
+    if 'twitter.com' in params_string:
+        return get_twitter(params_string)
 
     request_object = send_request(all_params)
 
     if isinstance(request_object, dict):
         return jsonify(request_object)
 
-    get_data = get_main(request_object, handle_params(all_params))
+    get_data = get_main(request_object, params_string)
 
     return jsonify(get_data)
 
@@ -60,9 +61,16 @@ def enrichment():
 
     URL = request.args.get("url")
 
-    enriched_data = enrich_test(URL)
+    enriched_data = enrich(URL)
 
     return jsonify(enriched_data)
+
+@app.route("/isbn")
+def isbn_endpoint():
+    goodreads_id = request.args.get("id")
+    isbn_data = get_isbn(goodreads_id)
+
+    return jsonify(isbn_data)
 
 
 @app.route("/api/search")
