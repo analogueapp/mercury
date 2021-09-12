@@ -1,3 +1,4 @@
+import re
 import requests
 from requests.sessions import should_bypass_proxies
 from bs4 import BeautifulSoup, SoupStrainer
@@ -70,9 +71,10 @@ def enrich_author(goodreads_id):
 
 def fetch_goodreads(url: str) -> Dict:
     api_data = {}
-
-    idd = url.split("show/", 1)[1].split(".", 1)[0]
-    book_url = f"{goodreads_search_url}?id={idd}&key={goodreads_key}"    
+    # split by . or -
+    # https://stackoverflow.com/a/4998688/13178719
+    gid = re.split('\.|\-', url.split("show/", 1)[1])[0]
+    book_url = f"{goodreads_search_url}?id={gid}&key={goodreads_key}"    
     soup_object = BeautifulSoup(
         requests.get(book_url).text, "html.parser"
     )
@@ -102,7 +104,7 @@ def fetch_goodreads(url: str) -> Dict:
     api_data['description'] = soup_object.find('description').get_text()
     api_data['edition_information'] = soup_object.find('edition_information').get_text()
     api_data['form'] = "text"
-    api_data['goodreads_id'] = idd
+    api_data['goodreads_id'] = gid
     api_data['image_url'] = get_image_url()
     api_data['isbn'] = isbn
     api_data["isbn13"] = soup_object.find('isbn13').get_text()
