@@ -76,7 +76,6 @@ def fetch_goodreads(url: str) -> Dict:
     gid = re.split("\.|\-", url.split("show/", 1)[1])[0]
     book_url = f"{goodreads_search_url}?id={gid}&key={goodreads_key}"
     soup_object = BeautifulSoup(requests.get(book_url).text, "html.parser")
-    print(soup_object)
 
     authors_data = soup_object.find("authors")
     isbn = soup_object.find("isbn").get_text(strip=True)
