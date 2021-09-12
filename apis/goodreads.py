@@ -78,6 +78,7 @@ def fetch_goodreads(url: str) -> Dict:
     soup_object = BeautifulSoup(
         requests.get(book_url).text, "html.parser"
     )
+    print(soup_object)
     
     authors_data = soup_object.find('authors')
     isbn = soup_object.find('isbn').get_text()
@@ -88,24 +89,13 @@ def fetch_goodreads(url: str) -> Dict:
     publication_month = soup_object.find('publication_month').get_text()
     publication_day = soup_object.find('publication_day').get_text()
 
-    def get_image_url():
-        image_url = f"http://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
-        with Image.open(requests.get(image_url, stream=True).raw) as img:
-            size = img.size
-        if size == (1,1):
-            image_url = soup_object.find('image_url').get_text()
-        if "noimage" in image_url:
-            image_url = "https://ik.imagekit.io/analogue/content_placeholder_1_85wLgUnbx.jpg"
-
-        return image_url
-
     api_data['asin'] = soup_object.find('asin').get_text()
     api_data['authors'] = [enrich_author(id.text) for id in authors_data.find_all('id')]
     api_data['description'] = soup_object.find('description').get_text()
     api_data['edition_information'] = soup_object.find('edition_information').get_text()
     api_data['form'] = "text"
     api_data['goodreads_id'] = gid
-    api_data['image_url'] = get_image_url()
+    api_data['image_url'] = get_image_url(isbn, soup_object.find('image_url').get_text())
     api_data['isbn'] = isbn
     api_data["isbn13"] = soup_object.find('isbn13').get_text()
     api_data['kindle_asin'] = soup_object.find('kindle_asin').get_text()
@@ -120,3 +110,14 @@ def fetch_goodreads(url: str) -> Dict:
     api_data['title'] = soup_object.find('title').get_text()
         
     return api_data
+
+def get_image_url(isbn, goodreads_image_url):
+        image_url = f"http://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
+        with Image.open(requests.get(image_url, stream=True).raw) as img:
+            size = img.size
+        if size == (1,1):
+            image_url = goodreads_image_url
+        if "nophoto" in image_url:
+            image_url = "https://ik.imagekit.io/analogue/content_placeholder_1_85wLgUnbx.jpg"
+
+        return image_url
