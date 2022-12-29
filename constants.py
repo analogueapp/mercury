@@ -1,4 +1,4 @@
-APIs = ["www.goodreads.com", "www.imdb.com", "open.spotify.com", "www.artsy.net", "www.wikiart.org", "en.wikipedia.org", "www.netflix.com"]
+APIs = ["www.google.com", "www.amazon.com", "www.goodreads.com", "www.imdb.com", "open.spotify.com", "www.artsy.net", "www.wikiart.org", "en.wikipedia.org", "www.netflix.com"]
 fullUrlsExceptions = ['www.youtube.com']
 
 artsy_api_url = 'https://api.artsy.net/api'
