@@ -1,4 +1,4 @@
-from search.book import search_books, search_enrich_book
+from search.book import search_books
 from search.film_tv import search_film
 from search.song_album import search_music
 from search.podcast import search_podcast
