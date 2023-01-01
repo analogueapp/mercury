@@ -3,6 +3,8 @@ import requests
 import json
 from typing import Dict
 import os
+from search.book import search_isbn
+from constants import google_api_url
 
 google_key = os.getenv("GOOGLE_KEY")
 
@@ -34,14 +36,6 @@ def search_author(name: str) -> Dict:
 
     return author_data
 
-def search_book(isbn: str) -> str:    
-    s_url = f'https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&key={google_key}'
-    resp = requests.get(s_url)
-    data = resp.json()
-    volume_url = data["items"][0]["selfLink"]
-    
-    return volume_url
-
 
 def enrich_author(a_url: str) -> Dict:
     author_data = {}
@@ -65,7 +59,7 @@ def enrich_author(a_url: str) -> Dict:
 
 def get_google_isbn(google_id: str) -> str:    
     isbn_data = {}
-    g_url = f'https://www.googleapis.com/books/v1/volumes/{google_id}?key={google_key}'
+    g_url = f'{google_api_url}/{google_id}?key={google_key}'
     resp = requests.get(g_url)    
     data = resp.json()["volumeInfo"]
     
@@ -77,7 +71,7 @@ def get_google_isbn(google_id: str) -> str:
 
 def fetch_amazon(url: str) -> Dict:    
     isbn = url.split("/")[-1]
-    volume_url = search_book(isbn)
+    volume_url = search_isbn(isbn)
     api_data = fetch_google(volume_url)    
 
     return api_data
@@ -87,7 +81,7 @@ def fetch_google(url: str) -> Dict:
     # get isbn from amazon url    
     api_data = {}
     gid = url.split("/")[-1]    
-    g_url = f'https://www.googleapis.com/books/v1/volumes/{gid}?key={google_key}'
+    g_url = f'{google_api_url}/{gid}?key={google_key}'
     resp = requests.get(g_url)
     metadata = resp.json()    
     data = metadata["volumeInfo"]

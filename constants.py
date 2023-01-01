@@ -26,6 +26,7 @@ wikipedia_url = "https://en.wikipedia.org/wiki/"
 netflix_url = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi"
 
 google_url = "https://www.google.com/search?q="
+google_api_url = "https://www.googleapis.com/books/v1/volumes"
 
 youtube_watch_url = 'https://www.youtube.com/watch?v='
 
