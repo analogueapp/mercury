@@ -63,7 +63,7 @@ selenium==3.141.0
 sentry-sdk==0.14.3
 six==1.14.0
 soupsieve==2.0
-spotipy==2.13.0
+spotipy==2.22.1
 tmdb3==0.7.2
 toml==0.10.0
 tqdm==4.46.0
