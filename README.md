@@ -1,4 +1,4 @@
-#  Mercury [![CodeFactor](https://www.codefactor.io/repository/github/analogue-app/mercury/badge)](https://www.codefactor.io/repository/github/analogue-app/mercury)
+#  Mercury
 
 Mercury is a data enrichment service for [Analogue](https://analogue.app). It's primarily used to extract rich data and images for use on Analogue (people, topics, information etc)
 
