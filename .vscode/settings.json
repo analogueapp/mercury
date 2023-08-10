@@ -1,0 +1,6 @@
+{
+  // file formatter settings
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  }
+}
