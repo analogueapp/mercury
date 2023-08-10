@@ -33,7 +33,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 jsonify==0.5
 kombu==4.6.8
-lxml==4.5.0
+lxml==4.9.3
 MarkupSafe==1.1.1
 more-itertools==8.2.0
 packaging==20.3
