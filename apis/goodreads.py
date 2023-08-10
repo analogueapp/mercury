@@ -42,7 +42,7 @@ def get_title(url: str) -> str:
     return title
 
 
-def get_isbn(goodreads_id: str) -> str:
+def get_goodreads_isbn(goodreads_id: str) -> str:    
     isbn_data = {}
     book_url = f"{goodreads_search_url}?id={goodreads_id}&key={goodreads_key}"
     parse_only = ["isbn", "isbn13"]
