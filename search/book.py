@@ -1,6 +1,7 @@
 import requests
 from typing import Dict
 from constants import google_api_url
+from apis import google_books
 import json
 import os
 
@@ -22,19 +23,12 @@ def search_books(query):
     resp = requests.get(api_url)
     data = resp.json()
 
-    for result in data["items"]:
-        single_result = {}
+    items = data.get("items", [])    
 
-        # Check if key exists before accessing
-        single_result["title"] = result["volumeInfo"].get("title", "Unknown Title")
-        single_result["image"] = result["volumeInfo"]["imageLinks"].get(
-            "thumbnail", None
-        )
-        single_result["creators"] = result["volumeInfo"].get("authors", [])
-        single_result["url"] = result.get("selfLink", "")
-        single_result["medium"] = "book"
+    for result in items:        
+        url = result.get("selfLink", "")
+        enriched_result = google_books.fetch_google(url)
 
-        results.append(single_result)
-        del single_result
+        results.append(enriched_result)
 
     return results
