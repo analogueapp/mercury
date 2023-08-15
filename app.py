@@ -17,7 +17,7 @@ from utils.request import send_request, handle_params
 from utils.search import search
 from utils.get_twitter import get_twitter
 from utils.get_main import get_main
-from apis.google_books import get_google_isbn
+from apis.google_books import fetch_authors
 from apis.goodreads import get_goodreads_isbn
 
 sentry_key = os.getenv("SENTRY_KEY")
@@ -65,6 +65,13 @@ def enrichment():
     enriched_data = enrich(URL)
 
     return jsonify(enriched_data)
+
+@app.route("/authors")
+def authors_enrichment():
+    isbn = request.args.get("isbn")    
+    enriched_authors = fetch_authors(isbn)
+    
+    return jsonify(authors=enriched_authors)
 
 
 @app.route("/goodreads/isbn")
