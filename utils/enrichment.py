@@ -4,7 +4,7 @@ from apis.spotify import spotify_get
 from apis.imdb import fetch_imdb
 from apis.goodreads import fetch_goodreads
 from apis.google_books import fetch_amazon, search_author
-from apis.google_books import fetch_google_ol
+from apis.google_books import fetch_google
 from apis.artsy import fetch_artsy
 from apis.wikiart import fetch_wikiart
 from apis.wikipedia import fetch_wikipedia
@@ -33,7 +33,7 @@ def enrich(url: str) -> Dict:
             enrich_data = fetch_amazon(url)
 
         if site_name in ("www.googleapis.com"):
-            enrich_data = fetch_google_ol(url)
+            enrich_data = fetch_google(url)
 
         if site_name in ("www.goodreads.com","goodreads.com"):
             enrich_data = fetch_goodreads(url)

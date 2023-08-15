@@ -111,10 +111,5 @@ def fetch_authors(isbn: str) -> Dict:
         authors = [enrich_author(author["url"]) for author in ol_data['data']['authors']] if 'authors' in ol_data['data'] else []
     else:
         authors = []
-
+    
     return authors
-
-def fetch_google_ol(url: str) -> Dict:
-    api_data = fetch_google(url)
-    api_data["authors"] = fetch_authors(api_data["isbn"]) if "isbn" in api_data else api_data["authors"]
-    return api_data
