@@ -64,42 +64,45 @@ def fetch_amazon(url: str) -> Dict:
 
     return api_data
 
-
-def fetch_google(url: str) -> Dict:
-    # get isbn from amazon url    
-    api_data = {}
-    gid = url.split("/")[-1]    
-    g_url = f'{google_api_url}/{gid}?key={google_key}'
-    resp = requests.get(g_url)
-    metadata = resp.json()    
-    data = metadata["volumeInfo"]    
+def parse_google(result: Dict) -> Dict:    
+    api_data = {}    
+    data = result["volumeInfo"]
     api_data["description"] = data["description"] if "description" in data else None
-    api_data["canonicalVolumeLink"] = data["canonicalVolumeLink"]
-    api_data["google_id"] = gid
-    # api_data["google_url"] = data["infoLink"]
-    api_data["google_url"] = g_url
-    api_data["url"] = g_url
+    api_data["canonicalVolumeLink"] = data["canonicalVolumeLink"] if "canonicalVolumeLink" in data else None
+    api_data["google_id"] = result["id"]    
+    api_data["google_url"] = data["infoLink"]
+    api_data["url"] = result["selfLink"]
     api_data["form"] = "text"
-    api_data["image_url"] = f'{google_image_url}/{gid}?fife=w400-h600&source=gbs_api' 
+    api_data["image_url"] = f'{google_image_url}/{result["id"]}?fife=w400-h600&source=gbs_api' 
     if "industryIdentifiers" in data:
         for identifier in data["industryIdentifiers"]:
             if identifier["type"] == "ISBN_10":
                 api_data["isbn"] = identifier["identifier"]
             elif identifier["type"] == "ISBN_13":
                 api_data["isbn13"] = identifier["identifier"]
-    api_data["language"] = data["language"]
-    #api_data["medium"] = data["printType"]
+    api_data["language"] = data["language"]    
     api_data["medium"] = "book"
-    api_data["publisher"] = data["publisher"]
+    api_data["publisher"] = data["publisher"] if "publisher" in data else None
     api_data[
         "publication_date"
     ] = data["publishedDate"].replace('-', '/') if "publishedDate" in data else None
     api_data["title"] = data["title"]
     api_data["origin"] = "amazon.com"
-    api_data["origin_url"] = f"https://www.amazon.com/dp/{api_data['isbn']}" if "isbn" in api_data else g_url
+    api_data["origin_url"] = f"https://www.amazon.com/dp/{api_data['isbn']}" if "isbn" in api_data else api_data["google_url"]
     api_data["authors"] = [{'name': author} for author in data['authors']] if "authors" in data else []
+
+    return api_data
+
+
+def fetch_google(url: str) -> Dict:    
+    gid = url.split("/")[-1]    
+    g_url = f'{google_api_url}/{gid}?key={google_key}'
+    resp = requests.get(g_url)
+    result = resp.json()    
+    parsed_data = parse_google(result)
+    
+    return parsed_data
         
-    return api_data    
 
 def fetch_authors(isbn: str) -> Dict:
     ol_url = f'http://openlibrary.org/api/volumes/brief/isbn/{isbn}.json'

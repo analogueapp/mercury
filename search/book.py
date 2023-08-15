@@ -25,9 +25,8 @@ def search_books(query):
 
     items = data.get("items", [])    
 
-    for result in items:        
-        url = result.get("selfLink", "")
-        enriched_result = google_books.fetch_google(url)
+    for result in items:                     
+        enriched_result = google_books.parse_google(result)
 
         results.append(enriched_result)
 
