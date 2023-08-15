@@ -60,7 +60,7 @@ def enrich_author(a_url: str) -> Dict:
 def fetch_amazon(url: str) -> Dict:    
     isbn = url.split("/")[-1]
     volume_url = search_isbn(isbn)
-    api_data = fetch_google_ol(volume_url)    
+    api_data = fetch_google(volume_url)    
 
     return api_data
 
