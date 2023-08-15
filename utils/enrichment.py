@@ -3,8 +3,8 @@ from bs4 import BeautifulSoup, SoupStrainer
 from apis.spotify import spotify_get
 from apis.imdb import fetch_imdb
 from apis.goodreads import fetch_goodreads
-from apis.google_books import fetch_amazon
-from apis.google_books import fetch_google
+from apis.google_books import fetch_amazon, search_author
+from apis.google_books import fetch_google_ol
 from apis.artsy import fetch_artsy
 from apis.wikiart import fetch_wikiart
 from apis.wikipedia import fetch_wikipedia
@@ -32,8 +32,8 @@ def enrich(url: str) -> Dict:
         if site_name in ("www.amazon.com"):
             enrich_data = fetch_amazon(url)
 
-        if site_name in ("www.google.com"):                       
-            enrich_data = fetch_google(url)
+        if site_name in ("www.googleapis.com"):
+            enrich_data = fetch_google_ol(url)
 
         if site_name in ("www.goodreads.com","goodreads.com"):
             enrich_data = fetch_goodreads(url)
