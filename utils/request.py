@@ -36,7 +36,7 @@ def send_request(param_dict: dict):
         cookie = cj.CookieJar()
         if 'twitter.com' in URL:
             return get_twitter(URL)
-        requested = requests.get(URL, headers=headers, cookies=cookie ,timeout=10)
+        requested = requests.get(URL, headers=headers, cookies=cookie, timeout=10)
 
         print(f"Status code: {requested.status_code}")
         print(f"Request Type: {type(requested)}")

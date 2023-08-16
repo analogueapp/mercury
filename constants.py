@@ -1,4 +1,4 @@
-APIs = ["www.google.com", "www.amazon.com", "www.goodreads.com", "www.imdb.com", "open.spotify.com", "www.artsy.net", "www.wikiart.org", "en.wikipedia.org", "www.netflix.com"]
+APIs = ["www.googleapis.com", "www.amazon.com", "www.goodreads.com", "www.imdb.com", "open.spotify.com", "www.artsy.net", "www.wikiart.org", "en.wikipedia.org", "www.netflix.com"]
 fullUrlsExceptions = ['www.youtube.com']
 
 artsy_api_url = 'https://api.artsy.net/api'
@@ -27,6 +27,7 @@ netflix_url = "https://unogs-unogs-v1.p.rapidapi.com/aaapi.cgi"
 
 google_url = "https://www.google.com/search?q="
 google_api_url = "https://www.googleapis.com/books/v1/volumes"
+google_image_url = "https://books.google.com/books/publisher/content/images/frontcover"
 
 youtube_watch_url = 'https://www.youtube.com/watch?v='
 
