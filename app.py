@@ -45,7 +45,7 @@ def Graph_data():
     all_params = dict(request.args)
     params_string = handle_params(all_params)
 
-    if 'twitter.com' in params_string:
+    if "twitter.com" in params_string:
         return get_twitter(params_string)
 
     request_object = send_request(all_params)
@@ -60,26 +60,27 @@ def Graph_data():
 
 @app.route("/enrich")
 def enrichment():
-
     URL = request.args.get("url")
 
     enriched_data = enrich(URL)
 
     return jsonify(enriched_data)
 
+
 @app.route("/authors")
 def authors_enrichment():
-    isbn = request.args.get("isbn")    
+    isbn = request.args.get("isbn")
     enriched_authors = fetch_authors(isbn)
-    
+
     return jsonify(authors=enriched_authors)
+
 
 @app.route("/topics")
 def topic_enrichment():
     title = request.args.get("title")
     author = request.args.get("author")
     enriched_topics = fetch_topics(title, author)
-    
+
     return jsonify(topics=enriched_topics)
 
 
@@ -93,12 +94,11 @@ def goodreads_isbn_endpoint():
 
 @app.route("/api/search")
 def search_endpoint():
-
     query = request.args.get("query")
     medium = request.args.get("medium")
 
     results = search(query, medium)
-    
+
     return jsonify(results)
 
 

@@ -14,9 +14,9 @@ def search_isbn(isbn: str) -> str:
     data = resp.json()
 
     if "items" in data and len(data["items"]) > 0:
-        return data["items"][0].get("selfLink", '')
+        return data["items"][0].get("selfLink", "")
     else:
-        return ''
+        return ""
 
 
 def search_books(query):
@@ -25,9 +25,9 @@ def search_books(query):
     resp = requests.get(api_url)
     data = resp.json()
 
-    items = data.get("items", [])    
+    items = data.get("items", [])
 
-    for result in items:                     
+    for result in items:
         enriched_result = google_books.parse_google(result)
 
         results.append(enriched_result)
