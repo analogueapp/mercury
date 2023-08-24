@@ -91,14 +91,6 @@ def goodreads_isbn_endpoint():
     return jsonify(isbn_data)
 
 
-@app.route("/google/isbn")
-def google_isbn_endpoint():
-    google_id = request.args.get("id")
-    isbn_data = get_google_isbn(google_id)
-
-    return jsonify(isbn_data)
-
-
 @app.route("/api/search")
 def search_endpoint():
 
