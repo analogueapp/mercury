@@ -1,6 +1,4 @@
-import re
 import requests
-import json
 from typing import Dict
 import os
 from search.book import search_isbn
@@ -16,23 +14,19 @@ def search_author(name: str) -> Dict:
     s_resp = requests.get(s_url)
     s_data = s_resp.json()
 
-    if s_data["numFound"] == 0:
-        author_data["name"] = name
-    else:
-        olid = s_data["docs"][0]["key"]
+    olid = s_data.get("docs", [{}])[0].get("key", None)
+    if olid:
         a_url = f'https://openlibrary.org/authors/{olid}.json'
         a_resp = requests.get(a_url)
-        a_data = a_resp.json()        
+        a_data = a_resp.json()
 
-        if "bio" in a_data:
-            author_data["about"] = a_data["bio"]
-        if "birth_date" in a_data:
-            author_data["born_at"] = a_data["birth_date"]
-        if "death_date" in a_data:
-            author_data["died_at"] = a_data["death_date"]
-        # might return Not Found
+        author_data["about"] = a_data.get("bio", None)
+        author_data["born_at"] = a_data.get("birth_date", None)
+        author_data["died_at"] = a_data.get("death_date", None)
         author_data["large_image_url"] = f"https://covers.openlibrary.org/a/olid/{olid}-L.jpg"
-        author_data["name"] = a_data["name"]
+        author_data["name"] = a_data.get("name", name)
+    else:
+        author_data["name"] = name
 
     return author_data
 
@@ -45,14 +39,12 @@ def enrich_author(a_url: str) -> Dict:
     ol_url = f'{("/").join(url_params)}.json'
     resp = requests.get(ol_url)
     data = resp.json()
-    if "bio" in data:
-        author_data["about"] = data["bio"]
-    if "birth_date" in data:
-        author_data["born_at"] = data["birth_date"]
-    if "death_date" in data:
-        author_data["died_at"] = data["death_date"]
+
+    author_data["about"] = data.get("bio", None)
+    author_data["born_at"] = data.get("birth_date", None)
+    author_data["died_at"] = data.get("death_date", None)
     author_data["large_image_url"] = f"https://covers.openlibrary.org/a/olid/{olid}-L.jpg"
-    author_data["name"] = data["name"]
+    author_data["name"] = data.get("name", None)
 
     return author_data
 
@@ -64,32 +56,34 @@ def fetch_amazon(url: str) -> Dict:
 
     return api_data
 
+
 def parse_google(result: Dict) -> Dict:    
     api_data = {}    
-    data = result["volumeInfo"]
-    api_data["description"] = data["description"] if "description" in data else None
-    api_data["canonicalVolumeLink"] = data["canonicalVolumeLink"] if "canonicalVolumeLink" in data else None
-    api_data["google_id"] = result["id"]    
-    api_data["google_url"] = data["infoLink"]
-    api_data["url"] = result["selfLink"]
+    data = result.get("volumeInfo", {})    
+
+    api_data["description"] = data.get("description", None)
+    api_data["canonicalVolumeLink"] = data.get("canonicalVolumeLink", None)
+    api_data["google_id"] = result.get("id", None)    
+    api_data["google_url"] = data.get("infoLink", None)
+    api_data["url"] = result.get("selfLink", None)
     api_data["form"] = "text"
-    api_data["image_url"] = f'{google_image_url}/{result["id"]}?fife=w400-h600&source=gbs_api' 
-    if "industryIdentifiers" in data:
-        for identifier in data["industryIdentifiers"]:
-            if identifier["type"] == "ISBN_10":
-                api_data["isbn"] = identifier["identifier"]
-            elif identifier["type"] == "ISBN_13":
-                api_data["isbn13"] = identifier["identifier"]
-    api_data["language"] = data["language"]    
+    api_data["image_url"] = f'{google_image_url}/{result.get("id", None)}?fife=w400-h600&source=gbs_api'
+    api_data["language"] = data.get("language", None)    
     api_data["medium"] = "book"
-    api_data["publisher"] = data["publisher"] if "publisher" in data else None
-    api_data[
-        "publication_date"
-    ] = data["publishedDate"].replace('-', '/') if "publishedDate" in data else None
-    api_data["title"] = data["title"]
-    api_data["origin"] = "amazon.com"
-    api_data["origin_url"] = f"https://www.amazon.com/dp/{api_data['isbn']}" if "isbn" in api_data else api_data["google_url"]
-    api_data["authors"] = [{'name': author} for author in data['authors']] if "authors" in data else []
+    api_data["publisher"] = data.get("publisher", None)
+    api_data["publication_date"] = data.get("publishedDate", "").replace('-', '/')
+    api_data["title"] = data.get("title", None)
+    api_data["origin"] = "amazon.com"        
+    api_data["authors"] = [{'name': author} for author in data.get('authors', [])]
+    api_data["topics"] = data.get("categories", [])
+
+    for identifier in data.get("industryIdentifiers", []):
+        if identifier.get("type") == "ISBN_10":
+            api_data["isbn"] = identifier.get("identifier", None)
+        elif identifier.get("type") == "ISBN_13":
+            api_data["isbn13"] = identifier.get("identifier", None)
+    
+    api_data["origin_url"] = f"https://www.amazon.com/dp/{api_data['isbn']}" if "isbn" in api_data else api_data.get("google_url", None)
 
     return api_data
 
@@ -107,11 +101,11 @@ def fetch_google(url: str) -> Dict:
 def fetch_authors(isbn: str) -> Dict:
     ol_url = f'http://openlibrary.org/api/volumes/brief/isbn/{isbn}.json'
     ol_resp = requests.get(ol_url).json()
-    if ol_resp != []:
-        ol_metadata = ol_resp["records"]
+    if ol_resp:
+        ol_metadata = ol_resp.get("records", {})
         ol_key = list(ol_metadata.keys())[0]
-        ol_data = ol_metadata[ol_key]
-        authors = [enrich_author(author["url"]) for author in ol_data['data']['authors']] if 'authors' in ol_data['data'] else []
+        ol_data = ol_metadata.get(ol_key, {})
+        authors = [enrich_author(author.get("url", "")) for author in ol_data.get('data', {}).get('authors', [])]
     else:
         authors = []
     
