@@ -1,6 +1,8 @@
+import os
 from pymongo import MongoClient
 
-client = MongoClient("mongodb+srv://analogue:gumption@mercury.3pv3bqd.mongodb.net/?retryWrites=true&w=majority")  # Adjust as needed
+uri = os.getenv("MONGODB_URI")
+client = MongoClient(uri)
 db = client["mercury"]
 
 # MongoDB collections
