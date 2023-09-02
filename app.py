@@ -18,7 +18,8 @@ from utils.search import search
 from utils.get_twitter import get_twitter
 from utils.get_main import get_main
 from apis.google_books import fetch_authors
-from apis.dbpedia import fetch_topics
+from apis.batch import generate_and_store_topics
+from apis.single import enrich_single_book
 from apis.goodreads import get_goodreads_isbn
 
 sentry_key = os.getenv("SENTRY_KEY")
@@ -78,11 +79,21 @@ def authors_enrichment():
 @app.route("/topics")
 def topic_enrichment():
     title = request.args.get("title")
-    author = request.args.get("author")
-    enriched_topics = fetch_topics(title, author)
+    authors = request.args.get("authors")
+    enriched_topics = enrich_single_book(title, authors)
 
     return jsonify(topics=enriched_topics)
 
+@app.route("/batch_topics", methods=["POST"])
+def batch_enrichment():
+    data = request.get_json()
+    books = data.get("books")
+    if not books:
+        return jsonify({"error": "No books data provided"}), 400
+    
+    generate_and_store_topics(books)
+    
+    return jsonify({"message": "Successfully processed books"}), 200
 
 @app.route("/goodreads/isbn")
 def goodreads_isbn_endpoint():
