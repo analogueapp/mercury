@@ -33,7 +33,7 @@ jsonify==0.5
 kombu==4.6.8
 lxml==4.9.3
 more-itertools==8.2.0
-packaging==20.3
+packaging>=20.3
 pathspec==0.8.0
 Pillow==8.4.0
 pluggy==0.13.1
@@ -54,7 +54,7 @@ query-string==2019.4.13
 regex==2020.4.4
 requests==2.31.0
 retrying==1.3.3
-rich==1.0.3
+rich==13.5.2
 selenium==3.141.0
 sentry-sdk==1.14.0
 six==1.14.0
@@ -63,7 +63,7 @@ spotipy==2.13.0
 tmdb3==0.7.2
 toml==0.10.0
 tqdm==4.46.0
-typing-extensions==3.7.4.2
+typing-extensions>=3.7.4.2
 urllib3==2.0.4
 vine==1.3.0
 virtualenv==20.0.20
@@ -80,3 +80,8 @@ google-auth==1.18.0
 google-auth-httplib2==0.0.4
 googleapis-common-protos==1.52.0
 tweepy==3.9.0
+openai==0.27.9
+numpy==1.25.2
+sentence_transformers==2.2.2
+hdbscan==0.8.33
+pymongo==4.5.0
