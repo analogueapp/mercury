@@ -7,6 +7,7 @@ db = client["mercury"]
 
 env = os.getenv("FLASK_ENV")
 
+collection_prefix=""
 if env == "development":
     collection_prefix = "dev_"
 else:
