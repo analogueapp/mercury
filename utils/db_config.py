@@ -5,12 +5,19 @@ uri = os.getenv("MONGODB_URI")
 client = MongoClient(uri)
 db = client["mercury"]
 
-# MongoDB collections
-topics_collection = db.topics_storage
-topic_book_mapping_collection = db.topic_book_mapping
-embeddings_collection = db.topic_embedding_cache
-cluster_results_collection = db.cluster_results
-cleaned_topics_collection = db.cleaned_topics_storage
+env = os.getenv("FLASK_ENV")
+
+if env == "development":
+    collection_prefix = "dev_"
+else:
+    collection_prefix = "prod_"
+
+# MongoDB collections with environment-specific names
+topics_collection = db[f"{collection_prefix}topics_storage"]
+topic_book_mapping_collection = db[f"{collection_prefix}topic_book_mapping"]
+embeddings_collection = db[f"{collection_prefix}topic_embedding_cache"]
+cluster_results_collection = db[f"{collection_prefix}cluster_results"]
+cleaned_topics_collection = db[f"{collection_prefix}cleaned_topics_storage"]
 
 def setup_database_indexes():
     # Creating indexes for topics_collection
