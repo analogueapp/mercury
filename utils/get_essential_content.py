@@ -22,7 +22,7 @@ def get_essential_media(n, media, modifier=''):
         contents = parse_films(raw_text)                
     elif media == "podcast shows":
         contents = parse_podcasts(raw_text)
-    elif media.endswith('episodes'):
+    elif media.endswith(' podcast episodes'):
         show = media.removesuffix(' podcast episodes')
         contents = parse_episodes(raw_text, show)
     
