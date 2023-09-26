@@ -3,6 +3,9 @@ from typing import Dict
 import os
 from search.book import search_isbn
 from constants import google_api_url, google_image_url
+from dotenv import load_dotenv
+
+load_dotenv()
 
 google_key = os.getenv("GOOGLE_KEY")
 

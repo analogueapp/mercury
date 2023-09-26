@@ -6,6 +6,9 @@ import numpy as np
 from sklearn.metrics import pairwise_distances_argmin_min
 from utils.db_config import topics_collection, topic_book_mapping_collection, cluster_results_collection
 from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
+
+load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_KEY")
 model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
