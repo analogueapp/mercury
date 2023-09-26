@@ -27,7 +27,7 @@ def generate_book_topics(title, authors):
                f"'John Smith's London Mysteries' or just 'Fiction'.")
 
     # Make the API call
-    completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=4096, temperature=0.6, n=1)
+    completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=4000, temperature=0.6, n=1)
                 
     # Extracting the response and splitting into individual topics    
     raw_text = completion.choices[0].text.strip()

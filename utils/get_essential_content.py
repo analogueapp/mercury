@@ -11,7 +11,7 @@ openai.api_key = os.getenv("OPENAI_KEY")
 
 def get_essential_media(n, media, modifier=''):
     prompt_text = (f"Generate a list of the {n} most influential {media} of all time. {modifier}")
-    completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=4096, temperature=0.6, n=1)   
+    completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=4000, temperature=0.6, n=1)   
             
     raw_text = completion.choices[0].text
      
