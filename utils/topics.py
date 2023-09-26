@@ -27,19 +27,12 @@ def generate_book_topics(title, authors):
                f"'John Smith's London Mysteries' or just 'Fiction'.")
 
     # Make the API call
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",        
-        messages=[{"role": "user", "content": prompt_text}],        
-        n=1,
-        temperature=0.6  # lower temperature to make output more deterministic
-    )    
-    
+    completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=4096, temperature=0.6, n=1)
+                
     # Extracting the response and splitting into individual topics    
-    raw_text = response.choices[0].message.content.strip()
+    raw_text = completion.choices[0].text.strip()
     topics = re.findall(r'\d+\.\s*(.*?)(?=\n\d+|$)', raw_text)
-    
-    # Extract the token usage from the response
-    tokens_used = response['usage']
+            
     return topics
 
 def map_topics_to_books():
