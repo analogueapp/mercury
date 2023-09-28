@@ -9,8 +9,8 @@ load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_KEY")
 
-def get_essential_media(n, media, modifier=''):
-    prompt_text = (f"Generate a list of the {n} most influential {media} of all time. {modifier}")
+def get_essential_media(n, genre, media, modifier=''):    
+    prompt_text = (f"Generate a list of the {n} most influential {genre} {media} of all time. {modifier}")
     completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=4000, temperature=0.6, n=1)   
             
     raw_text = completion.choices[0].text
@@ -29,7 +29,7 @@ def get_essential_media(n, media, modifier=''):
     # Insert contents into MongoDB collection
     for item in contents:
         item['media_type'] = 'podcast episode' if media.endswith('podcast episodes') else media[:-1]
-        essential_contents_collection.insert_one(item)
+        essential_contents_collection.insert_one(item)    
     return contents
 
 def parse_books(text):
@@ -66,7 +66,7 @@ def parse_podcasts(text):
     podcasts = []
     for match in matches:
         title = match.strip()  # Remove any extra spaces
-        get_essential_media(10, f'{title} podcast episodes', "Include just the title of the episode.")
+        get_essential_media(15, f'{title} podcast episodes', "Include just the title of the episode.")
         podcasts.append({"title": title})
     
     return podcasts
@@ -87,9 +87,10 @@ def parse_episodes(text, show):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Get top media lists.')
     parser.add_argument('-n', type=int, help='Number of items in the list', default=50)
+    parser.add_argument('-g', '--genre', type=str, help='Specify the genre of the media', default='')
     parser.add_argument('-m', '--media', type=str, help='Type of media')
     parser.add_argument('-mod', '--modifier', type=str, help='Additional instructions for the list')
 
     args = parser.parse_args()
 
-    get_essential_media(args.n, args.media, args.modifier)
+    get_essential_media(args.n, args.genre, args.media, args.modifier)
