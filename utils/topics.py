@@ -4,7 +4,7 @@ import os
 import openai
 import numpy as np
 from sklearn.metrics import pairwise_distances_argmin_min
-from utils.db_config import topics_collection, topic_book_mapping_collection, cluster_results_collection
+from utils.db_config import topics_collection, topic_content_mapping_collection, cluster_results_collection
 from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 
@@ -17,49 +17,47 @@ def get_embedding(texts):
     """Get the embeddings for a list of texts using Sentence Transformers."""
     return model.encode(texts)
 
-def generate_book_topics(title, authors):
-    # Convert the list of authors into a comma-separated string
-    author_string = ", ".join(authors)
-    
-    # Construct the prompt with specific delimiters for better extraction
-    prompt_text = (f"List 20 genres or topics for '{title}' by {author_string}. "
-               f"Avoid overly specific or overly general labels. For example, use 'Detective Stories' instead of "
-               f"'John Smith's London Mysteries' or just 'Fiction'.")
+def generate_topics(medium, title, specifier):    
+    prompt_text = (f"List 15 genres or topics for the {medium} '{title}' {specifier}. " 
+                   f"These topics should vary in specificity, such that they are useful to a recommender engine. "
+                   f"Simply print a list with the titles of these topics. ")                   
 
     # Make the API call
-    completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=4000, temperature=0.6, n=1)
+    completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=3800, temperature=0.6, n=1)
                 
     # Extracting the response and splitting into individual topics    
-    raw_text = completion.choices[0].text.strip()
-    topics = re.findall(r'\d+\.\s*(.*?)(?=\n\d+|$)', raw_text)
+    raw_text = completion.choices[0].text.strip()    
+    if raw_text == "Unfamiliar":
+        return []
+    topics = re.findall(r'\d+\.\s*(.*?)(?=\n\d+|$)', raw_text)    
             
     return topics
 
-def map_topics_to_books():
-    # Create a dictionary to map each topic to a list of book IDs
-    topic_to_books = {}
+def map_topics_to_contents():
+    # Create a dictionary to map each topic to a list of content IDs
+    topic_to_contents = {}
 
     # Fetch all the records from the MongoDB topics collection
     stored_data = list(topics_collection.find({}))
 
-    # Iterate over each book record
+    # Iterate over each coontent record
     for record in stored_data:
-        book_id = record['content_id']
+        content_id = record['content_id']
         topics = record['topics']  # Assuming 'topics' is the key for the list of topics in MongoDB
 
         for topic in topics:
-            if topic not in topic_to_books:
-                topic_to_books[topic] = []
-            topic_to_books[topic].append(book_id)
+            if topic not in topic_to_contents:
+                topic_to_contents[topic] = []
+            topic_to_contents[topic].append(content_id)
 
     # Convert the dictionary to the desired output format
-    output_data = [{"topic": key, "books": value} for key, value in topic_to_books.items()]
+    output_data = [{"topic": key, "contents": value} for key, value in topic_to_contents.items()]
 
     # Clear out any existing data in the collection to ensure a fresh mapping is created
-    topic_book_mapping_collection.delete_many({})
+    topic_content_mapping_collection.delete_many({})
 
     # Insert the new mapping into the MongoDB collection
-    topic_book_mapping_collection.insert_many(output_data)
+    topic_content_mapping_collection.insert_many(output_data)
 
 def save_clusters_to_db(cluster_to_topic, representative_topics, topic_to_embedding):
     cluster_data = []
@@ -106,3 +104,7 @@ def update_representative_data_with_topic(representative_data, cluster_name, nov
             # Update in MongoDB
             cluster_results_collection.update_one({"cluster_name": cluster_name}, {"$push": {"related_topics": novel_topic}})
             break
+
+## For testing purposes
+# if __name__ == "__main__":
+#     generate_topics("book", "The Pearl", "by John Steinbeck")

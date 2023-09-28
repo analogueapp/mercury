@@ -1,23 +1,23 @@
 import numpy as np
 from collections import defaultdict
 from utils.db_config import topics_collection, embeddings_collection, cleaned_topics_collection
-from utils.topics import get_embedding, get_representative_topic_by_embedding, generate_book_topics, save_clusters_to_db, map_topics_to_books
+from utils.topics import get_embedding, get_representative_topic_by_embedding, generate_topics, save_clusters_to_db, map_topics_to_contents
 import hdbscan
 
-def generate_and_store_topics(books_batch):
+def generate_and_store_topics(batch):
     # Initialize an empty list for batch data
     batch_data = []
     
-    # Fetch topics for each book and store in the batch data
-    for book in books_batch:
-        topics = generate_book_topics(book['title'], book['authors'])
-        batch_data.append({'content_id': book['id'], 'topics': topics})
+    # Fetch topics for each content and store in the batch data
+    for content in batch:
+        topics = generate_topics(content['medium'], content['title'], content['specifier'])
+        batch_data.append({'content_id': content['id'], 'topics': topics})
     
     # Insert the batch data into MongoDB
     topics_collection.insert_many(batch_data)
     
     # Fetch unique topics from the entire batch
-    unique_batch_topics = set(topic for book in batch_data for topic in book['topics'])
+    unique_batch_topics = set(topic for content in batch_data for topic in content['topics'])
     
     # Query MongoDB to find out which topics we've already cached embeddings for
     seen_topics = {doc['topic'] for doc in embeddings_collection.find({}, {'_id': 0, 'topic': 1})}
@@ -55,13 +55,13 @@ def clean_and_cluster_topics():
     # Prepare data for MongoDB insertion
     cleaned_data = [
         {
-            'content_id': book['content_id'], 
+            'content_id': content['content_id'], 
             'topics': [
                 representative_topics[topic_to_label[topic]] if topic_to_label[topic] != -1 else topic 
-                for topic in book['topics']
+                for topic in content['topics']
             ]
         } 
-        for book in stored_data
+        for content in stored_data
     ]
     
     # Save the cleaned topics into MongoDB
@@ -70,5 +70,5 @@ def clean_and_cluster_topics():
 
 
 if __name__ == "__main__":
-    map_topics_to_books()
+    map_topics_to_contents()
     clean_and_cluster_topics()

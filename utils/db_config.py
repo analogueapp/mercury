@@ -18,7 +18,7 @@ else:
 
 # MongoDB collections with environment-specific names
 topics_collection = db[f"{collection_prefix}topics_storage"]
-topic_book_mapping_collection = db[f"{collection_prefix}topic_book_mapping"]
+topic_content_mapping_collection = db[f"{collection_prefix}topic_content_mapping"]
 embeddings_collection = db[f"{collection_prefix}topic_embedding_cache"]
 cluster_results_collection = db[f"{collection_prefix}cluster_results"]
 cleaned_topics_collection = db[f"{collection_prefix}cleaned_topics_storage"]
