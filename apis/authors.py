@@ -27,6 +27,7 @@ def enrich_author(name, a_key: str, work) -> Dict:
         author_data["about"] = data.get("bio", None)
     else:
         author_data["about"] = ""
+        author_data["large_image_url"] = 'nophoto'
 
     if len(author_data["about"]) < 100:
         author_data["about"] = get_creator_bio(author_data["name"], work)["about"]
