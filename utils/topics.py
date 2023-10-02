@@ -27,8 +27,6 @@ def generate_topics(medium, title, specifier):
                 
     # Extracting the response and splitting into individual topics    
     raw_text = completion.choices[0].text.strip()    
-    if raw_text == "Unfamiliar":
-        return []
     topics = re.findall(r'\d+\.\s*(.*?)(?=\n\d+|$)', raw_text)    
             
     return topics
