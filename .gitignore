@@ -2,3 +2,4 @@
 .env
 *.pyc
 mercury/
+node_modules/
