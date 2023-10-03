@@ -65,21 +65,21 @@ def parse_podcasts(text):
     
     podcasts = []
     for match in matches:
-        title = match.strip()  # Remove any extra spaces
-        get_essential_media(15, f'{title} podcast episodes', "Include just the title of the episode.")
+        title = match.strip().strip('"')  # Remove any extra spaces
+        get_essential_media(15, '', f'"{title}" podcast episodes', "Include just the title of the episode.")
         podcasts.append({"title": title})
     
     return podcasts
 
 def parse_episodes(text, show):
     # Regular expression to match the pattern of the list items for podcast episodes
-    pattern = r'(?<=")(?P<title>.*?)(?=")'
+    pattern = r'(?:(?<=:\s)|(?<=\d\.\s"))(.*?)(?="|\s\(|$)'
     matches = re.findall(pattern, text)
     
     episodes = []
     for match in matches:
-        title = match.strip()  # Remove any extra spaces
-        episodes.append({"title": title, "show": show})
+        title = match.strip().strip('"')  # Remove any extra spaces
+        episodes.append({"title": title, "show": show.strip('"')})
     
     return episodes
 
