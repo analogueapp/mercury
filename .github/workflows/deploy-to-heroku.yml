@@ -13,10 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Debug
+      - name: Debug API Token
         run: echo "API token is ${{ secrets.HEROKU_API_TOKEN }}"
-        
-        - name: Debug
+
+      - name: Debug App Name
         run: echo "App name is ${{ secrets.HEROKU_APP_NAME }}"
 
       - name: Deploy to Heroku
