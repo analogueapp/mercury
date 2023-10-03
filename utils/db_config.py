@@ -1,5 +1,8 @@
 import os
 from pymongo import MongoClient
+from dotenv import load_dotenv
+
+load_dotenv()
 
 uri = os.getenv("MONGODB_URI")
 client = MongoClient(uri)
@@ -15,10 +18,11 @@ else:
 
 # MongoDB collections with environment-specific names
 topics_collection = db[f"{collection_prefix}topics_storage"]
-topic_book_mapping_collection = db[f"{collection_prefix}topic_book_mapping"]
+topic_content_mapping_collection = db[f"{collection_prefix}topic_content_mapping"]
 embeddings_collection = db[f"{collection_prefix}topic_embedding_cache"]
 cluster_results_collection = db[f"{collection_prefix}cluster_results"]
 cleaned_topics_collection = db[f"{collection_prefix}cleaned_topics_storage"]
+essential_contents_collection = db[f"{collection_prefix}essential_contents"]
 
 def setup_database_indexes():
     # Creating indexes for topics_collection

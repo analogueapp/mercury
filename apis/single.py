@@ -1,26 +1,26 @@
 from sentence_transformers import util
 from utils.db_config import cluster_results_collection
-from utils.topics import get_embedding, update_representative_data_with_topic, find_closest_representative_topic, generate_book_topics
+from utils.topics import get_embedding, update_representative_data_with_topic, find_closest_representative_topic, generate_topics
 
-def enrich_single_book(title, authors):
+def enrich_single(medium, title, specifier):
     threshold=0.46
     representative_data = list(cluster_results_collection.find({}))
-    book_topics = generate_book_topics(title, authors)    
+    content_topics = generate_topics(medium, title, specifier)    
 
     enriched_topics = []
     directly_matched_original_topics = []
 
-    direct_matches = [cluster for cluster in representative_data if any(topic.lower() in [r_topic.lower() for r_topic in cluster.get("related_topics", [])] for topic in book_topics)]    
+    direct_matches = [cluster for cluster in representative_data if any(topic.lower() in [r_topic.lower() for r_topic in cluster.get("related_topics", [])] for topic in content_topics)]    
     for match in direct_matches:
         if match["cluster_name"] == "Unique":
-            matched_topics = [topic for topic in book_topics if topic.lower() in [r_topic.lower() for r_topic in match["related_topics"]]]
+            matched_topics = [topic for topic in content_topics if topic.lower() in [r_topic.lower() for r_topic in match["related_topics"]]]
             enriched_topics.extend(matched_topics)
             directly_matched_original_topics.extend(matched_topics)
         else:
             enriched_topics.append(match["representative_topic"]["topic"])
-            directly_matched_original_topics.extend([topic for topic in book_topics if topic.lower() in [r_topic.lower() for r_topic in match["related_topics"]]])
+            directly_matched_original_topics.extend([topic for topic in content_topics if topic.lower() in [r_topic.lower() for r_topic in match["related_topics"]]])
     
-    remaining_topics = list(set(book_topics) - set(directly_matched_original_topics))
+    remaining_topics = list(set(content_topics) - set(directly_matched_original_topics))
     
     for topic in remaining_topics:        
         topic_embedding = get_embedding(topic)
