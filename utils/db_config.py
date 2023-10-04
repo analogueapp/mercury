@@ -1,12 +1,14 @@
 import os
 from pymongo import MongoClient
 from dotenv import load_dotenv
+from gridfs import GridFS
 
 load_dotenv()
 
 uri = os.getenv("MONGODB_URI")
 client = MongoClient(uri)
 db = client["mercury"]
+fs = GridFS(db)
 
 env = os.getenv("FLASK_ENV")
 
@@ -23,6 +25,7 @@ embeddings_collection = db[f"{collection_prefix}topic_embedding_cache"]
 cluster_results_collection = db[f"{collection_prefix}cluster_results"]
 cleaned_topics_collection = db[f"{collection_prefix}cleaned_topics_storage"]
 essential_contents_collection = db[f"{collection_prefix}essential_contents"]
+model_collection = db[f"{collection_prefix}models"]
 
 def setup_database_indexes():
     # Creating indexes for topics_collection
