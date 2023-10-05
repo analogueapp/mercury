@@ -1,4 +1,3 @@
-
 import re
 import os
 import openai
@@ -6,40 +5,20 @@ from collections import defaultdict
 from utils.db_config import topics_collection, topic_content_mapping_collection, cluster_results_collection
 from dotenv import load_dotenv
 import tensorflow_hub as hub
-import sentencepiece as spm
-import tensorflow.compat.v1 as tf
-tf.disable_v2_behavior()
 
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_KEY")
-use_lite = hub.load("https://tfhub.dev/google/universal-sentence-encoder-lite/2")
 
-with tf.Session() as sess:
-  spm_path = sess.run(use_lite(signature="spm_path"))
-
-sp = spm.SentencePieceProcessor()
-with tf.io.gfile.GFile(spm_path, mode="rb") as f:
-  sp.LoadFromSerializedProto(f.read())
-print("SentencePiece model loaded at {}.".format(spm_path))
-
-def process_to_IDs_in_sparse_format(sp, sentences):
-    # This function converts sentences to ids using SentencePiece
-    ids = [sp.EncodeAsIds(x) for x in sentences]
-    max_len = max(len(x) for x in ids)
-    dense_shape=(len(ids), max_len)
-    values=[item for sublist in ids for item in sublist]
-    indices=[[row,col] for row in range(len(ids)) for col in range(len(ids[row]))]
-    return (values, indices, dense_shape)
+# Load the Universal Sentence Encoder's TF Hub module
+embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 
 def get_embedding(texts):
     if isinstance(texts, str):
         texts = [texts]
     
-    values, indices, dense_shape = process_to_IDs_in_sparse_format(sp_model, texts)
-    embeddings = use_lite(values=values, indices=indices, dense_shape=dense_shape)
-    
-    return embeddings['default'].numpy()
+    embeddings = embed(texts)
+    return embeddings.numpy()
 
 def generate_topics(medium, title, specifier):    
     prompt_text = (f"List 15 genres or topics for the {medium} '{title}' {specifier}. " 
