@@ -1,3 +1,6 @@
+-f https://download.pytorch.org/whl/torch_stable.html
+torch==2.1.0+cpu
+torchvision==0.16.0+cpu
 Flask==3.0.0
 Flask-Cors==4.0.0
 requests==2.31.0
