@@ -10,7 +10,21 @@ load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_KEY")
 
-model = SentenceTransformer('all-MiniLM-L12-v2')
+class LazySentenceTransformer:
+    def __init__(self, model_name):
+        self.model_name = model_name
+        self._model = None
+
+    @property
+    def model(self):
+        if self._model is None:
+            self._model = SentenceTransformer(self.model_name)
+        return self._model
+
+    def encode(self, texts):
+        return self.model.encode(texts)
+    
+model = LazySentenceTransformer('all-MiniLM-L12-v2')
 
 def get_embedding(texts):
     return model.encode(texts)
