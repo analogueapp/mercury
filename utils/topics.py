@@ -4,21 +4,16 @@ import openai
 from collections import defaultdict
 from utils.db_config import topics_collection, topic_content_mapping_collection, cluster_results_collection
 from dotenv import load_dotenv
-import tensorflow_hub as hub
+from sentence_transformers import SentenceTransformer
 
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_KEY")
 
-# Load the Universal Sentence Encoder's TF Hub module
-embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
+model = SentenceTransformer('all-MiniLM-L12-v2')
 
 def get_embedding(texts):
-    if isinstance(texts, str):
-        texts = [texts]
-    
-    embeddings = embed(texts)
-    return embeddings.numpy()
+    return model.encode(texts)
 
 def generate_topics(medium, title, specifier):    
     prompt_text = (f"List 15 genres or topics for the {medium} '{title}' {specifier}. " 
