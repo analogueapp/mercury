@@ -1,21 +1,24 @@
-
 import re
 import os
 import openai
-import numpy as np
-from sklearn.metrics import pairwise_distances_argmin_min
+from collections import defaultdict
 from utils.db_config import topics_collection, topic_content_mapping_collection, cluster_results_collection
-from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
+import tensorflow_hub as hub
 
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_KEY")
-model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
+
+# Load the Universal Sentence Encoder's TF Hub module
+embed = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
 
 def get_embedding(texts):
-    """Get the embeddings for a list of texts using Sentence Transformers."""
-    return model.encode(texts)
+    if isinstance(texts, str):
+        texts = [texts]
+    
+    embeddings = embed(texts)
+    return embeddings.numpy()
 
 def generate_topics(medium, title, specifier):    
     prompt_text = (f"List 15 genres or topics for the {medium} '{title}' {specifier}. " 
@@ -29,79 +32,35 @@ def generate_topics(medium, title, specifier):
     raw_text = completion.choices[0].text.strip()    
     topics = re.findall(r'\d+\.\s*(.*?)(?=\n\d+|$)', raw_text)    
             
+    # Strip trailing spaces around each parsed topic
+    topics = [topic.strip() for topic in topics]
+
     return topics
 
 def map_topics_to_contents():
-    # Create a dictionary to map each topic to a list of content IDs
-    topic_to_contents = {}
+    topic_to_contents = defaultdict(list)
 
-    # Fetch all the records from the MongoDB topics collection
-    stored_data = list(topics_collection.find({}))
-
-    # Iterate over each coontent record
-    for record in stored_data:
+    for record in topics_collection.find({}, {'content_id': 1, 'topics': 1}):
         content_id = record['content_id']
-        topics = record['topics']  # Assuming 'topics' is the key for the list of topics in MongoDB
-
-        for topic in topics:
-            if topic not in topic_to_contents:
-                topic_to_contents[topic] = []
+        for topic in record['topics']:
             topic_to_contents[topic].append(content_id)
 
-    # Convert the dictionary to the desired output format
     output_data = [{"topic": key, "contents": value} for key, value in topic_to_contents.items()]
-
-    # Clear out any existing data in the collection to ensure a fresh mapping is created
     topic_content_mapping_collection.delete_many({})
-
-    # Insert the new mapping into the MongoDB collection
     topic_content_mapping_collection.insert_many(output_data)
 
-def save_clusters_to_db(cluster_to_topic, representative_topics, topic_to_embedding):
+def save_clusters_to_db(cluster_to_topic, exemplars):
     cluster_data = []
     
     for label, topics in sorted(cluster_to_topic.items()):
         cluster_entry = {}
-        if label == -1:
-            cluster_entry["cluster_name"] = "Unique"
-        else:
-            cluster_entry["cluster_name"] = f"Cluster {label}"
-            cluster_entry["representative_topic"] = {
-                "topic": representative_topics[label],
-                "embedding": topic_to_embedding[representative_topics[label]].tolist()
-            }
-        cluster_entry["related_topics"] = topics
+        cluster_entry["cluster_name"] = f"Cluster {label}"
+        cluster_entry["exemplar"] = exemplars[label]
+        cluster_entry["topics"] = topics
         cluster_data.append(cluster_entry)
     
     # Save the data to MongoDB
     cluster_results_collection.insert_many(cluster_data)
-
-def get_representative_topic_by_embedding(cluster, topic_to_embedding):
-    cluster_embeddings = [topic_to_embedding[topic] for topic in cluster]
-    centroid = np.mean(cluster_embeddings, axis=0).reshape(1, -1)
-    closest_topic_index, _ = pairwise_distances_argmin_min(centroid, cluster_embeddings)
-    return cluster[closest_topic_index[0]]
-
-def find_closest_representative_topic(topic_embedding, representative_data):
-    """Find the closest representative topic for a given topic embedding."""
-    min_distance = float('inf')
-    closest_topic = None
-    for cluster_entry in representative_data:
-        if "representative_topic" in cluster_entry:
-            rep_topic_embedding = np.array(cluster_entry["representative_topic"]["embedding"])
-            distance = np.linalg.norm(rep_topic_embedding - topic_embedding)
-            if distance < min_distance:
-                min_distance = distance
-                closest_topic = cluster_entry["representative_topic"]["topic"]
-    return closest_topic
-
-def update_representative_data_with_topic(representative_data, cluster_name, novel_topic):
-    for cluster in representative_data:
-        if cluster["cluster_name"] == cluster_name:
-            cluster["related_topics"].append(novel_topic)
-            # Update in MongoDB
-            cluster_results_collection.update_one({"cluster_name": cluster_name}, {"$push": {"related_topics": novel_topic}})
-            break
 
 ## For testing purposes
 # if __name__ == "__main__":

@@ -1,35 +1,31 @@
-from sentence_transformers import util
-from utils.db_config import cluster_results_collection
-from utils.topics import get_embedding, update_representative_data_with_topic, find_closest_representative_topic, generate_topics
+from utils.db_config import cluster_results_collection, model_collection, collection_prefix, fs
+from utils.topics import get_embedding, generate_topics
+import joblib
+import io
+
+# Load the Affinity Propagation model from MongoDB
+def load_model_from_db():
+    model_metadata = model_collection.find_one({"environment": collection_prefix})
+    if model_metadata:
+        model_id = model_metadata["model_id"]  # Use the model_id from the metadata
+        model_data = fs.get(model_id).read()
+        buffer = io.BytesIO(model_data)
+        model = joblib.load(buffer)
+        return model
+    else:
+        raise Exception("Model not found in database")
 
 def enrich_single(medium, title, specifier):
-    threshold=0.46
-    representative_data = list(cluster_results_collection.find({}))
+    affinity_model = load_model_from_db()
+    clusters = list(cluster_results_collection.find({}))
     content_topics = generate_topics(medium, title, specifier)    
 
     enriched_topics = []
-    directly_matched_original_topics = []
 
-    direct_matches = [cluster for cluster in representative_data if any(topic.lower() in [r_topic.lower() for r_topic in cluster.get("related_topics", [])] for topic in content_topics)]    
-    for match in direct_matches:
-        if match["cluster_name"] == "Unique":
-            matched_topics = [topic for topic in content_topics if topic.lower() in [r_topic.lower() for r_topic in match["related_topics"]]]
-            enriched_topics.extend(matched_topics)
-            directly_matched_original_topics.extend(matched_topics)
-        else:
-            enriched_topics.append(match["representative_topic"]["topic"])
-            directly_matched_original_topics.extend([topic for topic in content_topics if topic.lower() in [r_topic.lower() for r_topic in match["related_topics"]]])
-    
-    remaining_topics = list(set(content_topics) - set(directly_matched_original_topics))
-    
-    for topic in remaining_topics:        
+    for topic in content_topics:    
         topic_embedding = get_embedding(topic)
-        matched_representative = find_closest_representative_topic(topic_embedding, representative_data)        
-        similarity_score = util.cos_sim(topic_embedding, get_embedding(matched_representative)).item()
-
-        if similarity_score >= threshold:
-            enriched_topics.append(matched_representative)
-            cluster_name = [cluster["cluster_name"] for cluster in representative_data if cluster.get("representative_topic", {}).get("topic") == matched_representative][0]
-            update_representative_data_with_topic(representative_data, cluster_name, topic)
+        cluster_label = affinity_model.predict(topic_embedding.reshape(1, -1))[0]
+        exemplar = clusters[cluster_label]["exemplar"]
+        enriched_topics.append(exemplar)
     
     return enriched_topics
