@@ -1,7 +1,7 @@
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 from flask import Flask, request, jsonify
-from flask_cors import CORS 
+from flask_cors import CORS
 
 from dotenv import load_dotenv
 import os
@@ -50,6 +50,7 @@ def creator_enrichment():
 
     return jsonify(creator=enriched_creator)
 
+
 @app.route("/excerpt")
 def excerpt_enrichment():
     work = request.args.get("work")
@@ -75,11 +76,11 @@ def batch_enrichment():
     batch = data.get("batch")
     if not batch:
         return jsonify({"error": "No batch data provided"}), 400
-    
+
     generate_and_store_topics(batch)
-    
+
     return jsonify({"message": "Successfully processed contents"}), 200
 
 
 if __name__ == "__main__":
-    app.run(port=8000)
+    app.run()
