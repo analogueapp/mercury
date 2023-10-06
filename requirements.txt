@@ -12,7 +12,7 @@ joblib==1.3.2
 urllib3==1.26.11
 gunicorn==21.2.0
 #peer deps for sentence-transformers
-http://download.pytorch.org/whl/cpu/torch-2.1.0%2Bcpu-cp311-cp311-linux_x86_64.whl
+http://download.pytorch.org/whl/cpu/torch-2.1.0%2Bcpu-cp311-cp311-linux_x86_64.whl#egg=torch
 transformers==4.34.0
 tqdm==4.66.1
 scipy==1.11.3
