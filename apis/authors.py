@@ -37,9 +37,10 @@ def enrich_author(name, a_key: str, work) -> Dict:
 def fetch_author(name: str, work: str) -> Dict:   
     name_param = quote(name)
     ol_url = f"https://openlibrary.org/search/authors.json?q={name_param}"
-    ol_resp = requests.get(ol_url).json()    
-    if ol_resp and ol_resp['numFound'] > 0:                
-        author_key = ol_resp['docs'][0]['key']
+    ol_resp = requests.get(ol_url)
+    ol_data = ol_resp.json()
+    if ol_data and ol_data['numFound'] > 0:                
+        author_key = ol_data['docs'][0]['key']
         return enrich_author(name, author_key, work)
     else:
         return None
