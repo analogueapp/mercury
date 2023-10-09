@@ -16,7 +16,3 @@ def get_excerpt(work, creatorList):
         return None
     else:
         return excerpt
-
-## For testing purposes
-# if __name__ == "__main__":
-#     get_excerpt("Boojababa", ["Clint Foreskin"])
