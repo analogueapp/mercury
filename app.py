@@ -1,6 +1,6 @@
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 from dotenv import load_dotenv
@@ -39,8 +39,7 @@ def author_enrichment():
     work = request.args.get("work")
     enriched_author = fetch_author(name, work)
 
-    response = jsonify(creator=enriched_author)
-    return Response(response, content_type='application/json')
+    return jsonify(creator=enriched_author)
 
 
 @app.route("/creator")
@@ -49,8 +48,7 @@ def creator_enrichment():
     work = request.args.get("work")
     enriched_creator = get_creator_bio(name, work)
 
-    response = jsonify(creator=enriched_creator)
-    return Response(response, content_type='application/json')
+    return jsonify(creator=enriched_creator)
 
 
 @app.route("/excerpt")
@@ -59,8 +57,7 @@ def excerpt_enrichment():
     creatorList = request.args.getlist("creators")
     enriched_excerpt = get_excerpt(work, creatorList)
 
-    response = jsonify(excerpt=enriched_excerpt)
-    return Response(response, content_type='application/json')
+    return jsonify(excerpt=enriched_excerpt)
 
 
 @app.route("/topics")
