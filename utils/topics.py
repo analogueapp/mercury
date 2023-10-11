@@ -35,7 +35,7 @@ def generate_topics(medium, title, specifier):
                    f"Simply print a list with the titles of these topics. ")                   
 
     # Make the API call
-    completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=3800, temperature=0.6, n=1)
+    completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=3000, temperature=0.6, n=1)
                 
     # Extracting the response and splitting into individual topics    
     raw_text = completion.choices[0].text.strip()    
