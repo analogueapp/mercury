@@ -1,1 +1,1 @@
-web: gunicorn app:app --timeout 25 --log-level info
+web: gunicorn app:app --worker-class gevent --timeout 30 --log-level info --max-requests 1000
