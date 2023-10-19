@@ -9,7 +9,6 @@ import os
 load_dotenv()
 
 affinity_endpoint_name = "affinity-propagation-endpoint"
-affinity_model_name = "affinity-propagation-model"
 
 embedding_endpoint_name = "sbert-endpoint"
 embedding_model_name = "sbert-model"
