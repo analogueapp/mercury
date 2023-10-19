@@ -1,5 +1,6 @@
 import boto3
 from sagemaker import Session
+from sagemaker.serverless import ServerlessInferenceConfig
 from sagemaker.huggingface.model import HuggingFaceModel
 from models.utils import embedding_endpoint_name, embedding_model_name, delete_existing_model, delete_existing_endpoint, delete_existing_endpoint_config
 from dotenv import load_dotenv
@@ -30,10 +31,13 @@ def deploy_model():
         name=embedding_model_name
     )
 
-    predictor = huggingface_model.deploy(
-        initial_instance_count=1,
+    serverless_config = ServerlessInferenceConfig(
+        memory_size_in_mb=1024, max_concurrency=5,
+    )
+
+    predictor = huggingface_model.deploy( 
         endpoint_name=embedding_endpoint_name,
-        instance_type="ml.c5.large"
+        serverless_inference_config=serverless_config
     )
 
     print(f"Model deployed at endpoint: {predictor.endpoint_name}")
