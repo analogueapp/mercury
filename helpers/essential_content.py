@@ -2,7 +2,7 @@ import openai
 import re
 import os
 import argparse
-from utils.db_config import essential_contents_collection
+from db_config import essential_contents_collection
 from dotenv import load_dotenv
 
 load_dotenv()
