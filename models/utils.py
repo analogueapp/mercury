@@ -40,19 +40,19 @@ def delete_existing_model(model_name):
     try:
         sagemaker_session.delete_model(model_name)
         print(f"Deleted existing model: {model_name}")
-    except:
-        print(f"No existing model named {model_name} found.")
+    except Exception as e:
+        print(f"No existing model named {model_name} found. Exception: {str(e)}")
 
 def delete_existing_endpoint(endpoint_name):
     try:
         sagemaker_session.delete_endpoint(endpoint_name)
         print(f"Deleted existing endpoint: {endpoint_name}")
-    except:
-        print(f"No existing endpoint named {endpoint_name} found.")
+    except Exception as e:
+        print(f"No existing endpoint named {endpoint_name} found. Exception: {str(e)}")
 
 def delete_existing_endpoint_config(endpoint_config_name):
     try:
         sagemaker_session.delete_endpoint_config(endpoint_config_name)
         print(f"Deleted existing endpoint configuration: {endpoint_config_name}")
-    except:
-        print(f"No existing endpoint configuration named {endpoint_config_name} found.")
+    except Exception as e:
+        print(f"No existing endpoint configuration named {endpoint_config_name} found. Exception: {str(e)}")
