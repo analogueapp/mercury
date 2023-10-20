@@ -21,7 +21,7 @@ def deploy_model(training_data_uri):
         role=role,
         source_dir='models/',
         instance_count=1,
-        instance_type='ml.m5.2xlarge',
+        instance_type='ml.m5.4xlarge',
         framework_version='1.2-1'        
     )
     sklearn_estimator.fit({'train': training_data_uri})
