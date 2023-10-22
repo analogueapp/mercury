@@ -17,10 +17,10 @@ def get_embedding(topic):
     res = cls_pooling(embedding_predictor.predict(data=data))    
     return res
 
-def generate_topics(medium, title, specifier):    
-    prompt_text = (f"List 7 genres or topics for the {medium} '{title}' {specifier}. " 
-                   f"These topics should vary in specificity, such that they are useful to a recommender engine. "
-                   f"Simply print a list with the titles of these topics. ")                   
+def generate_topics(medium, title, specifier, num = 'a few'):    
+    prompt_text = (f"List {num} relevant topics for the {medium} '{title}' {specifier}. "
+                   f"These topics should be very concise and represent a balanced mix of specificty to facilitate effective recommendations in a recommender engine. "                   
+                   f"Simply provide a list of the topics; do not include the title of the work itself or an elaboration of the topic.")
 
     # Make the API call
     completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=3000, temperature=0.6, n=1)
@@ -32,4 +32,8 @@ def generate_topics(medium, title, specifier):
     # Strip trailing spaces around each parsed topic
     topics = [topic.strip() for topic in topics]
 
+    # print(topics)
     return topics
+
+# if __name__ == "__main__":
+#     generate_topics("film", "Blade Runner", "from 1982", 5)

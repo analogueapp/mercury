@@ -6,7 +6,7 @@ def generate_and_store_topics(batch):
     unique_batch_topics = set()
     
     for content in batch:
-        topics = generate_topics(content['medium'], content['title'], content['specifier'])
+        topics = generate_topics(content['medium'], content['title'], content['specifier'], 5)
         batch_data.append({'content_id': content['id'], 'topics': topics})
         unique_batch_topics.update(topics)
     
