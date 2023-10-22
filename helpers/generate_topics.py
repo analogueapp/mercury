@@ -18,7 +18,7 @@ def get_embedding(topic):
     return res
 
 def generate_topics(medium, title, specifier):    
-    prompt_text = (f"List 10 genres or topics for the {medium} '{title}' {specifier}. " 
+    prompt_text = (f"List 7 genres or topics for the {medium} '{title}' {specifier}. " 
                    f"These topics should vary in specificity, such that they are useful to a recommender engine. "
                    f"Simply print a list with the titles of these topics. ")                   
 
