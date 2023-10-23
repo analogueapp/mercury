@@ -1,6 +1,6 @@
 import numpy as np
 import argparse
-from db_config import topics_collection, embeddings_collection, cleaned_topics_collection, cluster_results_collection
+from db_config import embeddings_collection, cluster_results_collection
 from models.utils import get_cluster_centers
 from models.affinity import deploy_model
 from dotenv import load_dotenv
@@ -26,29 +26,9 @@ def clean_topics():
     topic_embedding_cache = {entry['topic']: np.array(entry['embedding']) for entry in embeddings_collection.find({})}
     all_topics = list(topic_embedding_cache.keys())
 
-    # Fetch content IDs and their associated topics
-    stored_data = list(topics_collection.find({}))
-
     # Get cluster centers
     exemplars_indices, labels = get_cluster_centers()
-    exemplars = [all_topics[index] for index in exemplars_indices]
-
-    topic_to_exemplar = {topic: exemplars[label] for topic, label in zip(all_topics, labels)}
-
-    # Prepare data for MongoDB insertion
-    cleaned_data = [
-        {
-            'content_id': content['content_id'], 
-            'topics': [
-                topic_to_exemplar[topic] for topic in content['topics']
-            ]
-        } 
-        for content in stored_data
-    ]
-    
-    # Save the cleaned topics into MongoDB
-    cleaned_topics_collection.delete_many({})
-    cleaned_topics_collection.insert_many(cleaned_data)    
+    exemplars = [all_topics[index] for index in exemplars_indices]   
 
     save_clusters_to_db({label: [all_topics[i] for i, lbl in enumerate(labels) if lbl == label] for label in set(labels)}, exemplars)
 
