@@ -9,7 +9,12 @@ import boto3
 load_dotenv()
 
 def cluster_topics():
-    # Fetch topic embeddings from MongoDB
+    thresh = 75
+    while embeddings_collection.count_documents({}) > 26000:
+        condition = {"$expr": {"$gt": [{"$strLenCP": "$topic"}, thresh]}}
+        embeddings_collection.delete_many(condition)
+        thresh -= 1
+
     topic_embedding_cache = {entry['topic']: np.array(entry['embedding']) for entry in embeddings_collection.find({})}
     topic_embeddings = np.array(list(topic_embedding_cache.values()))
 
