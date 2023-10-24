@@ -18,9 +18,10 @@ def get_embedding(topic):
     return res
 
 def generate_topics(medium, title, specifier, num = 'a few'):    
-    prompt_text = (f"List {num} relevant topics for the {medium} '{title}' {specifier}. "
-                   f"These topics should be very concise and represent a balanced mix of specificty to facilitate effective recommendations in a recommender engine. "                   
-                   f"Simply provide a list of the topics; do not include the title of the work itself or an elaboration of the topic.")
+    prompt_text = (f"List {num} relevant genres or topics for the {medium} '{title}' {specifier}. "
+                   f"These genres or topics should be concise and reproducible across other works, "
+                   f"representing a balanced mix of specificty to facilitate effective recommendations in a recommender engine. "                   
+                   f"Simply provide a list of the genres or topics; do not include the title of the work itself or an elaboration of the topic.")
 
     # Make the API call
     completion = openai.Completion.create(model="gpt-3.5-turbo-instruct", prompt=prompt_text, max_tokens=3000, temperature=0.6, n=1)
