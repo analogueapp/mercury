@@ -21,13 +21,16 @@ def deploy_model(training_data_uri):
         role=role,
         source_dir='models/',
         instance_count=1,
-        instance_type='ml.m4.10xlarge',
-        framework_version='1.2-1'        
+        instance_type='ml.m5.2xlarge',
+        framework_version='1.2-1',
+        output_path='s3://mercury-affinity-modeling/models/',
+        code_location='s3://mercury-affinity-modeling/cache',
+        volume_size=75
     )
     sklearn_estimator.fit({'train': training_data_uri})
 
     serverless_config = ServerlessInferenceConfig(
-        memory_size_in_mb=1024, max_concurrency=5,
+        memory_size_in_mb=6144, max_concurrency=5,
     )
 
     # Deploy the model
