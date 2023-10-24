@@ -10,7 +10,7 @@ load_dotenv()
 
 def cluster_topics():
     thresh = 75
-    while embeddings_collection.count_documents({}) > 26000:
+    while embeddings_collection.count_documents({}) > 24000:
         condition = {"$expr": {"$gt": [{"$strLenCP": "$topic"}, thresh]}}
         embeddings_collection.delete_many(condition)
         thresh -= 1
