@@ -1,0 +1,83 @@
+{
+    "arts": {
+        "Visual Art": {"tags": []},
+        "Literature": {"tags": []},
+        "Music": {"tags": []},
+        "Theatre": {"tags": []},
+        "Design": {"tags": []},
+        "Cultural Studies": {"tags": []},
+        "Science Fiction": {"tags": []},
+        "Fashion": {"tags": []},
+        "Architecture": {"tags": []},
+        "Folklore": {"tags": []},
+        "Biography": {"tags": []}
+    },
+    "science": {
+        "Artificial Intelligence": {"tags": []},
+        "Biotechnology": {"tags": []},
+        "Computer Science": {"tags": []},
+        "Renewable Energy": {"tags": []},
+        "Space": {"tags": []},
+        "Neuroscience": {"tags": []},
+        "Nanotechnology": {"tags": []},
+        "Cybersecurity": {"tags": []},
+        "Software Engineering": {"tags": []},
+        "Virtual Reality": {"tags": []},
+        "Climate Science": {"tags": []},
+        "Mathematics": {"tags": []},
+        "Physics": {"tags": []},
+        "Biology": {"tags": []}
+    },
+    "nature": {
+        "Ecology": {"tags": []},
+        "Sustainability": {"tags": []},
+        "Permaculture": {"tags": []},
+        "Climate Change": {"tags": []},
+        "Geology": {"tags": []},
+        "Oceanography": {"tags": []},
+        "Astronomy": {"tags": []}
+    },
+    "business": {
+        "Entrepreneurship": {"tags": []},
+        "Strategy": {"tags": []},
+        "Leadership": {"tags": []},
+        "Finance": {"tags": []},
+        "Marketing": {"tags": []},
+        "Innovation": {"tags": []}
+    },
+    "psychology": {
+        "Mindfulness": {"tags": []},
+        "Productivity": {"tags": []},
+        "Relationships": {"tags": []},
+        "Psychology": {"tags": []},
+        "Personal Development": {"tags": []}
+    },
+    "philosophy": {
+        "Ancient Philosophy": {"tags": []},
+        "Modern Philosophy": {"tags": []},
+        "Ethics": {"tags": []},
+        "Consciousness": {"tags": []},
+        "Linguistics": {"tags": []},
+        "Metaphysics": {"tags": []},
+        "Epistemology": {"tags": []},
+        "Existentialism": {"tags": []}
+    },
+    "history": {
+        "Antiquity": {"tags": []},
+        "Modern History": {"tags": []},
+        "Political History": {"tags": []},
+        "Cultural History": {"tags": []},
+        "Warfare": {"tags": []},
+        "Exploration": {"tags": []},
+        "Revolutions": {"tags": []},
+        "Archaeology": {"tags": []},
+        "Military History": {"tags": []}
+    },
+    "spirituality": {
+        "Theology": {"tags": []},
+        "Mysticism": {"tags": []},
+        "Atheism": {"tags": []},
+        "Eastern Religion": {"tags": []},
+        "Western Religion": {"tags": []}
+    }
+}
