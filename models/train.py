@@ -24,10 +24,11 @@ def model_fn(model_dir):
 
 def input_fn(request_body, request_content_type):
     if request_content_type == 'application/x-npy':        
-        data = np.load(io.BytesIO(request_body), allow_pickle=True)
-        if np.array_equal(data, np.array([-999999])):            
+        with io.BytesIO(request_body) as buffer:
+            data = np.load(buffer, allow_pickle=True)
+        if data.size == 1 and data[0] == -999999:
             return {"request": "get_cluster_centers"}
-        else:            
+        else:
             return data
     else:
         raise ValueError(f"Unsupported content type: {request_content_type}")
@@ -35,10 +36,14 @@ def input_fn(request_body, request_content_type):
 def output_fn(prediction_output, accept):
     """Format prediction output."""
     if accept == 'application/x-npy':        
-        # Convert the dictionary to a numpy array and then serialize it
-        buffer = io.BytesIO()
-        np.save(buffer, np.array(prediction_output))
-        return buffer.getvalue(), accept
+        with io.BytesIO() as buffer:
+            if isinstance(prediction_output, dict):
+                # If it's a dictionary, convert to a numpy array                
+                np.save(buffer, np.array(prediction_output))
+            else:
+                # If it's already a numpy array, save directly
+                np.save(buffer, prediction_output)
+            return buffer.getvalue(), accept
     else:
         raise ValueError(f"Unsupported accept type: {accept}")
 
@@ -49,7 +54,7 @@ def predict_fn(input_data, model):
             'cluster_centers_indices': model.cluster_centers_indices_.tolist(),
             'labels': model.labels_.tolist()
         }
-    return model.predict(input_data).tolist()
+    return model.predict(input_data)
 
 
 
