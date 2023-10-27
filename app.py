@@ -12,7 +12,7 @@ from apis.authors import fetch_author
 from apis.batch import generate_and_store_topics
 from apis.single import enrich_single
 from apis.creators import get_creator_bio
-from apis.excerpts import get_excerpt
+from apis.descriptions import get_description
 
 sentry_key = os.getenv("SENTRY_KEY")
 sentry_org = os.getenv("SENTRY_ORG")
@@ -51,13 +51,13 @@ def creator_enrichment():
     return jsonify(creator=enriched_creator)
 
 
-@app.route("/excerpt")
-def excerpt_enrichment():
+@app.route("/description")
+def description_enrichment():
     work = request.args.get("work")
     creatorList = request.args.getlist("creators")
-    enriched_excerpt = get_excerpt(work, creatorList)
+    enriched_description = get_description(work, creatorList)
 
-    return jsonify(excerpt=enriched_excerpt)
+    return jsonify(description=enriched_description)
 
 
 @app.route("/topics")
