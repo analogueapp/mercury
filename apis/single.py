@@ -5,7 +5,9 @@ from models.utils import affinity_predictor
 
 def enrich_single(medium, title, specifier):    
     clusters = list(cluster_results_collection.find({}))
-    content_topics = generate_topics(medium, title, specifier)    
+    content_topics = generate_topics(medium, title, specifier)
+    if not content_topics or len(content_topics) == 0:
+        return []
 
     topic_embeddings = [get_embedding(topic) for topic in content_topics]
     

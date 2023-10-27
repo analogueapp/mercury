@@ -26,9 +26,9 @@ def enrich_author(name, a_key: str, work) -> Dict:
     if isinstance(data.get("bio"), dict):
         author_data["about"] = data["bio"].get("value", None)
     else:
-        author_data["about"] = data.get("bio", None)
+        author_data["about"] = data.get("bio", None) 
 
-    if author_data["about"] and len(author_data["about"]) < 100:
+    if not author_data["about"] or len(author_data["about"]) < 100:
         author_data["about"] = get_creator_bio(author_data["name"], work)["about"]
 
     return author_data

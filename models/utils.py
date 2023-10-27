@@ -9,7 +9,7 @@ import os
 load_dotenv()
 
 affinity_endpoint_name = "affinity-propagation-endpoint"
-
+knn_endpoint_name = "knn-endpoint"
 embedding_endpoint_name = "sbert-endpoint"
 embedding_model_name = "sbert-model"
 

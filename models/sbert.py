@@ -17,7 +17,7 @@ hub = {
   'HF_TASK':'feature-extraction',
 }
 
-def deploy_model():
+def deploy_sbert():
     delete_existing_model(embedding_model_name)
     delete_existing_endpoint(embedding_endpoint_name)
     delete_existing_endpoint_config(embedding_endpoint_name)
@@ -44,4 +44,4 @@ def deploy_model():
 
 
 if __name__ == "__main__":
-    deploy_model()
+    deploy_sbert()
