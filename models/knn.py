@@ -1,6 +1,6 @@
 import boto3
 from sagemaker import Session, KNN
-from models.utils import knn_endpoint_name, delete_existing_endpoint
+from models.utils import knn_endpoint_name, delete_existing_endpoint, delete_existing_endpoint_config
 from dotenv import load_dotenv
 import os
 
@@ -11,7 +11,8 @@ boto_session = boto3.Session()
 sagemaker_session = Session(boto_session)
 
 def deploy_knn(topic_embeddings, labels):    
-    delete_existing_endpoint(knn_endpoint_name)     
+    delete_existing_endpoint(knn_endpoint_name)
+    delete_existing_endpoint_config(knn_endpoint_name)
     
     knn = KNN(role=role,
               train_instance_count=1,

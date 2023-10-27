@@ -1,7 +1,7 @@
 import boto3
 from sagemaker import Session
 from sagemaker.sklearn import SKLearn
-from models.utils import affinity_endpoint_name, delete_existing_endpoint
+from models.utils import affinity_endpoint_name, delete_existing_endpoint, delete_existing_endpoint_config
 from dotenv import load_dotenv
 import os
 
@@ -12,7 +12,8 @@ boto_session = boto3.Session()
 sagemaker_session = Session(boto_session)
 
 def deploy_affinity(training_data_uri):    
-    delete_existing_endpoint(affinity_endpoint_name)    
+    delete_existing_endpoint(affinity_endpoint_name)
+    delete_existing_endpoint_config(affinity_endpoint_name) 
     
     sklearn_estimator = SKLearn(
         entry_point='train.py',
