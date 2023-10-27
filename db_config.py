@@ -17,6 +17,7 @@ if env == "development":
 # MongoDB collections with environment-specific names
 embeddings_collection = db["topic_embedding_cache"]
 cluster_results_collection = db["cluster_results"]
+sections_collection = db["sections"]
 essential_contents_collection = db[f"{essential_prefix}_essential_contents"]
 
 def setup_database_indexes():        

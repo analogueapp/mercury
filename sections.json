@@ -1,0 +1,65 @@
+{
+    "arts": {
+        "Literature": {"tags": []},
+        "Science Fiction": {"tags": []},
+        "Fantasy": {"tags": []},
+        "Design": {"tags": []},
+        "Architecture": {"tags": []}
+    },
+    "business": {
+        "Economics": {"tags": []},
+        "Finance": {"tags": []},
+        "Entrepreneurship": {"tags": []},
+        "Leadership": {"tags": []},
+        "Strategy": {"tags": []},
+        "Marketing": {"tags": []},
+        "Artificial Intelligence": {"tags": []},
+        "Computer Science": {"tags": []},
+        "Software Engineering": {"tags": []}
+    },
+    "science": {
+        "Physics": {"tags": []},
+        "Space": {"tags": []},
+        "Astronomy": {"tags": []},
+        "Biology": {"tags": []},
+        "Oceanography": {"tags": []},
+        "Renewable Energy": {"tags": []},
+        "Climate Science": {"tags": []},
+        "Ecology": {"tags": []},
+        "Sustainability": {"tags": []},
+        "Permaculture": {"tags": []},
+        "Climate Change": {"tags": []}
+    },
+    "philosophy": {
+        "Ancient Philosophy": {"tags": []},
+        "Modern Philosophy": {"tags": []},
+        "Ethics": {"tags": []},
+        "Epistemology": {"tags": []},
+        "Metaphysics": {"tags": []},
+        "Linguistics": {"tags": []},
+        "Neuroscience": {"tags": []},
+        "Consciousness": {"tags": []},
+        "Existentialism": {"tags": []},
+        "Theology": {"tags": []},
+        "Mysticism": {"tags": []},
+        "Atheism": {"tags": []},
+        "Eastern Religion": {"tags": []},
+        "Western Religion": {"tags": []},
+        "Productivity": {"tags": []},
+        "Relationships": {"tags": []},
+        "Psychology": {"tags": []},
+        "Personal Development": {"tags": []},
+        "Mindfulness": {"tags": []}
+    },
+    "history": {
+        "Antiquity": {"tags": []},
+        "Biography": {"tags": []},
+        "Modern History": {"tags": []},
+        "Political History": {"tags": []},
+        "Cultural History": {"tags": []},
+        "Exploration": {"tags": []},
+        "Revolutions": {"tags": []},
+        "Archaeology": {"tags": []},
+        "Military History": {"tags": []}
+    }
+}

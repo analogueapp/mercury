@@ -3,4 +3,4 @@
 *.pyc
 mercury/
 node_modules/
-topic_embeddings.npy
+*.npy
